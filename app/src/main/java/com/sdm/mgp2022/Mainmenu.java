@@ -17,7 +17,6 @@ public class Mainmenu extends Activity implements OnClickListener, StateBase {  
 
     //Define buttons
     private Button btn_start;
-    private Button btn_back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +33,6 @@ public class Mainmenu extends Activity implements OnClickListener, StateBase {  
 
         btn_start = (Button)findViewById(R.id.btn_start);
         btn_start.setOnClickListener(this); //Set Listener to this button --> Start Button
-
-        btn_back = (Button)findViewById(R.id.btn_back);
-        btn_back.setOnClickListener(this); //Set Listener to this button --> Back Button
 
 		  StateManager.Instance.AddState(new Mainmenu());
     }
@@ -59,10 +55,10 @@ public class Mainmenu extends Activity implements OnClickListener, StateBase {  
 
         }
 
-        else if (v == btn_back)
-        {
-            intent.setClass(this, Mainmenu.class);
-        }
+//        else if (v == btn_back)
+//        {
+//            intent.setClass(this, Mainmenu.class);
+//        }
         startActivity(intent);
 
     }
