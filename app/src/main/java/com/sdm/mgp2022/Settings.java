@@ -30,7 +30,7 @@ public class Settings extends Activity implements View.OnClickListener, StateBas
         btn_back = findViewById(R.id.btn_back);
         btn_back.setOnClickListener(this); //Set Listener to this button --> Play Button
 
-        StateManager.Instance.AddState(new Mainmenu());
+        StateManager.Instance.AddState(new Settings());
     }
 
     @Override
@@ -46,12 +46,11 @@ public class Settings extends Activity implements View.OnClickListener, StateBas
         if (v == btn_back)
         {
             // intent --> to set to another class which another page or screen that we are launching.
-            intent.setClass(this, GamePage.class);
+            intent.setClass(this, Mainmenu.class);
             StateManager.Instance.ChangeState("MainGame"); // Default is like a loading page
         }
 
         startActivity(intent);
-
     }
 
     @Override
@@ -72,7 +71,7 @@ public class Settings extends Activity implements View.OnClickListener, StateBas
 
     @Override
     public String GetName() {
-        return "Mainmenu";
+        return "Settings";
     }
 
     @Override
