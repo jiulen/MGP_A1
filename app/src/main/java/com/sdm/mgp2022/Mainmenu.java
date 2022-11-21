@@ -5,18 +5,20 @@ import android.graphics.Canvas;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 import android.content.Intent;
+import android.widget.ImageButton;
 
 // Created by TanSiewLan2021
 
 public class Mainmenu extends Activity implements OnClickListener, StateBase {  //Using StateBase class
 
     //Define buttons
-    private Button btn_start;
+    private ImageButton btn_play;
+    private ImageButton btn_leaderboard;
+    private ImageButton btn_settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,10 +33,14 @@ public class Mainmenu extends Activity implements OnClickListener, StateBase {  
 
         setContentView(R.layout.mainmenu);
 
-        btn_start = (Button)findViewById(R.id.btn_start);
-        btn_start.setOnClickListener(this); //Set Listener to this button --> Start Button
+        btn_play = findViewById(R.id.btn_play);
+        btn_play.setOnClickListener(this); //Set Listener to this button --> Play Button
+        btn_leaderboard = findViewById(R.id.btn_leaderboard);
+        btn_leaderboard.setOnClickListener(this); //Set Listener to this button --> Leaderboard Button
+        btn_settings = findViewById(R.id.btn_settings);
+        btn_settings.setOnClickListener(this); //Set Listener to this button --> Leaderboard Button
 
-		  StateManager.Instance.AddState(new Mainmenu());
+        StateManager.Instance.AddState(new Mainmenu());
     }
 
     @Override
@@ -47,18 +53,24 @@ public class Mainmenu extends Activity implements OnClickListener, StateBase {  
 
         Intent intent = new Intent();
 
-        if (v == btn_start)
+        if (v == btn_play)
         {
             // intent --> to set to another class which another page or screen that we are launching.
             intent.setClass(this, GamePage.class);
- 				 StateManager.Instance.ChangeState("MainGame"); // Default is like a loading page
+            StateManager.Instance.ChangeState("MainGame"); // Default is like a loading page
 
         }
+        else if (v == btn_leaderboard)
+        {
+//            intent.setClass(this, GamePage.class);
+//            StateManager.Instance.ChangeState("MainGame"); // Default is like a loading page
+        }
+        else if (v == btn_settings)
+        {
+//            intent.setClass(this, GamePage.class);
+//            StateManager.Instance.ChangeState("MainGame"); // Default is like a loading page
+        }
 
-//        else if (v == btn_back)
-//        {
-//            intent.setClass(this, Mainmenu.class);
-//        }
         startActivity(intent);
 
     }
