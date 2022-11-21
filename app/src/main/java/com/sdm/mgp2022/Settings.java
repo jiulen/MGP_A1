@@ -37,7 +37,7 @@ public class Settings extends Activity implements View.OnClickListener, StateBas
     //Invoke a callback event in the view
     public void onClick(View v)
     {
-        // Itent = action to be performed.
+        // Intent = action to be performed.
         // Intent is an object provides runtime binding.
         // new instance of this object intent
 
