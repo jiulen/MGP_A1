@@ -53,29 +53,20 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="35dp"
         android:contentDescription="Recycle"
-        android:src="@drawable/title1"
-        app:srcCompat="@drawable/title1" />
+        android:src="@drawable/title"
+        app:srcCompat="@drawable/title" />
 
     <ImageView
         android:id="@+id/title2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="95dp"
+        android:layout_marginLeft="75dp"
+        android:layout_marginTop="85dp"
         android:contentDescription="Recycle Icon"
         android:src="@drawable/recycle_icon"
         app:srcCompat="@drawable/recycle_icon" />
 
-    <ImageView
-        android:id="@+id/title3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="205dp"
-        android:contentDescription="Match"
-        android:src="@drawable/title2"
-        app:srcCompat="@drawable/title2" />
 
 </RelativeLayout>
