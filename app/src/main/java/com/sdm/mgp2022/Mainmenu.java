@@ -99,6 +99,7 @@ public class Mainmenu extends Activity implements OnClickListener, StateBase {  
     @Override
     protected void onPause() {
         super.onPause();
+        overridePendingTransition(0, 0);
     }
 
     @Override

@@ -1,11 +1,9 @@
 package com.sdm.mgp2022;
 
 import android.app.Activity;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -14,7 +12,7 @@ import android.view.WindowManager;
 public class Splashpage extends Activity
 {
     protected boolean _active = true;
-    protected int _splashTime = 5000;
+    protected int _splashTime = 2000;
 
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -46,7 +44,6 @@ public class Splashpage extends Activity
             }
         };
         splashTread.start();
-
     }
     public boolean onTouchEvent(MotionEvent event){
         if(event.getAction() == MotionEvent.ACTION_DOWN){
@@ -54,9 +51,11 @@ public class Splashpage extends Activity
         }
         return true;
     }
+
    @Override
     protected void onPause(){
         super.onPause();
+        overridePendingTransition(0, 0);
     }
 
     @Override
