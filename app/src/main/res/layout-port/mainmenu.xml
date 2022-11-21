@@ -52,7 +52,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="35dp"
-        android:contentDescription="Recycle"
+        android:contentDescription="Recycle N Match"
         android:src="@drawable/title"
         app:srcCompat="@drawable/title" />
 
