@@ -4,13 +4,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 
-public class Settings extends Activity implements View.OnClickListener, StateBase {  //Using StateBase class{
+public class Settings extends Activity implements View.OnClickListener, View.OnTouchListener, StateBase {  //Using StateBase class{
     //Define buttons
     private ImageButton btn_back;
 
@@ -29,8 +30,28 @@ public class Settings extends Activity implements View.OnClickListener, StateBas
 
         btn_back = findViewById(R.id.btn_back);
         btn_back.setOnClickListener(this); //Set Listener to this button --> Play Button
+        btn_back.setOnTouchListener(this);
 
         StateManager.Instance.AddState(new Settings());
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event)
+    {
+        switch(event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                if (v == btn_back)
+                {
+                    btn_back.setImageResource(R.drawable.back_icon_clicked);
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+                if (v == btn_back)
+                {
+                    btn_back.setImageResource(R.drawable.back_icon);
+                }
+        }
+        return false;
     }
 
     @Override
