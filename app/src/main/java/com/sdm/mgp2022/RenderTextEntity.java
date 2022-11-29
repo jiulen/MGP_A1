@@ -70,7 +70,7 @@ public class RenderTextEntity implements EntityBase{
 
     public ENTITY_TYPE GetEntityType()
     {
-        return ENTITY_TYPE.ENT_DEFAULT;
+        return ENTITY_TYPE.ENT_TEXT;
     }
 
     public static RenderTextEntity Create()
