@@ -12,7 +12,7 @@ public interface EntityBase
         //ENT_PLAYER,
         //ENT_SMURF,
         //ENT_PAUSE,
-        //ENT_TEXT,
+        ENT_TEXT,
         //ENT_NEXT,
         ENT_DEFAULT,
     }
