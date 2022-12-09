@@ -17,6 +17,7 @@ public class MainGameSceneState implements StateBase {
         return "MainGame";
     }
 
+    BoardManager board = new BoardManager();
     @Override
     public void OnEnter(SurfaceView _view)
     {
@@ -24,6 +25,8 @@ public class MainGameSceneState implements StateBase {
         RenderTextEntity.Create();
         PauseButtonEntity.Create();
         TileEntity.Create(TileEntity.TILE_TYPES.TILE_METAL,100, 100);
+
+        board.fillBoard();
     }
 
     @Override
