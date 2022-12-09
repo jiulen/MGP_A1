@@ -16,7 +16,7 @@ public class BoardManager {
 
     Vector<TileSequence> matchingSequences;
 
-    TileEntity.TILE_TYPES[][] grid;
+    TileEntity.TILE_TYPES[][] grid = new TileEntity.TILE_TYPES[numRows][numCols];
 
     void BoardModel(int numRows, int numCols, int numTileTypes)
     {
@@ -26,6 +26,7 @@ public class BoardManager {
     public static TileEntity.TILE_TYPES randomTile()
     {
         return TILES.get(RANDOM.nextInt(tilesSize));
+        //return TileEntity.TILE_TYPES.TILE_EMPTY;
     }
 
     public void fillBoard()
@@ -36,6 +37,12 @@ public class BoardManager {
         for(int i = 0; i < startGarbage; ++i) {
             for(int j = 0; j < numCols; ++j) {
                 grid[i][j] = randomTile();
+            }
+        }
+
+        for(int i = startGarbage; i < numRows; ++i) {
+            for(int j = 0; j < numCols; ++j) {
+                grid[i][j] = TileEntity.TILE_TYPES.TILE_EMPTY;
             }
         }
 
