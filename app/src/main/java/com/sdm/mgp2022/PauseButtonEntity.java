@@ -43,11 +43,11 @@ public class PauseButtonEntity implements EntityBase {
         bmpP = ResourceManager.Instance.GetBitmap(R.drawable.pause);
         bmpUP = ResourceManager.Instance.GetBitmap(R.drawable.pause1);
 
-        scaledbmpP = Bitmap.createScaledBitmap(bmpP, (int) ScreenWidth / 7, (int) ScreenHeight / 7, true);
+        scaledbmpP = Bitmap.createScaledBitmap(bmpP, (int) ScreenWidth / 7, (int) ScreenWidth / 7, true);
         //if it still appears too big. own scale down it.
         // (int) ScreenWidth/12, (int) ScreenHeight/7,
 
-        scaledbmpUP = Bitmap.createScaledBitmap(bmpUP, (int) ScreenWidth / 7, (int) ScreenHeight / 7, true);
+        scaledbmpUP = Bitmap.createScaledBitmap(bmpUP, (int) ScreenWidth / 7, (int) ScreenWidth / 7, true);
 
         xPos = ScreenWidth - 150;
         yPos = 150;  // I using a hard number.. U can use ScreenHeight - 50
