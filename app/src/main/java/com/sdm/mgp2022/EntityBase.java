@@ -9,7 +9,7 @@ public interface EntityBase
 {
  	 //used for entities such as background
     enum ENTITY_TYPE{
-        //ENT_PLAYER,
+        ENT_PLAYER,
         ENT_SMURF,
         ENT_TILE,
         ENT_PAUSE,

@@ -3,15 +3,12 @@ package com.sdm.mgp2022;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.util.DisplayMetrics;
 import android.view.SurfaceView;
 
 public class TileEntity implements EntityBase {
 
     private boolean isDone = false;
     private boolean isInit = false;
-
-    private int ScreenHeight, ScreenWidth;
 
     private float xPos, yPos = 0;
     private int width = 0;
@@ -41,11 +38,6 @@ public class TileEntity implements EntityBase {
     }
 
     public void Init(SurfaceView _view) {
-        //Display screen size
-        DisplayMetrics metrics = _view.getResources().getDisplayMetrics();
-        ScreenWidth = metrics.widthPixels;
-        ScreenHeight = metrics.heightPixels;
-
         BitmapFactory.Options bfo = new BitmapFactory.Options();
         bfo.inScaled = true;
 
@@ -74,9 +66,6 @@ public class TileEntity implements EntityBase {
         }
 
         bmpG = BitmapFactory.decodeResource(_view.getResources(), R.drawable.tile_garbage, bfo);
-
-        //each tile take 1/9 of screen width
-        width = ScreenWidth / 9;
 
         scaledBmpN = Bitmap.createScaledBitmap(bmpN, width, width, true);
         scaledBmpA = Bitmap.createScaledBitmap(bmpA, width, width, true);
@@ -125,15 +114,17 @@ public class TileEntity implements EntityBase {
     }
 
     // Both works (first one need set pos after create, second one set pos while create)
-    public static TileEntity Create(TILE_TYPES _tileType){
+    public static TileEntity Create(TILE_TYPES _tileType, int width){
         TileEntity result = new TileEntity();
         EntityManager.Instance.AddEntity(result, ENTITY_TYPE.ENT_TILE);
+        result.width = width;
         result.tileType = _tileType;
         return result;
     }
-    public static TileEntity Create(TILE_TYPES _tileType, float _xPos, float _yPos){
+    public static TileEntity Create(TILE_TYPES _tileType, int width, float _xPos, float _yPos){
         TileEntity result = new TileEntity();
         EntityManager.Instance.AddEntity(result, ENTITY_TYPE.ENT_TILE);
+        result.width = width;
         result.tileType = _tileType;
         result.SetPosX(_xPos);
         result.SetPosY(_yPos);
