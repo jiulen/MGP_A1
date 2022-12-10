@@ -61,20 +61,27 @@ public class BoardManager {
             for (int j = 0; j < numCols; ++j)
             {
                 // if row 11 is not null game ends
-                if (grid[11][j] == null && grid[i][j] != null)
+                if (grid[11][j] == null)
                 {
-                    float prevpos = grid[i][j].GetPosY();
-                    float newpos = prevpos + (level * 100 * dt);
-                    grid[i][j].SetPosY(newpos);
-
-                    if((grid[i][j].GetPosY() + grid[i][j].GetWidth() * 0.5) / grid[i][j].GetWidth() > i)
+                    if (grid[i][j] != null)
                     {
-                        grid[i + 1][j] = grid[i][j];
-                        grid[i + 1][j].SetPosY(width * (i - 0.5f));
-                        grid[i][j] = null;
-                        if (grid[1][j] == null)
+                        float prevpos = grid[i][j].GetPosY();
+                        float newpos = prevpos + (level * 100 * dt);
+                        grid[i][j].SetPosY(newpos);
+
+                        if((grid[i][j].GetPosY() + grid[i][j].GetWidth() * 0.5) / grid[i][j].GetWidth() > i)
+                        {
+                            grid[i + 1][j] = grid[i][j];
+                            grid[i + 1][j].SetPosY(width * (i - 0.5f));
+                            grid[i][j] = null;
                             dropNewTilesRow(width);
+                        }
                     }
+                }
+                else
+                {
+                    //Lose
+                    System.out.println("LOSE");
                 }
             }
         }
@@ -117,7 +124,7 @@ public class BoardManager {
     boolean dropNewTilesRow(int width) {
         boolean dropped = false;
         for(int j = 0; j < numCols; ++j) {
-            if(grid[0][j] == null) {
+            if(grid[0][j] == null && grid[1][j] == null) {
                 dropped = true;
                 grid[0][j] = TileEntity.Create(randomTile(), width,width * (j + 0.5f), width * (0.5f) - width);
             }
