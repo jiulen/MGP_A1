@@ -70,11 +70,9 @@ public class BoardManager {
                     if((grid[i][j].GetPosY() + grid[i][j].GetWidth() * 0.5) / grid[i][j].GetWidth() > i)
                     {
                         grid[i + 1][j] = grid[i][j];
-                        if (i == 10)
-                            grid[i + 1][j].SetPosY(width * 9.5f);
+                        grid[i + 1][j].SetPosY(width * (i - 0.5f));
                         grid[i][j] = null;
-                        if (grid[1][j] == null)
-                            dropNewTilesRow(width);
+                        dropNewTilesRow(width);
                     }
                 }
             }
