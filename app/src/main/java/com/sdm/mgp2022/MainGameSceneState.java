@@ -12,6 +12,8 @@ public class MainGameSceneState implements StateBase {
     int ScreenWidth, ScreenHeight;
     int tileWidth;
 
+    int level = 1;
+
     private float timer = 0.0f;
 
     //For ui background
@@ -105,6 +107,7 @@ public class MainGameSceneState implements StateBase {
 
         EntityManager.Instance.Update(_dt);
 
+        board.updateBoard(level,_dt);
         if (aButton.isDown)
         {
             //Grab or drop tile

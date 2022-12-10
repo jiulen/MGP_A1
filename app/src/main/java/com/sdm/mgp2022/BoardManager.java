@@ -54,6 +54,26 @@ public class BoardManager {
         }
     }
 
+    void updateBoard(int level, float dt)
+    {
+        for (int i = 0; i < 10; ++i)
+        {
+            for (int j = 0; j < numCols; ++j)
+            {
+                if (grid[i][j] != null)
+                {
+                    float prevpos = grid[i][j].GetPosY();
+                    float newpos = prevpos + (level * 100 * dt);
+                    grid[i][j].SetPosY(newpos);
+
+                    if(grid[i][j].GetPosY() % grid[i][j].GetWidth() == 0 && grid[i][j].GetPosY() != prevpos)
+                    {
+                        grid[i + 1][j] = grid[i][j];
+                    }
+                }
+            }
+        }
+    }
     public final boolean hasSequencesProximity(int row, int col) {
         // Check if one of the tiles to the left/above the current tile is a beginning of a sequence (and perhaps involving
         // the current tile)
