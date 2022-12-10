@@ -54,7 +54,6 @@ public class MainGameSceneState implements StateBase {
 
         RenderTextEntity.Create((int)(ScreenWidth / 9 * 7.5));
         //PauseButtonEntity.Create();
-        PlayerEntity.Create(tileWidth);
 
         //UI Background
         rightBG = UIBackgroundEntity.Create(tileWidth * 6,0, ScreenWidth, tileWidth * 12,
