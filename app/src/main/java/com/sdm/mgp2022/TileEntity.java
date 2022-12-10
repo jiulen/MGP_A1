@@ -81,18 +81,24 @@ public class TileEntity implements EntityBase {
     {
         if (isGarbage)
         {
-            _canvas.drawBitmap(scaledBmpG, xPos - scaledBmpG.getWidth() * 0.5f,
-                    yPos - scaledBmpG.getHeight() * 0.5f, null);
+            if (scaledBmpG != null) {
+                _canvas.drawBitmap(scaledBmpG, xPos - scaledBmpG.getWidth() * 0.5f,
+                        yPos - scaledBmpG.getHeight() * 0.5f, null);
+            }
         }
         else if (isAttack)
         {
-            _canvas.drawBitmap(scaledBmpA, xPos - scaledBmpA.getWidth() * 0.5f,
-                    yPos - scaledBmpA.getHeight() * 0.5f, null);
+            if (scaledBmpA != null) {
+                _canvas.drawBitmap(scaledBmpA, xPos - scaledBmpA.getWidth() * 0.5f,
+                        yPos - scaledBmpA.getHeight() * 0.5f, null);
+            }
         }
         else
         {
-            _canvas.drawBitmap(scaledBmpN, xPos - scaledBmpN.getWidth() * 0.5f,
-                    yPos - scaledBmpN.getHeight() * 0.5f, null);
+            if (scaledBmpN != null) {
+                _canvas.drawBitmap(scaledBmpN, xPos - scaledBmpN.getWidth() * 0.5f,
+                        yPos - scaledBmpN.getHeight() * 0.5f, null);
+            }
         }
 
     }

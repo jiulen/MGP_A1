@@ -1,6 +1,7 @@
 package com.sdm.mgp2022;
 
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.DisplayMetrics;
@@ -25,6 +26,14 @@ public class MainGameSceneState implements StateBase {
     ButtonEntity bButton;
     ButtonEntity leftButton;
     ButtonEntity rightButton;
+
+    Paint enemyNamePaint = new Paint();
+    Paint scorePaint = new Paint();
+    Paint levelPaint = new Paint();
+
+    Bitmap enemyBmp = null;
+
+    //Add the bars
 
     //GameObjects
     PlayerEntity player;
@@ -53,9 +62,6 @@ public class MainGameSceneState implements StateBase {
         RenderBackground.Create(tileWidth / 2 * 11, tileWidth * 5, tileWidth, tileWidth * 10);
         //Game Objects
         player = PlayerEntity.Create(tileWidth);
-
-        RenderTextEntity.Create((int)(ScreenWidth / 9 * 7.5));
-        //PauseButtonEntity.Create();
 
         //UI Background
         rightBG = UIBackgroundEntity.Create(tileWidth * 6,0, ScreenWidth, tileWidth * 12,
