@@ -56,7 +56,7 @@ public class BoardManager {
 
     void updateBoard(int level, float dt)
     {
-        for (int i = 0; i < 10; ++i)
+        for (int i = 9; i >= 0 ; --i)
         {
             for (int j = 0; j < numCols; ++j)
             {
@@ -66,9 +66,10 @@ public class BoardManager {
                     float newpos = prevpos + (level * 100 * dt);
                     grid[i][j].SetPosY(newpos);
 
-                    if(grid[i][j].GetPosY() % grid[i][j].GetWidth() == 0 && grid[i][j].GetPosY() != prevpos)
+                    if((grid[i][j].GetPosY() + grid[i][j].GetWidth() * 0.5) / grid[i][j].GetWidth() > i)
                     {
                         grid[i + 1][j] = grid[i][j];
+                        grid[i][j] = null;
                     }
                 }
             }
