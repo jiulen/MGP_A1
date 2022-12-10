@@ -299,13 +299,13 @@ public class BoardManager {
 
     // change to 4
     boolean isBeginningOfSequence(int i, int j) {
-        return ((j >= 0 && j < numCols-2 && grid[i][j] == grid[i][j+1] && grid[i][j] == grid[i][j+2]) ||
-                (i >= 0 && i < numRows-2 && grid[i][j] == grid[i+1][j] && grid[i][j] == grid[i+2][j]));
+        return ((j >= 0 && j < numCols-3 && grid[i][j] == grid[i][j+1] && grid[i][j] == grid[i][j+3]) ||
+                (i >= 0 && i < numRows-3 && grid[i][j] == grid[i+1][j] && grid[i][j] == grid[i+3][j]));
     }
 
 
     boolean isEndOfSequence(int i,int j) {
-        return ((j < numCols && j>=2 && grid[i][j-1] == grid[i][j] && grid[i][j-2] == grid[i][j]) ||
-                (i < numRows && i>=2 && grid[i-1][j] == grid[i][j] && grid[i-2][j] == grid[i][j]));
+        return ((j < numCols && j>=3 && grid[i][j-1] == grid[i][j] && grid[i][j-2] == grid[i][j] && grid[i][j-3] == grid[i][j]) ||
+                (i < numRows && i>=3 && grid[i-1][j] == grid[i][j] && grid[i-2][j] == grid[i][j] && grid[i-3][j] == grid[i][j]));
     }
 }
