@@ -73,7 +73,8 @@ public class BoardManager {
                         if (i == 10)
                             grid[i + 1][j].SetPosY(width * 9.5f);
                         grid[i][j] = null;
-                        dropNewTilesRow(width);
+                        if (grid[1][j] == null)
+                            dropNewTilesRow(width);
                     }
                 }
             }
