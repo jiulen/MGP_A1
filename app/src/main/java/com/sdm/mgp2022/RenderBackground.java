@@ -10,12 +10,15 @@ import android.view.SurfaceView;
 // Scrolling background
 
 public class RenderBackground implements EntityBase{
+    private boolean isDone = false;
+    private boolean isInit = false;
 
     private Bitmap bmp = null; // Using Android API. .. Bitmap to load images
-    private boolean isDone = false;
-    private float xPos = 0, yPos = 0;
-    int ScreenWidth, ScreenHeight;
     private Bitmap scaledbmp =  null;
+    private Sprite spritesheet = null;
+
+    private float xPos = 0, yPos = 0;
+    private int width, height;
 
     public boolean IsDone()
     {
@@ -28,35 +31,28 @@ public class RenderBackground implements EntityBase{
 
     public void Init(SurfaceView _view)
     {
-        bmp = BitmapFactory.decodeResource(_view.getResources(), R.drawable.gamescene);
-        //Display screen size
-        DisplayMetrics metrics = _view.getResources().getDisplayMetrics();
-        ScreenWidth = metrics.widthPixels;
-        ScreenHeight = metrics.heightPixels;
+        BitmapFactory.Options bfo = new BitmapFactory.Options();
+        bfo.inScaled = true;
 
-        scaledbmp = Bitmap.createScaledBitmap(bmp, ScreenWidth, ScreenHeight, true);
+        bmp = BitmapFactory.decodeResource(_view.getResources(), R.drawable.conveyor_belt, bfo);
+        scaledbmp = Bitmap.createScaledBitmap(bmp, width, height, true);
+
+        spritesheet = new Sprite(scaledbmp, 1, 3, 12);
+
+        isInit = true;
     }
     public void Update(float _dt)
     {
-        if (GameSystem.Instance.GetIsPaused())
-            return;
-
-        xPos -= _dt * 500;
-        if (xPos < -ScreenWidth)
-        {
-            xPos = 0;
-        }
+        spritesheet.Update(_dt);
     }
     public void Render(Canvas _canvas)
     {
-        _canvas.drawBitmap(scaledbmp, xPos, yPos, null);
-        _canvas.drawBitmap(scaledbmp, xPos + ScreenWidth, yPos, null);
-        //scroll left to right
+        spritesheet.Render(_canvas, (int)xPos, (int)yPos);
     }
 
     public boolean IsInit()
     {
-        return bmp!= null;
+        return isInit;
     }
 
     public int GetRenderLayer()
@@ -73,10 +69,14 @@ public class RenderBackground implements EntityBase{
         return ENTITY_TYPE.ENT_DEFAULT;
     }
 
-    public static RenderBackground Create()
+    public static RenderBackground Create(float _xPos, float _yPos, int _width, int _height)
     {
         RenderBackground result = new RenderBackground();
         EntityManager.Instance.AddEntity(result, ENTITY_TYPE.ENT_DEFAULT);
+        result.xPos = _xPos;
+        result.yPos = _yPos;
+        result.width = _width * 3; //width * 3 since 3 columns in spritesheet
+        result.height = _height;
         return result;
     }
 }

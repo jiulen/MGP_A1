@@ -39,9 +39,14 @@ public class MainGameSceneState implements StateBase {
 
         tileWidth = ScreenWidth / 9;
 
-        RenderBackground.Create();
-        RenderTextEntity.Create((int)(ScreenWidth / 9 * 7.5));
-        //PauseButtonEntity.Create();
+        //Create 6 backgrounds (one for each column)
+        RenderBackground.Create(tileWidth / 2, tileWidth * 5, tileWidth, tileWidth * 10);
+        RenderBackground.Create(tileWidth / 2 * 3, tileWidth * 5, tileWidth, tileWidth * 10);
+        RenderBackground.Create(tileWidth / 2 * 5, tileWidth * 5, tileWidth, tileWidth * 10);
+        RenderBackground.Create(tileWidth / 2 * 7, tileWidth * 5, tileWidth, tileWidth * 10);
+        RenderBackground.Create(tileWidth / 2 * 9, tileWidth * 5, tileWidth, tileWidth * 10);
+        RenderBackground.Create(tileWidth / 2 * 11, tileWidth * 5, tileWidth, tileWidth * 10);
+        //Game Objects
         PlayerEntity.Create(tileWidth);
         //UI Background
         rightBG = UIBackgroundEntity.Create(tileWidth * 6,0, ScreenWidth, tileWidth * 12,
@@ -53,11 +58,18 @@ public class MainGameSceneState implements StateBase {
                 ScreenWidth / 10 * 7 - 10, ScreenHeight - ScreenWidth / 10 - 10);
         bButton = ButtonEntity.Create(R.drawable.b_button, ScreenWidth / 5, ScreenWidth / 5,
                 ScreenWidth / 10 * 9 - 10, ScreenHeight - ScreenWidth / 10 * 3 - 10);
+        leftButton = ButtonEntity.Create(R.drawable.left_button, ScreenWidth / 5, ScreenWidth / 5,
+                ScreenWidth / 10 + 50, ScreenHeight - ScreenWidth / 10 - 20);
+        rightButton = ButtonEntity.Create(R.drawable.right_button, ScreenWidth / 5, ScreenWidth / 5,
+                ScreenWidth / 10 * 3 + 100, ScreenHeight - ScreenWidth / 10 - 20);
+
+        //PauseButtonEntity.Create();
+
         //Set bounds for game buttons (based on bottomBG)
         aButton.SetBounds(0, ScreenWidth, tileWidth * 12, ScreenHeight);
         bButton.SetBounds(0, ScreenWidth, tileWidth * 12, ScreenHeight);
-        //UI Other
-
+        //UI Other (e.g. Text, Pictures)
+        RenderTextEntity.Create((int)(ScreenWidth / 9 * 7.5));
 
         /* To spawn a tile
             TileEntity tile = TileEntity.Create(TileEntity.TILE_TYPES.TILE_METAL, tileWidth);
@@ -88,6 +100,9 @@ public class MainGameSceneState implements StateBase {
     @Override
     public void Render(Canvas _canvas)
     {
+        //Render background behind player
+
+        //Render all entities
         EntityManager.Instance.Render(_canvas);
     }
 
