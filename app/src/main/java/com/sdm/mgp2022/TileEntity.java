@@ -22,8 +22,7 @@ public class TileEntity implements EntityBase {
         TILE_PLASTIC,
         TILE_METAL,
         TILE_GLASS,
-        TILE_WOOD,
-        TILE_EMPTY
+        TILE_WOOD
     }
     public TILE_TYPES tileType;
     public boolean isAttack = false;

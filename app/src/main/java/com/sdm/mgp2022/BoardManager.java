@@ -1,4 +1,5 @@
 package com.sdm.mgp2022;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -6,7 +7,9 @@ import java.util.Random;
 import java.util.Vector;
 
 public class BoardManager {
-    private int numRows = 11;
+
+
+    private int numRows = 12;
     private int numCols = 6;
     private int startGarbage = 3;
     private int m_numTileTypes;
@@ -16,12 +19,7 @@ public class BoardManager {
 
     Vector<TileSequence> matchingSequences;
 
-    TileEntity.TILE_TYPES[][] grid = new TileEntity.TILE_TYPES[numRows][numCols];
-
-    void BoardModel(int numRows, int numCols, int numTileTypes)
-    {
-        fillBoard();
-    }
+    public TileEntity [][] grid = new TileEntity[numRows][numCols];
 
     public static TileEntity.TILE_TYPES randomTile()
     {
@@ -29,20 +27,14 @@ public class BoardManager {
         //return TileEntity.TILE_TYPES.TILE_EMPTY;
     }
 
-    public void fillBoard()
+    public void fillBoard(int width)
     {
         boolean boardReady = false;
 
         // Fill board with random tiles.
         for(int i = 0; i < startGarbage; ++i) {
             for(int j = 0; j < numCols; ++j) {
-                grid[i][j] = randomTile();
-            }
-        }
-
-        for(int i = startGarbage; i < numRows; ++i) {
-            for(int j = 0; j < numCols; ++j) {
-                grid[i][j] = TileEntity.TILE_TYPES.TILE_EMPTY;
+                grid[i][j] = TileEntity.Create(randomTile(), width, width * (j + 0.5f), width * (i + 0.5f));
             }
         }
 
@@ -51,11 +43,11 @@ public class BoardManager {
             boardReady = true;
             // Note that we must NOT iterate until m_numRows-2, as this will cause us to miss tiles
             // the isBeginningOfSequence method checks if the row is in boundary.
-            for(int i = 0; i < numRows; ++i) {
+            for(int i = 0; i < startGarbage; ++i) {
                 for(int j = 0; j < numCols; ++j) {
                     if(isBeginningOfSequence(i, j)) {
                         boardReady = false;
-                        grid[i][j] = randomTile();
+                        grid[i][j] = TileEntity.Create(randomTile(), width,width * (j + 0.5f), width * (i + 0.5f));
                     }
                 }
             }
@@ -80,15 +72,15 @@ public class BoardManager {
         for(int j = 0; j < numCols; ++j) {
             /// Gravitate up until the first row.
             for(int i = numRows - 1; i >0 ; --i) {
-                if(grid[i][j] == TileEntity.TILE_TYPES.TILE_EMPTY) {
+                if(grid[i][j] == null) {
                     // Found empty tile - move all tiles above it back.
                     for(int k = i; k > 0; --k) {
-                        if(grid[k - 1][j] != TileEntity.TILE_TYPES.TILE_EMPTY) {
+                        if(grid[k - 1][j] != null) {
                             // Moved back a non-empty tile - board no gravity
                             found = true;
                         }
                         grid[k][j] = grid[k - 1][j];
-                        grid[k - 1][j] = TileEntity.TILE_TYPES.TILE_EMPTY;
+                        grid[k - 1][j] = null;
                     }
                     break;
                 }
@@ -97,12 +89,12 @@ public class BoardManager {
         return found;
     }
 
-    boolean dropNewTilesRow() {
+    boolean dropNewTilesRow(int width) {
         boolean dropped = false;
         for(int j = 0; j < numCols; ++j) {
-            if(grid[0][j] == TileEntity.TILE_TYPES.TILE_EMPTY) {
+            if(grid[0][j] == null) {
                 dropped = true;
-                grid[0][j] = randomTile();
+                grid[0][j] = TileEntity.Create(randomTile(), width, width * j, width * 0);;
             }
         }
         return dropped;
@@ -113,11 +105,11 @@ public class BoardManager {
         if((col1 == col2 && (row1 == row2-1 || row1 == row2+1)) ||
                 (row1 == row2 && (col1 == col2-1 || col1 == col2+1)))
         {
-            if(grid[row1][col1] == TileEntity.TILE_TYPES.TILE_EMPTY || grid[row2][col2] == TileEntity.TILE_TYPES.TILE_EMPTY ||
+            if(grid[row1][col1] == null || grid[row2][col2].tileType == null ||
                     grid[row1][col1] ==  grid[row2][col2]) {
                 return false; // if either tile is empty or they have same color - no need to swap
             }
-            TileEntity.TILE_TYPES tmp = grid[row1][col1];
+            TileEntity tmp = grid[row1][col1];
             grid[row1][col1] = grid[row2][col2];
             grid[row2][col2] = tmp;
             return true;
@@ -164,14 +156,14 @@ public class BoardManager {
         return hasMove;
     }
 
-    boolean markAllSequencesOnBoard() {
+    boolean markAllSequencesOnBoard(int width) {
         if (!findAllSequences()) {
             return false;
         }
 
         for ( int i = 0; i < matchingSequences.size(); i++)
         {
-            markSequenceOnBoard(matchingSequences.get(i));
+            markSequenceOnBoard(matchingSequences.get(i), width);
         }
         return true;
     }
@@ -187,7 +179,7 @@ public class BoardManager {
         for (int i = 0; i < numRows; ++i) {
             curMatchLen = 1;
             for (int j = 0; j < numCols - 1; ++j) {
-                if (grid[i][j] == TileEntity.TILE_TYPES.TILE_EMPTY) {
+                if (grid[i][j].tileType == null) {
                     curMatchLen = 1;
                     continue;
                 }
@@ -200,7 +192,7 @@ public class BoardManager {
                     // match sequence broken - check if previous sequence was more than 3
                     if (curMatchLen >= 3) {
                         matchingSequences.add(
-                                new TileSequence(grid[i][j],
+                                new TileSequence(grid[i][j].tileType,
                                         TileSequence.Orientation.HORIZONTAL,
                                         i,
                                         j - (curMatchLen - 1), // Start column position for the sequence
@@ -213,7 +205,7 @@ public class BoardManager {
             // Found a match up until the last item in current row.
             if (curMatchLen >= 3) {
                 matchingSequences.add(
-                        new TileSequence(grid[i][numCols - 1],
+                        new TileSequence(grid[i][numCols - 1].tileType,
                                 TileSequence.Orientation.HORIZONTAL,
                                 i,
                                 numCols - curMatchLen, // Start column position for the sequence
@@ -226,7 +218,7 @@ public class BoardManager {
         for (int j = 0; j < numCols; ++j) {
             curMatchLen = 1;
             for (int i = 0; i < numRows - 1; ++i) {
-                if (grid[i][j] == TileEntity.TILE_TYPES.TILE_EMPTY) {
+                if (grid[i][j].tileType == null) {
                     curMatchLen = 1;
                     continue;
                 }
@@ -239,7 +231,7 @@ public class BoardManager {
                     // match sequence broken - check if previous sequence was more than 3
                     if (curMatchLen >= 3) {
                         matchingSequences.add(
-                                new TileSequence(grid[i][j],
+                                new TileSequence(grid[i][j].tileType,
                                         TileSequence.Orientation.VERTICAL,
                                         i - (curMatchLen - 1), // Start row position for the sequence
                                         j,
@@ -252,7 +244,7 @@ public class BoardManager {
             // Found a match up until the last item in current row.
             if (curMatchLen >= 3) {
                 matchingSequences.add(
-                        new TileSequence(grid[numRows - 1][j],
+                        new TileSequence(grid[numRows - 1][j].tileType,
                                 TileSequence.Orientation.VERTICAL,
                                 numRows - curMatchLen, // Start row position for the sequence
                                 j,
@@ -263,13 +255,13 @@ public class BoardManager {
         return !matchingSequences.isEmpty();
     }
 
-    void markSequenceOnBoard(TileSequence sequence) {
+    void markSequenceOnBoard(TileSequence sequence,int width) {
         if (sequence.getOrientation() == TileSequence.Orientation.HORIZONTAL) {
             for (int j = sequence.getStartCol();
                  j < sequence.getStartCol() + sequence.getSize();
                  ++j)
             {
-                grid[sequence.getStartRow()][j] = TileEntity.TILE_TYPES.TILE_EMPTY;
+                grid[sequence.getStartRow()][j].isAttack = true;
             }
         }
         else if (sequence.getOrientation() == TileSequence.Orientation.VERTICAL) {
@@ -277,7 +269,7 @@ public class BoardManager {
                  i < sequence.getStartRow() + sequence.getSize();
                  ++i)
             {
-                grid[i][sequence.getStartCol()] = TileEntity.TILE_TYPES.TILE_EMPTY;
+                grid[i][sequence.getStartCol()].isAttack = true;
             }
         }
     }

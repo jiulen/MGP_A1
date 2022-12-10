@@ -51,6 +51,11 @@ public class MainGameSceneState implements StateBase {
         RenderBackground.Create(tileWidth / 2 * 11, tileWidth * 5, tileWidth, tileWidth * 10);
         //Game Objects
         player = PlayerEntity.Create(tileWidth);
+
+        RenderTextEntity.Create((int)(ScreenWidth / 9 * 7.5));
+        //PauseButtonEntity.Create();
+        PlayerEntity.Create(tileWidth);
+
         //UI Background
         rightBG = UIBackgroundEntity.Create(tileWidth * 6,0, ScreenWidth, tileWidth * 12,
                                            tileWidth * 6,0, tileWidth * 6 + 10, tileWidth * 12);
@@ -71,27 +76,14 @@ public class MainGameSceneState implements StateBase {
         //Set bounds for game buttons (based on bottomBG)
         aButton.SetBounds(0, ScreenWidth, tileWidth * 12, ScreenHeight);
         bButton.SetBounds(0, ScreenWidth, tileWidth * 12, ScreenHeight);
+
         //UI Other (e.g. Text, Pictures)
         RenderTextEntity.Create((int)(ScreenWidth / 9 * 7.5));
 
-        /* To spawn a tile
-            TileEntity tile = TileEntity.Create(TileEntity.TILE_TYPES.TILE_METAL, tileWidth);
-            tile.SetPosX(tile.GetWidth() * (column + 0.5f));
-            tile.SetPosY(tile.GetWidth() * (row + 0.5f) + TOP_BAR_HEIGHT);
-        */
+        //UI Other
 
-        //To visualise how much big the playing space is
-        /*for (int row=0; row < 10; ++row)
-        {
-            for (int col=0; col < 6; ++col)
-            {
-                TileEntity tile = TileEntity.Create(TileEntity.TILE_TYPES.TILE_METAL, tileWidth);
-                tile.SetPosX(tile.GetWidth() * (col + 0.5f));
-                tile.SetPosY(tile.GetWidth() * (row + 0.5f));
-            }
-        }*/
+        board.fillBoard(tileWidth);
 
-        board.fillBoard();
     }
 
     @Override
