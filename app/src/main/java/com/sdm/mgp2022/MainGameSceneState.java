@@ -1,11 +1,8 @@
 package com.sdm.mgp2022;
 
-import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
-import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.SurfaceView;
 
@@ -18,8 +15,14 @@ public class MainGameSceneState implements StateBase {
     private float timer = 0.0f;
 
     //For ui background
-    Paint bgPaint = new Paint();
-    Paint bgOutlinePaint = new Paint();
+    UIBackgroundEntity rightBG;
+    UIBackgroundEntity bottomBG;
+
+    //For ui
+    ButtonEntity aButton;
+    ButtonEntity bButton;
+    ButtonEntity leftButton;
+    ButtonEntity rightButton;
 
     @Override
     public String GetName() {
@@ -34,18 +37,27 @@ public class MainGameSceneState implements StateBase {
         ScreenWidth = displayMetrics.widthPixels;
         ScreenHeight = displayMetrics.heightPixels;
 
-        bgPaint.setARGB(255, 82, 90, 107);
-        bgPaint.setStyle(Paint.Style.FILL);
-
-        bgOutlinePaint.setARGB(255, 255, 255, 255);
-        bgOutlinePaint.setStyle(Paint.Style.FILL);
-
         tileWidth = ScreenWidth / 9;
 
         RenderBackground.Create();
-        RenderTextEntity.Create();
-        PauseButtonEntity.Create();
+        RenderTextEntity.Create((int)(ScreenWidth / 9 * 7.5));
+        //PauseButtonEntity.Create();
         PlayerEntity.Create(tileWidth);
+        //UI Background
+        rightBG = UIBackgroundEntity.Create(tileWidth * 6,0, ScreenWidth, tileWidth * 12,
+                                           tileWidth * 6,0, tileWidth * 6 + 10, tileWidth * 12);
+        bottomBG = UIBackgroundEntity.Create(0,tileWidth * 12, ScreenWidth, ScreenHeight,
+                                            0,tileWidth * 12, ScreenWidth, tileWidth * 12 + 10);
+        //UI Buttons (set initial position based on width)
+        aButton = ButtonEntity.Create(R.drawable.a_button, ScreenWidth / 5, ScreenWidth / 5,
+                ScreenWidth / 10 * 7 - 10, ScreenHeight - ScreenWidth / 10 - 10);
+        bButton = ButtonEntity.Create(R.drawable.b_button, ScreenWidth / 5, ScreenWidth / 5,
+                ScreenWidth / 10 * 9 - 10, ScreenHeight - ScreenWidth / 10 * 3 - 10);
+        //Set bounds for game buttons (based on bottomBG)
+        aButton.SetBounds(0, ScreenWidth, tileWidth * 12, ScreenHeight);
+        bButton.SetBounds(0, ScreenWidth, tileWidth * 12, ScreenHeight);
+        //UI Other
+
 
         /* To spawn a tile
             TileEntity tile = TileEntity.Create(TileEntity.TILE_TYPES.TILE_METAL, tileWidth);
@@ -77,16 +89,6 @@ public class MainGameSceneState implements StateBase {
     public void Render(Canvas _canvas)
     {
         EntityManager.Instance.Render(_canvas);
-
-        //Draw ui background
-        //Right
-        _canvas.drawRect(tileWidth * 6,0, ScreenWidth, tileWidth * 12, bgPaint);
-        //Left line of right box
-        _canvas.drawRect(tileWidth * 6,0, tileWidth * 6 + 10, tileWidth * 12, bgOutlinePaint);
-        //Bottom
-        _canvas.drawRect(0,tileWidth * 12, ScreenWidth, ScreenHeight, bgPaint);
-        //Top line of bottom box
-        _canvas.drawRect(0,tileWidth * 12, ScreenWidth, tileWidth * 12 + 10, bgOutlinePaint);
     }
 
     @Override

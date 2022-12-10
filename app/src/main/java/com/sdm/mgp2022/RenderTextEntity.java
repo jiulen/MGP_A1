@@ -1,8 +1,10 @@
 package com.sdm.mgp2022;
 
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.util.DisplayMetrics;
 import android.view.SurfaceView;
 
 public class RenderTextEntity implements EntityBase{
@@ -21,6 +23,8 @@ public class RenderTextEntity implements EntityBase{
 
     // Define how to use my own font type
     Typeface myFont;
+
+    int xPos;
 
     public boolean IsDone()
     {
@@ -54,14 +58,15 @@ public class RenderTextEntity implements EntityBase{
         //paint.setStrokeWidth(200);
         paint.setTypeface(myFont);
         paint.setTextSize(70);
-        _canvas.drawText("FPS: " + fps, 30, 80, paint);
+        paint.setTextAlign(Paint.Align.CENTER);
+        _canvas.drawText("FPS: " + fps, xPos, 100, paint);
     }
 
     public boolean IsInit() { return true; }
 
     public int GetRenderLayer()
     {
-        return LayerConstants.RENDERTEXT_LAYER;
+        return LayerConstants.UI_LAYER;
     }
     public void SetRenderLayer(int _newLayer)
     {
@@ -73,10 +78,11 @@ public class RenderTextEntity implements EntityBase{
         return ENTITY_TYPE.ENT_TEXT;
     }
 
-    public static RenderTextEntity Create()
+    public static RenderTextEntity Create(int _xPos)
     {
         RenderTextEntity result = new RenderTextEntity();
         EntityManager.Instance.AddEntity(result, ENTITY_TYPE.ENT_TEXT);
+        result.xPos = _xPos;
         return result;
     }
 }
