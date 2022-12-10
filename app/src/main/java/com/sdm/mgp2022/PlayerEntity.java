@@ -20,8 +20,6 @@ public class PlayerEntity implements EntityBase {
 
     private Bitmap bmp, scaledBmp = null;
 
-    public TileEntity grabbedTile = null;
-
     private boolean moving = false;
 
     private final float MOVE_COOLDOWN = 0.1f;
@@ -42,7 +40,7 @@ public class PlayerEntity implements EntityBase {
         bmp = BitmapFactory.decodeResource(_view.getResources(), R.drawable.player_claw, bfo);
 
         //player take 3/9 of screen width for width and 2/9 of screen width for height
-        width = tileWidth * 3;
+        width = tileWidth;
         height = tileWidth * 2;
         scaledBmp = Bitmap.createScaledBitmap(bmp, width, height, true);
 
@@ -107,20 +105,6 @@ public class PlayerEntity implements EntityBase {
             xPos += tileWidth;
             moving = true;
             currentTime = MOVE_COOLDOWN;
-        }
-    }
-
-    public void GrabDropTile()
-    {
-        if (grabbedTile == null)
-        {
-            //Grab tile
-            System.out.println("GRAB");
-        }
-        else
-        {
-            //Drop tile
-            System.out.println("DROP");
         }
     }
 }

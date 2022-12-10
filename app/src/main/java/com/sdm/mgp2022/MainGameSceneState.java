@@ -24,6 +24,9 @@ public class MainGameSceneState implements StateBase {
     ButtonEntity leftButton;
     ButtonEntity rightButton;
 
+    //GameObjects
+    PlayerEntity player;
+
     @Override
     public String GetName() {
         return "MainGame";
@@ -47,7 +50,7 @@ public class MainGameSceneState implements StateBase {
         RenderBackground.Create(tileWidth / 2 * 9, tileWidth * 5, tileWidth, tileWidth * 10);
         RenderBackground.Create(tileWidth / 2 * 11, tileWidth * 5, tileWidth, tileWidth * 10);
         //Game Objects
-        PlayerEntity.Create(tileWidth);
+        player = PlayerEntity.Create(tileWidth);
         //UI Background
         rightBG = UIBackgroundEntity.Create(tileWidth * 6,0, ScreenWidth, tileWidth * 12,
                                            tileWidth * 6,0, tileWidth * 6 + 10, tileWidth * 12);
@@ -55,9 +58,9 @@ public class MainGameSceneState implements StateBase {
                                             0,tileWidth * 12, ScreenWidth, tileWidth * 12 + 10);
         //UI Buttons (set initial position based on width)
         aButton = ButtonEntity.Create(R.drawable.a_button, ScreenWidth / 5, ScreenWidth / 5,
-                ScreenWidth / 10 * 7 - 10, ScreenHeight - ScreenWidth / 10 - 10);
+                ScreenWidth / 10 * 7 - 10, ScreenHeight - ScreenWidth / 10 - 20);
         bButton = ButtonEntity.Create(R.drawable.b_button, ScreenWidth / 5, ScreenWidth / 5,
-                ScreenWidth / 10 * 9 - 10, ScreenHeight - ScreenWidth / 10 * 3 - 10);
+                ScreenWidth / 10 * 9 - 10, ScreenHeight - ScreenWidth / 10 * 3 - 20);
         leftButton = ButtonEntity.Create(R.drawable.left_button, ScreenWidth / 5, ScreenWidth / 5,
                 ScreenWidth / 10 + 50, ScreenHeight - ScreenWidth / 10 - 20);
         rightButton = ButtonEntity.Create(R.drawable.right_button, ScreenWidth / 5, ScreenWidth / 5,
@@ -111,10 +114,22 @@ public class MainGameSceneState implements StateBase {
 
         EntityManager.Instance.Update(_dt);
 
-        if (TouchManager.Instance.IsDown()) {
+        if (aButton.isDown)
+        {
+            //Grab or drop tile
+        }
+        else if (bButton.isDown)
+        {
+            //Swap tiles
+        }
 
-            //Example of touch on screen in the main game to trigger back to Main menu
-//            StateManager.Instance.ChangeState("Mainmenu");
+        if (leftButton.isDown)
+        {
+            player.MoveLeft();
+        }
+        else if (rightButton.isDown)
+        {
+            player.MoveRight();
         }
     }
 }

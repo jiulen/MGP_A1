@@ -18,6 +18,8 @@ public class ButtonEntity implements EntityBase {
     private int resourceID;
     private Bitmap bmp, scaledBmp = null;
 
+    public boolean isDown = false;
+
     public boolean IsDone() {
         return isDone;
     }
@@ -38,7 +40,22 @@ public class ButtonEntity implements EntityBase {
     }
 
     public void Update(float _dt){
-
+        if (TouchManager.Instance.IsDown() && !isDown)
+        {
+            if (Collision.SphereToSphere(TouchManager.Instance.GetPosX(), TouchManager.Instance.GetPosY(),
+                    0.0f, xPos, yPos, width * 0.5f))
+            {
+                isDown = true;
+            }
+            else
+            {
+                isDown = false;
+            }
+        }
+        else
+        {
+            isDown = false;
+        }
     }
 
     public void Render(Canvas _canvas)
