@@ -107,7 +107,7 @@ public class MainGameSceneState implements StateBase {
 
         EntityManager.Instance.Update(_dt);
 
-        board.updateBoard(level,_dt);
+        board.updateBoard(level, tileWidth, _dt);
         if (aButton.isDown)
         {
             //Grab or drop tile

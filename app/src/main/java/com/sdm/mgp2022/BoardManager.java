@@ -11,7 +11,7 @@ public class BoardManager {
 
     private int numRows = 12;
     private int numCols = 6;
-    private int startGarbage = 3;
+    private int startGarbage = 4;
     private int m_numTileTypes;
     private static final List<TileEntity.TILE_TYPES> TILES = Collections.unmodifiableList(Arrays.asList(TileEntity.TILE_TYPES.values()));
     private static final int tilesSize = TILES.size();
@@ -34,7 +34,7 @@ public class BoardManager {
         // Fill board with random tiles.
         for(int i = 0; i < startGarbage; ++i) {
             for(int j = 0; j < numCols; ++j) {
-                grid[i][j] = TileEntity.Create(randomTile(), width, width * (j + 0.5f), width * (i + 0.5f));
+                grid[i][j] = TileEntity.Create(randomTile(), width, width * (j + 0.5f), width * (i + 0.5f) - width);
             }
         }
 
@@ -47,20 +47,21 @@ public class BoardManager {
                 for(int j = 0; j < numCols; ++j) {
                     if(isBeginningOfSequence(i, j)) {
                         boardReady = false;
-                        grid[i][j] = TileEntity.Create(randomTile(), width,width * (j + 0.5f), width * (i + 0.5f));
+                        grid[i][j] = TileEntity.Create(randomTile(), width,width * (j + 0.5f), width * (i + 0.5f) - width);
                     }
                 }
             }
         }
     }
 
-    void updateBoard(int level, float dt)
+    void updateBoard(int level, int width, float dt)
     {
-        for (int i = 9; i >= 0 ; --i)
+        for (int i = 10; i >= 0 ; --i)
         {
             for (int j = 0; j < numCols; ++j)
             {
-                if (grid[i][j] != null)
+                // if row 11 is not null game ends
+                if (grid[11][j] == null && grid[i][j] != null)
                 {
                     float prevpos = grid[i][j].GetPosY();
                     float newpos = prevpos + (level * 100 * dt);
@@ -70,6 +71,7 @@ public class BoardManager {
                     {
                         grid[i + 1][j] = grid[i][j];
                         grid[i][j] = null;
+                        dropNewTilesRow(width);
                     }
                 }
             }
@@ -115,7 +117,7 @@ public class BoardManager {
         for(int j = 0; j < numCols; ++j) {
             if(grid[0][j] == null) {
                 dropped = true;
-                grid[0][j] = TileEntity.Create(randomTile(), width, width * j, width * 0);;
+                grid[0][j] = TileEntity.Create(randomTile(), width,width * (j + 0.5f), width * (0.5f) - width);
             }
         }
         return dropped;
