@@ -102,7 +102,7 @@ public class MainGameSceneState implements StateBase {
         //UI Other
 
         board.fillBoard(tileWidth);
-
+        board.setPlayerCol(player.column);
     }
 
     @Override
@@ -132,21 +132,28 @@ public class MainGameSceneState implements StateBase {
         if (leftButton.isDown)
         {
             player.MoveLeft();
+            board.setPlayerCol(player.column);
+            leftButton.isDown = false;
         }
         else if (rightButton.isDown)
         {
             player.MoveRight();
+            board.setPlayerCol(player.column);
+            rightButton.isDown = false;
         }
 
-
-        board.setPlayerCol(player.column);
-
-        board.setButtonDownA(aButton.isDown);
-        board.setButtonDownB(bButton.isDown);
-
+        if (aButton.isDown)
+        {
+            //Swap tiles
+            board.setButtonDownA(aButton.isDown);
+            aButton.isDown = false;
+            System.out.println("ABUTTONDOWN");
+        }
         if (bButton.isDown)
         {
             //Swap tiles
+            board.setButtonDownB(bButton.isDown);
+            bButton.isDown = false;
         }
     }
 }
