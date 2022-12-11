@@ -102,8 +102,6 @@ public class MainGameSceneState implements StateBase {
     @Override
     public void Render(Canvas _canvas)
     {
-        //Render background behind player
-
         //Render all entities
         EntityManager.Instance.Render(_canvas);
     }

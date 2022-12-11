@@ -38,7 +38,7 @@ public class RenderTextEntity implements EntityBase{
     public void Init(SurfaceView _view)
     {
         //Use own font
-        myFont = Typeface.createFromAsset(_view.getContext().getAssets(), "fonts/amogus.ttf");
+        myFont = Typeface.createFromAsset(_view.getContext().getAssets(), "fonts/MozartNbp-93Ey.ttf");
         isInit = true;
     }
     public void Update(float _dt)
@@ -55,14 +55,13 @@ public class RenderTextEntity implements EntityBase{
     public void Render(Canvas _canvas) {
         Paint paint = new Paint();
         paint.setARGB(255, red, green, blue);
-        //paint.setStrokeWidth(200);
         paint.setTypeface(myFont);
-        paint.setTextSize(70);
+        paint.setTextSize(90);
         paint.setTextAlign(Paint.Align.CENTER);
-        _canvas.drawText("FPS: " + fps, xPos, 100, paint);
+        _canvas.drawText("FPS: " + fps, xPos, 80, paint);
     }
 
-    public boolean IsInit() { return true; }
+    public boolean IsInit() { return isInit; }
 
     public int GetRenderLayer()
     {
