@@ -87,11 +87,13 @@ public class EnemyEntity implements EntityBase {
     }
     public void Update(float _dt)
     {
-        lastCharge += _dt;
+        if (charge < 100)
+            lastCharge += _dt;
         if (lastCharge >= chargeTime)
         {
             charge += 1;
             lastCharge = 0;
+            System.out.println("Charge: " + charge);
         }
     }
     public void Render(Canvas _canvas) {
@@ -106,13 +108,13 @@ public class EnemyEntity implements EntityBase {
         }
         //Draw health bar
         _canvas.drawRect(xPos - width * 0.5f, hpPosY - 15,
-                        xPos + width * 0.5f, hpPosY + 15, hpPaint);
+                        xPos - width * 0.5f + width * (health / 100.f), hpPosY + 15, hpPaint);
         _canvas.drawRect(xPos - width * 0.5f - outlineWidth * 0.5f, hpPosY - 15 - outlineWidth * 0.5f,
                         xPos + width * 0.5f + outlineWidth * 0.5f, hpPosY + 15 + outlineWidth * 0.5f,
                              outlinePaint);
         //Draw attack bar
         _canvas.drawRect(xPos - width * 0.5f, atkPosY - 15,
-                xPos + width * 0.5f, atkPosY + 15, atkPaint);
+                xPos - width * 0.5f + width * (charge / 100.f), atkPosY + 15, atkPaint);
         _canvas.drawRect(xPos - width * 0.5f - outlineWidth * 0.5f, atkPosY - 15 - outlineWidth * 0.5f,
                 xPos + width * 0.5f + outlineWidth * 0.5f, atkPosY + 15 + outlineWidth * 0.5f,
                 outlinePaint);
