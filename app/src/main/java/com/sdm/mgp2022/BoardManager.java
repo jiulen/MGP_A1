@@ -79,7 +79,7 @@ public class BoardManager {
             // the isBeginningOfSequence method checks if the row is in boundary.
             for(int i = 0; i < startGarbage; ++i) {
                 for(int j = 0; j < numCols; ++j) {
-                    if(isBeginningOfSequence(i, j)) {
+                    if(isBeginningOfSequence(i, j) || isEndOfSequence(i, j)) {
                         boardReady = false;
                         grid[i][j] = TileEntity.Create(randomTile(), width,width * (j + 0.5f), width * (i + 0.5f) - width);
                     }
