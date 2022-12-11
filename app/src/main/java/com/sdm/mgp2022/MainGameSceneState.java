@@ -129,15 +129,6 @@ public class MainGameSceneState implements StateBase {
         //scoreText.text = String.format("%09d", player.score);
         //levelText.text = "Level " + level;
 
-        if (aButton.isDown)
-        {
-            //Grab or drop tile
-        }
-        else if (bButton.isDown)
-        {
-            //Swap tiles
-        }
-
         if (leftButton.isDown)
         {
             player.MoveLeft();
@@ -145,6 +136,17 @@ public class MainGameSceneState implements StateBase {
         else if (rightButton.isDown)
         {
             player.MoveRight();
+        }
+
+
+        board.setPlayerCol(player.column);
+
+        board.setButtonDownA(aButton.isDown);
+        board.setButtonDownB(bButton.isDown);
+
+        if (bButton.isDown)
+        {
+            //Swap tiles
         }
     }
 }

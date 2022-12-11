@@ -12,6 +12,7 @@ public class BoardManager {
     {
         READY,
         SELECT,
+        DROP,
         SWAP,
         CLEARING,
         GENERATE,
@@ -28,12 +29,29 @@ public class BoardManager {
     private static final int tilesSize = TILES.size();
     private static final Random RANDOM = new Random();
 
+    boolean aButtonDown = false;
+    boolean bButtonDown = false;
+    int playercol = 2;
     boolean lose = false;
+    boolean isPressed = false;
     Vector<TileSequence> matchingSequences = new Vector<TileSequence>();
 
     public TileEntity [][] grid = new TileEntity[numRows][numCols];
 
-    TileEntity selectedTile = new TileEntity();
+    TileEntity selectedTile = null;
+
+    void setButtonDownA(boolean state)
+    {
+        aButtonDown = state;
+    }
+    void setButtonDownB(boolean state)
+    {
+        bButtonDown = state;
+    }
+    void setPlayerCol(int col)
+    {
+        playercol = col;
+    }
 
     public static TileEntity.TILE_TYPES randomTile()
     {
@@ -71,14 +89,42 @@ public class BoardManager {
 
     void updateBoard(int level, int width, float dt)
     {
-        if(!lose) {
-            switch (boardState) {
+        if(!lose)
+        {
+            switch (boardState)
+            {
                 case READY: {
                     moveTilesDownGrid(level, width, dt);
+
+                    if(aButtonDown)
+                    {
+                        if (selectedTile != null) {
+                            boardState = boardStates.DROP;
+                            aButtonDown = false;
+                        }
+                        else
+                        {
+                            boardState = boardStates.SELECT;
+                            aButtonDown = false;
+                        }
+                    }
                     break;
                 }
                 case SELECT: {
-
+                    if(!selectTile(playercol))
+                    {
+                        System.out.println("nothing to select");
+                    }
+                    boardState = boardStates.READY;
+                    break;
+                }
+                case DROP:{
+                    if(!dropTile(playercol))
+                    {
+                        System.out.println("Invalid drop location");
+                    }
+                    boardState = boardStates.READY;
+                    break;
                 }
                 // if no sequences change board to ready
                 case CHECKSEQ: {
@@ -99,7 +145,6 @@ public class BoardManager {
                 }
                 case LOSE: {
                     System.out.println("LOSE");
-                    boardState = boardStates.CHECKSEQ;
                     lose = true;
                     break;
                 }
@@ -148,14 +193,13 @@ public class BoardManager {
 
     public final boolean selectTile(int col)
     {
-        selectedTile = null;
-        for(int i = numRows - 1; i >= 0; --i)
+        for(int i = 10; i >= 0; --i)
         {
             if(grid[i][col] != null)
             {
                 selectedTile = grid[i][col];
                 grid[12][col] = selectedTile;
-                grid[12][col].SetPosY(grid[12][col].GetWidth() * (12 + 0.5f));
+                grid[12][col].SetPosY(grid[12][col].GetWidth() * (-12 + 0.5f));
                 grid[12][col].SetPosX(grid[i][col].GetWidth() * (col + 0.5f));
                 grid[i][col] = null;
                 return true;
@@ -165,7 +209,7 @@ public class BoardManager {
     }
     public final boolean dropTile(int col)
     {
-        for(int i = 0; i < numRows; i++)
+        for(int i = 0; i < 11; i++)
         {
             if(grid[i][col] == null)
             {

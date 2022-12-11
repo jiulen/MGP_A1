@@ -17,7 +17,7 @@ public class PlayerEntity implements EntityBase {
 
     private int tileWidth = 0;
 
-    private int column = 2; //start at third column, 0 - 5
+    public int column = 2; //start at third column, 0 - 5
 
     private Bitmap bmp, scaledBmp = null;
 
