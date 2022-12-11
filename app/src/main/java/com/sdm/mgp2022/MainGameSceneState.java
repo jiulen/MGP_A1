@@ -29,12 +29,11 @@ public class MainGameSceneState implements StateBase {
     ButtonEntity leftButton;
     ButtonEntity rightButton;
 
-    TextEntity enemyText;
     TextEntity scoreTitleText;
     TextEntity scoreText;
     TextEntity levelText;
 
-    Bitmap enemyBmp = null;
+    EnemyEntity enemy;
 
     //Add the bars
 
@@ -90,15 +89,14 @@ public class MainGameSceneState implements StateBase {
         //UI Other (e.g. Text, Pictures)
         //Text
         FPSTextEntity.Create((int)(ScreenWidth / 9 * 7.5));
-        enemyText = TextEntity.Create((int)(ScreenWidth / 9 * 7.5), 200, 0, 0, 0, 70, Paint.Align.CENTER);
-        enemyText.text = "Home";
-        scoreTitleText = TextEntity.Create((int)(ScreenWidth / 9 * 7.5), 600, 0, 0, 0, 70, Paint.Align.CENTER);
+        //Enemy
+        enemy = EnemyEntity.Create((int)(ScreenWidth / 9 * 7.5), 350, (int)(ScreenWidth / 9 * 2));
+        //More text
+        scoreTitleText = TextEntity.Create((int)(ScreenWidth / 9 * 7.5), 950, 0, 0, 0, 70, Paint.Align.CENTER);
         scoreTitleText.text = "Score";
-        scoreText = TextEntity.Create((int)(ScreenWidth / 9 * 7.5), 650, 0, 0, 0, 70, Paint.Align.CENTER);
-        levelText = TextEntity.Create((int)(ScreenWidth / 9 * 7.5), 800, 0, 0, 0, 70, Paint.Align.CENTER);
-        //Bitmap
+        scoreText = TextEntity.Create((int)(ScreenWidth / 9 * 7.5), 1000, 0, 0, 0, 70, Paint.Align.CENTER);
+        levelText = TextEntity.Create((int)(ScreenWidth / 9 * 7.5), 1150, 0, 0, 0, 70, Paint.Align.CENTER);
 
-        //Bars
 
         //UI Other
 
