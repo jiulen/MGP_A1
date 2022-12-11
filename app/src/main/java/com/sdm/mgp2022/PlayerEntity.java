@@ -25,6 +25,8 @@ public class PlayerEntity implements EntityBase {
     private final float MOVE_COOLDOWN = 0.1f;
     private float currentTime = 0;
 
+    public int score = 0;
+
     public boolean IsDone() {
         return isDone;
     }

@@ -1,13 +1,11 @@
 package com.sdm.mgp2022;
 
-import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Typeface;
-import android.util.DisplayMetrics;
 import android.view.SurfaceView;
 
-public class RenderTextEntity implements EntityBase{
+public class FPSTextEntity implements EntityBase{
 
     private boolean isDone = false;
     private boolean isInit = false;
@@ -56,7 +54,7 @@ public class RenderTextEntity implements EntityBase{
         Paint paint = new Paint();
         paint.setARGB(255, red, green, blue);
         paint.setTypeface(myFont);
-        paint.setTextSize(90);
+        paint.setTextSize(70);
         paint.setTextAlign(Paint.Align.CENTER);
         _canvas.drawText("FPS: " + fps, xPos, 80, paint);
     }
@@ -77,9 +75,9 @@ public class RenderTextEntity implements EntityBase{
         return ENTITY_TYPE.ENT_TEXT;
     }
 
-    public static RenderTextEntity Create(int _xPos)
+    public static FPSTextEntity Create(int _xPos)
     {
-        RenderTextEntity result = new RenderTextEntity();
+        FPSTextEntity result = new FPSTextEntity();
         EntityManager.Instance.AddEntity(result, ENTITY_TYPE.ENT_TEXT);
         result.xPos = _xPos;
         return result;

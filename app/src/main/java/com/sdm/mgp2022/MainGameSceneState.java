@@ -7,6 +7,8 @@ import android.graphics.Paint;
 import android.util.DisplayMetrics;
 import android.view.SurfaceView;
 
+import org.w3c.dom.Text;
+
 // Created by TanSiewLan2021
 
 public class MainGameSceneState implements StateBase {
@@ -27,9 +29,10 @@ public class MainGameSceneState implements StateBase {
     ButtonEntity leftButton;
     ButtonEntity rightButton;
 
-    Paint enemyNamePaint = new Paint();
-    Paint scorePaint = new Paint();
-    Paint levelPaint = new Paint();
+    TextEntity enemyText;
+    TextEntity scoreTitleText;
+    TextEntity scoreText;
+    TextEntity levelText;
 
     Bitmap enemyBmp = null;
 
@@ -85,7 +88,17 @@ public class MainGameSceneState implements StateBase {
         bButton.SetBounds(0, ScreenWidth, tileWidth * 12, ScreenHeight);
 
         //UI Other (e.g. Text, Pictures)
-        RenderTextEntity.Create((int)(ScreenWidth / 9 * 7.5));
+        //Text
+        FPSTextEntity.Create((int)(ScreenWidth / 9 * 7.5));
+        enemyText = TextEntity.Create((int)(ScreenWidth / 9 * 7.5), 200, 0, 0, 0, 70, Paint.Align.CENTER);
+        enemyText.text = "Home";
+        scoreTitleText = TextEntity.Create((int)(ScreenWidth / 9 * 7.5), 600, 0, 0, 0, 70, Paint.Align.CENTER);
+        scoreTitleText.text = "Score";
+        scoreText = TextEntity.Create((int)(ScreenWidth / 9 * 7.5), 650, 0, 0, 0, 70, Paint.Align.CENTER);
+        levelText = TextEntity.Create((int)(ScreenWidth / 9 * 7.5), 800, 0, 0, 0, 70, Paint.Align.CENTER);
+        //Bitmap
+
+        //Bars
 
         //UI Other
 
@@ -107,11 +120,16 @@ public class MainGameSceneState implements StateBase {
     }
 
     @Override
-    public void Update(float _dt) {
-
+    public void Update(float _dt)
+    {
         EntityManager.Instance.Update(_dt);
 
         board.updateBoard(level, tileWidth, _dt);
+
+        //Update UI texts (maybe should only do this when the value change)
+        scoreText.text = String.format("%09d", player.score);
+        levelText.text = "Level " + level;
+
         if (aButton.isDown)
         {
             //Grab or drop tile
