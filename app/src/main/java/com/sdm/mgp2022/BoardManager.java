@@ -8,8 +8,20 @@ import java.util.Vector;
 
 public class BoardManager {
 
+    enum boardStates
+    {
+        READY,
+        SELECT,
+        SWAP,
+        CLEARING,
+        GENERATE,
+        GRAVITATE,
+        CHECKSEQ,
+        LOSE
+    }
+    boardStates boardState;
 
-    private int numRows = 12;
+    private int numRows = 13;
     private int numCols = 6;
     private int startGarbage = 4;
     private int m_numTileTypes;
@@ -17,7 +29,9 @@ public class BoardManager {
     private static final int tilesSize = TILES.size();
     private static final Random RANDOM = new Random();
 
-    Vector<TileSequence> matchingSequences;
+    boolean isClearing = false;
+
+    Vector<TileSequence> matchingSequences = new Vector<TileSequence>();
 
     public TileEntity [][] grid = new TileEntity[numRows][numCols];
 
@@ -52,9 +66,51 @@ public class BoardManager {
                 }
             }
         }
+        boardState = boardStates.READY;
     }
 
     void updateBoard(int level, int width, float dt)
+    {
+        switch(boardState)
+        {
+            case READY:
+            {
+                moveTilesDownGrid(level,width,dt);
+                break;
+            }
+            case SELECT:
+            {
+
+            }
+            // if no sequences change board to ready
+            case CHECKSEQ:
+            {
+                if(!markAllSequencesOnBoard(width))
+                    boardState = boardStates.READY;
+                else
+                    boardState = boardStates.GRAVITATE;
+                break;
+            }
+            case GENERATE:
+            {
+                dropNewTilesRow(width);
+                boardState = boardStates.READY;
+                break;
+            }
+            case GRAVITATE:
+            {
+                gravitateBoardStep();
+                break;
+            }
+            case LOSE:
+            {
+                System.out.println("LOSE");
+                break;
+            }
+        }
+    }
+
+    void moveTilesDownGrid(int level,int width,float dt)
     {
         for (int i = 10; i >= 0 ; --i)
         {
@@ -63,7 +119,8 @@ public class BoardManager {
                 // if row 11 is not null game ends
                 if (grid[11][j] == null)
                 {
-                    if (grid[i][j] != null)
+                    // check if tiles exist on grid and that they are not being cleared to move them down the screen
+                    if (grid[i][j] != null && !isClearing)
                     {
                         float prevpos = grid[i][j].GetPosY();
                         float newpos = prevpos + (level * 100 * dt);
@@ -74,18 +131,24 @@ public class BoardManager {
                             grid[i + 1][j] = grid[i][j];
                             grid[i + 1][j].SetPosY(width * (i - 0.5f));
                             grid[i][j] = null;
-                            dropNewTilesRow(width);
+                            boardState = boardStates.GENERATE;
                         }
                     }
+//                    if(hasSequencesProximity(i, j))
+//                    {
+//                        markAllSequencesOnBoard(width);
+//                        gravitateBoardStep();
+//                        System.out.println("aaaaaaaaaaaaOSE");
+//                    }
                 }
                 else
                 {
-                    //Lose
-                    System.out.println("LOSE");
+                    boardState = boardStates.LOSE;
                 }
             }
         }
     }
+
     public final boolean hasSequencesProximity(int row, int col) {
         // Check if one of the tiles to the left/above the current tile is a beginning of a sequence (and perhaps involving
         // the current tile)
@@ -107,12 +170,16 @@ public class BoardManager {
                 if(grid[i][j] == null) {
                     // Found empty tile - move all tiles above it back.
                     for(int k = i; k > 0; --k) {
-                        if(grid[k - 1][j] != null) {
+                        if(grid[k][j] != null) {
                             // Moved back a non-empty tile - board no gravity
+                            float prevpos = grid[k][j].GetPosY();
+                            grid[k-1][j] = grid[k][j];
+                            grid[k][j] = null;
+                            grid[k-1][j].SetPosY(prevpos - grid[k-1][j].GetWidth());
+
                             found = true;
                         }
-                        grid[k][j] = grid[k - 1][j];
-                        grid[k - 1][j] = null;
+
                     }
                     break;
                 }
@@ -150,43 +217,43 @@ public class BoardManager {
     }
 
 
-    boolean hasMoreMoves() {
-        boolean hasMove = false;
-        // Horizontal moves - pass on every column and switch each tile with the one to its right.
-        for(int j = 0; j < numCols-1; ++j) {
-            for(int i = 0; i < numRows; ++i) {
-                if(hasMove) {
-                    return true;
-                }
-
-                if(swapTiles(i, j, i, j+1)) {
-                    if(hasSequencesProximity(i, j)) {
-                        hasMove=true;
-                    }
-                    // Swap occurred - swap back to preserve board state.
-                    swapTiles(i, j, i, j+1);
-                }
-            }
-        }
-
-        // Vertical moves - pass on every row and switch each tile with the one to below it.
-        for(int i = 0; i< numRows - 1; ++i) {
-            for(int j = 0; j < numCols; ++j) {
-                if(hasMove) {
-                    return true;
-                }
-
-                if(swapTiles(i, j, i+1, j)) {
-                    if(hasSequencesProximity(i, j)) {
-                        hasMove=true;
-                    }
-                    // Swap occurred - swap back to preserve board state.
-                    swapTiles(i, j, i+1, j);
-                }
-            }
-        }
-        return hasMove;
-    }
+//    boolean hasMoreMoves() {
+//        boolean hasMove = false;
+//        // Horizontal moves - pass on every column and switch each tile with the one to its right.
+//        for(int j = 0; j < numCols-1; ++j) {
+//            for(int i = 0; i < numRows; ++i) {
+//                if(hasMove) {
+//                    return true;
+//                }
+//
+//                if(swapTiles(i, j, i, j+1)) {
+//                    if(hasSequencesProximity(i, j)) {
+//                        hasMove=true;
+//                    }
+//                    // Swap occurred - swap back to preserve board state.
+//                    swapTiles(i, j, i, j+1);
+//                }
+//            }
+//        }
+//
+//        // Vertical moves - pass on every row and switch each tile with the one to below it.
+//        for(int i = 0; i< numRows - 1; ++i) {
+//            for(int j = 0; j < numCols; ++j) {
+//                if(hasMove) {
+//                    return true;
+//                }
+//
+//                if(swapTiles(i, j, i+1, j)) {
+//                    if(hasSequencesProximity(i, j)) {
+//                        hasMove=true;
+//                    }
+//                    // Swap occurred - swap back to preserve board state.
+//                    swapTiles(i, j, i+1, j);
+//                }
+//            }
+//        }
+//        return hasMove;
+//    }
 
     boolean markAllSequencesOnBoard(int width) {
         if (!findAllSequences()) {
@@ -211,7 +278,7 @@ public class BoardManager {
         for (int i = 0; i < numRows; ++i) {
             curMatchLen = 1;
             for (int j = 0; j < numCols - 1; ++j) {
-                if (grid[i][j].tileType == null) {
+                if (grid[i][j] == null) {
                     curMatchLen = 1;
                     continue;
                 }
@@ -250,7 +317,7 @@ public class BoardManager {
         for (int j = 0; j < numCols; ++j) {
             curMatchLen = 1;
             for (int i = 0; i < numRows - 1; ++i) {
-                if (grid[i][j].tileType == null) {
+                if (grid[i][j] == null) {
                     curMatchLen = 1;
                     continue;
                 }
