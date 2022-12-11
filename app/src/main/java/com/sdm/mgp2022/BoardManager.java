@@ -448,13 +448,35 @@ public class BoardManager {
 
     // change to 4
     boolean isBeginningOfSequence(int i, int j) {
-        return ((j >= 0 && j < numCols-3 && grid[i][j] == grid[i][j+1] && grid[i][j] == grid[i][j+3]) ||
-                (i >= 0 && i < numRows-3 && grid[i][j] == grid[i+1][j] && grid[i][j] == grid[i+3][j]));
+        if (j >= 0 && j < numCols-3 && grid[i][j] != null && grid[i][j+1] != null && grid[i][j+2] != null && grid[i][j+3] != null)
+        {
+            if (grid[i][j].tileType == grid[i][j+1].tileType && grid[i][j].tileType == grid[i][j+2].tileType && grid[i][j].tileType == grid[i][j+3].tileType)
+                return true; //continue if false
+        }
+
+        if (i >= 0 && i < numRows-3 && grid[i][j] != null && grid[i+1][j] != null && grid[i+2][j] != null && grid[i+3][j] != null)
+        {
+            if (grid[i][j].tileType == grid[i+1][j].tileType && grid[i][j].tileType == grid[i+2][j].tileType && grid[i][j].tileType == grid[i+3][j].tileType)
+                return true; //continue if false
+        }
+
+        return false; //false if both is true
     }
 
 
     boolean isEndOfSequence(int i,int j) {
-        return ((j < numCols && j>=3 && grid[i][j-1] == grid[i][j] && grid[i][j-2] == grid[i][j] && grid[i][j-3] == grid[i][j]) ||
-                (i < numRows && i>=3 && grid[i-1][j] == grid[i][j] && grid[i-2][j] == grid[i][j] && grid[i-3][j] == grid[i][j]));
+        if (j < numCols && j>=3 && grid[i][j] != null && grid[i][j-1] != null && grid[i][j-2] != null && grid[i][j-3] != null)
+        {
+            if (grid[i][j-1].tileType == grid[i][j].tileType && grid[i][j-2].tileType == grid[i][j].tileType && grid[i][j-3].tileType == grid[i][j].tileType)
+                return true; //continue if false
+        }
+
+        if (i < numRows && i>=3 && grid[i][j] != null && grid[i-1][j] != null && grid[i-2][j] != null && grid[i-3][j] != null)
+        {
+            if (grid[i-1][j].tileType == grid[i][j].tileType && grid[i-2][j].tileType == grid[i][j].tileType && grid[i-3][j].tileType == grid[i][j].tileType)
+                return true; //continue if false
+        }
+
+        return false; //false if both is true
     }
 }
