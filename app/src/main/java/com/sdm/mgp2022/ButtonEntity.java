@@ -40,16 +40,20 @@ public class ButtonEntity implements EntityBase {
     }
 
     public void Update(float _dt){
-        if (TouchManager.Instance.IsDown() && !isDown)
+        if (TouchManager.Instance.IsDown())
         {
-            if (Collision.SphereToSphere(TouchManager.Instance.GetPosX(), TouchManager.Instance.GetPosY(),
-                    0.0f, xPos, yPos, width * 0.5f))
+            if (!isDown)
             {
-                isDown = true;
-            }
-            else
-            {
-                isDown = false;
+                if (Collision.SphereToSphere(TouchManager.Instance.GetPosX(), TouchManager.Instance.GetPosY(),
+                        0.0f, xPos, yPos, width * 0.5f))
+                {
+                    isDown = true;
+                    System.out.println("ISDOWN");
+                }
+                else
+                {
+                    isDown = false;
+                }
             }
         }
         else
