@@ -29,6 +29,8 @@ public class BoardManager {
     private static final int tilesSize = TILES.size();
     private static final Random RANDOM = new Random();
 
+    float yoffset = 0.f;
+
     boolean aButtonDown = false;
     boolean bButtonDown = false;
     int playercol = 2;
@@ -89,6 +91,7 @@ public class BoardManager {
 
     void updateBoard(int level, int width, float dt)
     {
+
         if(!lose)
         {
             switch (boardState)
@@ -100,12 +103,10 @@ public class BoardManager {
                     {
                         if (selectedTile != null) {
                             boardState = boardStates.DROP;
-                            aButtonDown = false;
                         }
                         else
                         {
                             boardState = boardStates.SELECT;
-                            aButtonDown = false;
                         }
                     }
                     break;
@@ -165,9 +166,9 @@ public class BoardManager {
                     if (grid[i][j] != null)
                     {
                         float prevpos = grid[i][j].GetPosY();
-                        float newpos = prevpos + (level * 100 * dt);
+                        float newpos = prevpos + (level * 50 * dt);
                         grid[i][j].SetPosY(newpos);
-
+                        yoffset = width - (newpos % width);
                         if((grid[i][j].GetPosY() + grid[i][j].GetWidth() * 0.5) / grid[i][j].GetWidth() > i)
                         {
                             grid[i + 1][j] = grid[i][j];
@@ -209,15 +210,16 @@ public class BoardManager {
     }
     public final boolean dropTile(int col)
     {
-        for(int i = 0; i < 11; i++)
+        for(int i = 1; i < 11; i++)
         {
             if(grid[i][col] == null)
             {
                 grid[i][col] = selectedTile;
-                grid[i][col].SetPosY(grid[i][col].GetWidth() * (i + 0.5f));
+                grid[i][col].SetPosY((grid[i][col].GetWidth() * i) - yoffset);
                 grid[i][col].SetPosX(grid[i][col].GetWidth() * (col + 0.5f));
                 selectedTile = null;
-                grid[12][col] = null;
+                for (int j = 0; j < numCols; j++)
+                    grid[12][j] = null;
                 return true;
             }
         }
