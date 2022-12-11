@@ -11,7 +11,7 @@ public class EnemyEntity implements EntityBase {
     private boolean isDone = false;
     private boolean isInit = false;
 
-    private float xPos, yPos;
+    public float xPos, yPos;
     private int width;
 
     //Name
@@ -51,7 +51,7 @@ public class EnemyEntity implements EntityBase {
     public void Init(SurfaceView _view)
     {
         //For name
-        enemyNameText = TextEntity.Create(xPos, yPos - 150, 0, 0, 0, 70, Paint.Align.CENTER);
+        enemyNameText = TextEntity.Create(xPos, yPos - 100, 0, 0, 0, 50, Paint.Align.CENTER);
         enemyNameText.text = "Home";
         //For background of bitmap
         bgPaint.setARGB(255, 0, 0, 0);
@@ -69,15 +69,15 @@ public class EnemyEntity implements EntityBase {
 //        scaledBmps[2] = Bitmap.createScaledBitmap(bmps[2], width, width, true);
 //        scaledBmps[3] = Bitmap.createScaledBitmap(bmps[3], width, width, true);
         //For health bar
-        hpName = TextEntity.Create(xPos, yPos + 200, 0, 0, 0, 70, Paint.Align.CENTER);
+        hpName = TextEntity.Create(xPos, yPos + 130, 0, 0, 0, 50, Paint.Align.CENTER);
         hpName.text = "Health";
         hpPaint.setARGB(255, 255, 0, 0);
-        hpPosY = yPos + 250;
+        hpPosY = yPos + 180;
         //For attack bar
-        atkName = TextEntity.Create(xPos, yPos + 370, 0, 0, 0, 70, Paint.Align.CENTER);
+        atkName = TextEntity.Create(xPos, yPos + 260, 0, 0, 0, 50, Paint.Align.CENTER);
         atkName.text = "Attack";
         atkPaint.setARGB(255, 0, 0, 255);
-        atkPosY = yPos + 430;
+        atkPosY = yPos + 320;
         //Both bar
         outlinePaint.setARGB(255, 255, 255, 255);
         outlinePaint.setStyle(Paint.Style.STROKE);
@@ -93,7 +93,6 @@ public class EnemyEntity implements EntityBase {
         {
             charge += 1;
             lastCharge = 0;
-            System.out.println("Charge: " + charge);
         }
     }
     public void Render(Canvas _canvas) {

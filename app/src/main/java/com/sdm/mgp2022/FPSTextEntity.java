@@ -54,9 +54,9 @@ public class FPSTextEntity implements EntityBase{
         Paint paint = new Paint();
         paint.setARGB(255, red, green, blue);
         paint.setTypeface(myFont);
-        paint.setTextSize(70);
+        paint.setTextSize(50);
         paint.setTextAlign(Paint.Align.CENTER);
-        _canvas.drawText("FPS: " + fps, xPos, 80, paint);
+        _canvas.drawText("FPS: " + fps, xPos, 50, paint);
     }
 
     public boolean IsInit() { return isInit; }

@@ -90,13 +90,14 @@ public class MainGameSceneState implements StateBase {
         //Text
         FPSTextEntity.Create((int)(ScreenWidth / 9 * 7.5));
         //Enemy
-        enemy = EnemyEntity.Create((int)(ScreenWidth / 9 * 7.5), 350, (int)(ScreenWidth / 9 * 2));
+        enemy = EnemyEntity.Create((int)(ScreenWidth / 9 * 7.5), 200, (int)(ScreenWidth / 9 * 2));
         //More text
-        scoreTitleText = TextEntity.Create((int)(ScreenWidth / 9 * 7.5), 950, 0, 0, 0, 70, Paint.Align.CENTER);
+        scoreTitleText = TextEntity.Create((int)(ScreenWidth / 9 * 7.5), enemy.yPos + 420, 0, 0, 0, 50, Paint.Align.CENTER);
         scoreTitleText.text = "Score";
-        scoreText = TextEntity.Create((int)(ScreenWidth / 9 * 7.5), 1000, 0, 0, 0, 70, Paint.Align.CENTER);
-        levelText = TextEntity.Create((int)(ScreenWidth / 9 * 7.5), 1150, 0, 0, 0, 70, Paint.Align.CENTER);
-
+        scoreText = TextEntity.Create((int)(ScreenWidth / 9 * 7.5), enemy.yPos + 470, 0, 0, 0, 50, Paint.Align.CENTER);
+        scoreText.text = String.format("%09d", player.score);
+        levelText = TextEntity.Create((int)(ScreenWidth / 9 * 7.5), enemy.yPos + 540, 0, 0, 0, 50, Paint.Align.CENTER);
+        levelText.text = "Level " + level;
 
         //UI Other
 
@@ -125,8 +126,8 @@ public class MainGameSceneState implements StateBase {
         board.updateBoard(level, tileWidth, _dt);
 
         //Update UI texts (maybe should only do this when the value change)
-        scoreText.text = String.format("%09d", player.score);
-        levelText.text = "Level " + level;
+        //scoreText.text = String.format("%09d", player.score);
+        //levelText.text = "Level " + level;
 
         if (aButton.isDown)
         {
