@@ -147,7 +147,6 @@ public class MainGameSceneState implements StateBase {
             //Swap tiles
             board.setButtonDownA(aButton.isDown);
             aButton.isDown = false;
-            System.out.println("ABUTTONDOWN");
         }
         if (bButton.isDown)
         {

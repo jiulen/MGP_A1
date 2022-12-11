@@ -108,6 +108,7 @@ public class BoardManager {
                         {
                             boardState = boardStates.SELECT;
                         }
+                        aButtonDown = false;
                     }
                     break;
                 }
