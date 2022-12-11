@@ -24,16 +24,16 @@ public class BoardManager {
     private int numRows = 13;
     private int numCols = 6;
     private int startGarbage = 4;
-    private int m_numTileTypes;
     private static final List<TileEntity.TILE_TYPES> TILES = Collections.unmodifiableList(Arrays.asList(TileEntity.TILE_TYPES.values()));
     private static final int tilesSize = TILES.size();
     private static final Random RANDOM = new Random();
 
-    boolean isClearing = false;
     boolean lose = false;
     Vector<TileSequence> matchingSequences = new Vector<TileSequence>();
 
     public TileEntity [][] grid = new TileEntity[numRows][numCols];
+
+    TileEntity selectedTile = new TileEntity();
 
     public static TileEntity.TILE_TYPES randomTile()
     {
@@ -99,6 +99,7 @@ public class BoardManager {
                 }
                 case LOSE: {
                     System.out.println("LOSE");
+                    boardState = boardStates.CHECKSEQ;
                     lose = true;
                     break;
                 }
@@ -112,11 +113,11 @@ public class BoardManager {
         {
             for (int j = 0; j < numCols; ++j)
             {
-                // if row 11 is not null game ends
+                // if tile reaches row 11 game ends
                 if (grid[11][j] == null)
                 {
                     // check if tiles exist on grid and that they are not being cleared to move them down the screen
-                    if (grid[i][j] != null && !isClearing)
+                    if (grid[i][j] != null)
                     {
                         float prevpos = grid[i][j].GetPosY();
                         float newpos = prevpos + (level * 100 * dt);
@@ -145,6 +146,39 @@ public class BoardManager {
         }
     }
 
+    public final boolean selectTile(int col)
+    {
+        selectedTile = null;
+        for(int i = numRows - 1; i >= 0; --i)
+        {
+            if(grid[i][col] != null)
+            {
+                selectedTile = grid[i][col];
+                grid[12][col] = selectedTile;
+                grid[12][col].SetPosY(grid[12][col].GetWidth() * (12 + 0.5f));
+                grid[12][col].SetPosX(grid[i][col].GetWidth() * (col + 0.5f));
+                grid[i][col] = null;
+                return true;
+            }
+        }
+        return false;
+    }
+    public final boolean dropTile(int col)
+    {
+        for(int i = 0; i < numRows; i++)
+        {
+            if(grid[i][col] == null)
+            {
+                grid[i][col] = selectedTile;
+                grid[i][col].SetPosY(grid[i][col].GetWidth() * (i + 0.5f));
+                grid[i][col].SetPosX(grid[i][col].GetWidth() * (col + 0.5f));
+                selectedTile = null;
+                grid[12][col] = null;
+                return true;
+            }
+        }
+        return false;
+    }
     public final boolean hasSequencesProximity(int row, int col) {
         // Check if one of the tiles to the left/above the current tile is a beginning of a sequence (and perhaps involving
         // the current tile)
