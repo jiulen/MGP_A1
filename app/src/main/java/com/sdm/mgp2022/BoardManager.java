@@ -30,7 +30,7 @@ public class BoardManager {
     private static final Random RANDOM = new Random();
 
     boolean isClearing = false;
-
+    boolean lose = false;
     Vector<TileSequence> matchingSequences = new Vector<TileSequence>();
 
     public TileEntity [][] grid = new TileEntity[numRows][numCols];
@@ -71,41 +71,37 @@ public class BoardManager {
 
     void updateBoard(int level, int width, float dt)
     {
-        switch(boardState)
-        {
-            case READY:
-            {
-                moveTilesDownGrid(level,width,dt);
-                break;
-            }
-            case SELECT:
-            {
+        if(!lose) {
+            switch (boardState) {
+                case READY: {
+                    moveTilesDownGrid(level, width, dt);
+                    break;
+                }
+                case SELECT: {
 
-            }
-            // if no sequences change board to ready
-            case CHECKSEQ:
-            {
-                if(!markAllSequencesOnBoard(width))
+                }
+                // if no sequences change board to ready
+                case CHECKSEQ: {
+                    if (!markAllSequencesOnBoard(width))
+                        boardState = boardStates.READY;
+                    else
+                        boardState = boardStates.GRAVITATE;
+                    break;
+                }
+                case GENERATE: {
+                    dropNewTilesRow(width);
                     boardState = boardStates.READY;
-                else
-                    boardState = boardStates.GRAVITATE;
-                break;
-            }
-            case GENERATE:
-            {
-                dropNewTilesRow(width);
-                boardState = boardStates.READY;
-                break;
-            }
-            case GRAVITATE:
-            {
-                gravitateBoardStep();
-                break;
-            }
-            case LOSE:
-            {
-                System.out.println("LOSE");
-                break;
+                    break;
+                }
+                case GRAVITATE: {
+                    gravitateBoardStep();
+                    break;
+                }
+                case LOSE: {
+                    System.out.println("LOSE");
+                    lose = true;
+                    break;
+                }
             }
         }
     }
@@ -199,21 +195,17 @@ public class BoardManager {
         return dropped;
     }
 
-    // change to only swap on 1 column
-    boolean swapTiles(int row1, int col1, int row2, int col2) {
-        if((col1 == col2 && (row1 == row2-1 || row1 == row2+1)) ||
-                (row1 == row2 && (col1 == col2-1 || col1 == col2+1)))
-        {
-            if(grid[row1][col1] == null || grid[row2][col2].tileType == null ||
-                    grid[row1][col1] ==  grid[row2][col2]) {
-                return false; // if either tile is empty or they have same color - no need to swap
-            }
-            TileEntity tmp = grid[row1][col1];
-            grid[row1][col1] = grid[row2][col2];
-            grid[row2][col2] = tmp;
-            return true;
+    // swap on 1 column
+    boolean swapTiles(int row, int col) {
+
+        if(grid[row][col] == null || grid[row - 1][col] == null ||
+                grid[row][col] == grid[row - 1][col]) {
+            return false; // if either tile is empty or they have same color - no need to swap
         }
-        return false; // tiles are not adjacent.
+        TileEntity tmp = grid[row-1][col];
+        grid[row - 1][col] = grid[row][col];
+        grid[row][col] = tmp;
+        return true;
     }
 
 
