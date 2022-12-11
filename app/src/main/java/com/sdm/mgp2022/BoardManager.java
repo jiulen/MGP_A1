@@ -81,6 +81,7 @@ public class BoardManager {
                 for(int j = 0; j < numCols; ++j) {
                     if(isBeginningOfSequence(i, j) || isEndOfSequence(i, j)) {
                         boardReady = false;
+                        grid[i][j].SetIsDone(true);
                         grid[i][j] = TileEntity.Create(randomTile(), width,width * (j + 0.5f), width * (i + 0.5f) - width);
                     }
                 }
@@ -270,7 +271,12 @@ public class BoardManager {
         for(int j = 0; j < numCols; ++j) {
             if(grid[0][j] == null && grid[1][j] == null) {
                 dropped = true;
-                grid[0][j] = TileEntity.Create(randomTile(), width,width * (j + 0.5f), width * (0.5f) - width);
+
+                do {
+                    if (grid[0][j] != null)
+                        grid[0][j].SetIsDone(true);
+                    grid[0][j] = TileEntity.Create(randomTile(), width,width * (j + 0.5f), width * (0.5f) - width);
+                } while (isBeginningOfSequence(0, j) || isEndOfSequence(0, j));
             }
         }
         return dropped;
@@ -448,15 +454,15 @@ public class BoardManager {
 
     // change to 4
     boolean isBeginningOfSequence(int i, int j) {
-        if (j >= 0 && j < numCols-3 && grid[i][j] != null && grid[i][j+1] != null && grid[i][j+2] != null && grid[i][j+3] != null)
+        if (j >= 0 && j < numCols-1 && grid[i][j] != null && grid[i][j+1] != null/* && grid[i][j+2] != null && grid[i][j+3] != null*/)
         {
-            if (grid[i][j].tileType == grid[i][j+1].tileType && grid[i][j].tileType == grid[i][j+2].tileType && grid[i][j].tileType == grid[i][j+3].tileType)
+            if (grid[i][j].tileType == grid[i][j+1].tileType/* && grid[i][j].tileType == grid[i][j+2].tileType && grid[i][j].tileType == grid[i][j+3].tileType*/)
                 return true; //continue if false
         }
 
-        if (i >= 0 && i < numRows-3 && grid[i][j] != null && grid[i+1][j] != null && grid[i+2][j] != null && grid[i+3][j] != null)
+        if (i >= 0 && i < numRows - 2 && grid[i][j] != null && grid[i+1][j] != null/* && grid[i+2][j] != null && grid[i+3][j] != null*/)
         {
-            if (grid[i][j].tileType == grid[i+1][j].tileType && grid[i][j].tileType == grid[i+2][j].tileType && grid[i][j].tileType == grid[i+3][j].tileType)
+            if (grid[i][j].tileType == grid[i+1][j].tileType/* && grid[i][j].tileType == grid[i+2][j].tileType && grid[i][j].tileType == grid[i+3][j].tileType*/)
                 return true; //continue if false
         }
 
@@ -465,15 +471,15 @@ public class BoardManager {
 
 
     boolean isEndOfSequence(int i,int j) {
-        if (j < numCols && j>=3 && grid[i][j] != null && grid[i][j-1] != null && grid[i][j-2] != null && grid[i][j-3] != null)
+        if (j < numCols && j>=1 && grid[i][j] != null && grid[i][j-1] != null/* && grid[i][j-2] != null && grid[i][j-3] != null*/)
         {
-            if (grid[i][j-1].tileType == grid[i][j].tileType && grid[i][j-2].tileType == grid[i][j].tileType && grid[i][j-3].tileType == grid[i][j].tileType)
+            if (grid[i][j-1].tileType == grid[i][j].tileType/* && grid[i][j-2].tileType == grid[i][j].tileType && grid[i][j-3].tileType == grid[i][j].tileType*/)
                 return true; //continue if false
         }
 
-        if (i < numRows && i>=3 && grid[i][j] != null && grid[i-1][j] != null && grid[i-2][j] != null && grid[i-3][j] != null)
+        if (i < numRows - 1 && i>=1 && grid[i][j] != null && grid[i-1][j] != null/* && grid[i-2][j] != null && grid[i-3][j] != null*/)
         {
-            if (grid[i-1][j].tileType == grid[i][j].tileType && grid[i-2][j].tileType == grid[i][j].tileType && grid[i-3][j].tileType == grid[i][j].tileType)
+            if (grid[i-1][j].tileType == grid[i][j].tileType/* && grid[i-2][j].tileType == grid[i][j].tileType && grid[i-3][j].tileType == grid[i][j].tileType*/)
                 return true; //continue if false
         }
 
