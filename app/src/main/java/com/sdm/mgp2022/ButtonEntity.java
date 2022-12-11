@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.view.SurfaceView;
-import android.widget.Button;
 
 public class ButtonEntity implements EntityBase {
 
@@ -19,6 +18,7 @@ public class ButtonEntity implements EntityBase {
     private Bitmap bmp, scaledBmp = null;
 
     public boolean isDown = false;
+    public boolean isUp = true;
 
     public boolean IsDone() {
         return isDone;
@@ -40,26 +40,24 @@ public class ButtonEntity implements EntityBase {
     }
 
     public void Update(float _dt){
-        if (TouchManager.Instance.IsDown())
+        if (TouchManager.Instance.HasTouch())
         {
-            if (!isDown)
+            if (!isDown && isUp)
             {
                 if (Collision.SphereToSphere(TouchManager.Instance.GetPosX(), TouchManager.Instance.GetPosY(),
-                        0.0f, xPos, yPos, width * 0.5f))
-                {
+                        0.0f, xPos, yPos, width * 0.5f)) {
                     isDown = true;
-                    System.out.println("ISDOWN");
-                }
-                else
-                {
-                    isDown = false;
+                    isUp = false;
                 }
             }
+
         }
         else
         {
             isDown = false;
+            isUp = true;
         }
+
     }
 
     public void Render(Canvas _canvas)
