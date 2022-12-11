@@ -10,8 +10,8 @@ public class LayerConstants {
     public final static int RENDERSMURF_LAYER = 1;
     public final static int RENDERTEXT_LAYER = 2;
     public final static int PAUSEBUTTON_LAYER = 3;
+    public final static int PLAYER_LAYER = 99;
     public final static int GAMEOBJECTS_LAYER = 100;
-    public final static int PLAYER_LAYER = 200;
     public final static int UIBG_LAYER = 999;
     public final static int UI_LAYER = 1000;
 }

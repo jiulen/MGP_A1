@@ -199,7 +199,7 @@ public class BoardManager {
             {
                 selectedTile = grid[i][col];
                 grid[12][col] = selectedTile;
-                grid[12][col].SetPosY(grid[12][col].GetWidth() * (-12 + 0.5f));
+                grid[12][col].SetPosY(grid[12][col].GetWidth() * (10.5f));
                 grid[12][col].SetPosX(grid[i][col].GetWidth() * (col + 0.5f));
                 grid[i][col] = null;
                 return true;
