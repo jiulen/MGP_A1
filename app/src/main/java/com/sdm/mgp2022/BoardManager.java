@@ -173,6 +173,7 @@ public class BoardManager {
 
     void moveTilesDownGrid(int level,int width,float dt)
     {
+        boolean lost = false;
         for (int i = 10; i >= 0 ; --i)
         {
             for (int j = 0; j < numCols; ++j)
@@ -198,10 +199,13 @@ public class BoardManager {
                 }
                 else
                 {
-                    boardState = boardStates.LOSE;
+                    lost = true;
                 }
             }
         }
+
+        if (lost)
+            boardState = boardStates.LOSE;
     }
 
     public final boolean selectTile(int col)
