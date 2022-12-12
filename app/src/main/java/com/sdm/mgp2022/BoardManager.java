@@ -280,10 +280,10 @@ public class BoardManager {
                 dropped = true;
 
                 do {
-                    if (grid[0][j] != null)
-                        grid[0][j].SetIsDone(true);
-                    grid[0][j] = TileEntity.Create(randomTile(), width,width * (j + 0.5f), width * (0.5f) - width);
-                } while (isBeginningOfSequenceForZero(j) || isEndOfSequenceForZero(j));
+                    if (grid[1][j] != null)
+                        grid[1][j].SetIsDone(true);
+                    grid[1][j] = TileEntity.Create(randomTile(), width,width * (j + 0.5f), width * (0.5f) - width);
+                } while (isBeginningOfSequence(1, j) || isEndOfSequence(1, j));
             }
         }
         return dropped;
@@ -349,7 +349,7 @@ public class BoardManager {
                                     new TileSequence(grid[i][j].tileType,
                                             TileSequence.Orientation.HORIZONTAL,
                                             i,
-                                            j - (curMatchLen - 2), // Start column position for the sequence
+                                            j - (curMatchLen - 1), // Start column position for the sequence
                                             curMatchLen));
                         }
                         curMatchLen = 1;
@@ -362,7 +362,7 @@ public class BoardManager {
                                 new TileSequence(grid[i][j].tileType,
                                         TileSequence.Orientation.HORIZONTAL,
                                         i,
-                                        j - (curMatchLen - 2), // Start column position for the sequence
+                                        j - (curMatchLen - 1), // Start column position for the sequence
                                         curMatchLen));
                     }
                     curMatchLen = 1;
@@ -384,7 +384,7 @@ public class BoardManager {
         curMatchLen = 1;
         for (int j = 0; j < numCols; ++j) {
             curMatchLen = 1;
-            for (int i = 0; i < numRows - 1; ++i) {
+            for (int i = 0; i < numRows - 2; ++i) {
                 if (grid[i][j] == null) {
                     curMatchLen = 1;
                     continue;
@@ -401,7 +401,7 @@ public class BoardManager {
                             matchingSequences.add(
                                     new TileSequence(grid[i][j].tileType,
                                             TileSequence.Orientation.VERTICAL,
-                                            i - (curMatchLen - 2), // Start row position for the sequence
+                                            i - (curMatchLen - 1), // Start row position for the sequence
                                             j,
                                             curMatchLen));
                         }
@@ -414,7 +414,7 @@ public class BoardManager {
                         matchingSequences.add(
                                 new TileSequence(grid[i][j].tileType,
                                         TileSequence.Orientation.VERTICAL,
-                                        i - (curMatchLen - 2), // Start row position for the sequence
+                                        i - (curMatchLen - 1), // Start row position for the sequence
                                         j,
                                         curMatchLen));
                     }
@@ -427,7 +427,7 @@ public class BoardManager {
                 matchingSequences.add(
                         new TileSequence(grid[numRows - 1][j].tileType,
                                 TileSequence.Orientation.VERTICAL,
-                                numRows - curMatchLen, // Start row position for the sequence
+                                numRows - 1 - curMatchLen, // Start row position for the sequence
                                 j,
                                 curMatchLen));
             }
@@ -464,9 +464,9 @@ public class BoardManager {
                 return true; //continue if false
         }
 
-        if (i >= 0 && i < numRows-3 && grid[i][j] != null && grid[i+1][j] != null)
+        if (i >= 0 && i < numRows-3 && grid[i][j] != null && grid[i+1][j] != null && grid[i+2][j] != null && grid[i+3][j] != null)
         {
-            if (grid[i][j].tileType == grid[i+1][j].tileType)
+            if (grid[i][j].tileType == grid[i+1][j].tileType && grid[i][j].tileType == grid[i+2][j].tileType && grid[i][j].tileType == grid[i+3][j].tileType)
                 return true; //continue if false
         }
 
@@ -481,39 +481,39 @@ public class BoardManager {
                 return true; //continue if false
         }
 
-        if (i < numRows-2 && i>=3 && grid[i][j] != null && grid[i-1][j] != null)
+        if (i < numRows-2 && i>=3 && grid[i][j] != null && grid[i-1][j] != null && grid[i-2][j] != null && grid[i-3][j] != null)
         {
-            if (grid[i-1][j].tileType == grid[i][j].tileType)
+            if (grid[i-1][j].tileType == grid[i][j].tileType && grid[i-2][j].tileType == grid[i][j].tileType && grid[i-3][j].tileType == grid[i][j].tileType)
                 return true; //continue if false
         }
 
         return false; //false if both is true
     }
 
-    boolean isBeginningOfSequenceForZero(int j) //row always 0 for this (only use for spawning at row=0)
-    {
-        if (j >= 0 && j < numCols-3 && grid[0][j] != null && grid[0][j+1] != null && grid[0][j+2] != null && grid[0][j+3] != null)
-        {
-            if (grid[0][j].tileType == grid[0][j+1].tileType && grid[0][j].tileType == grid[0][j+2].tileType && grid[0][j].tileType == grid[0][j+3].tileType)
-                return true; //continue if false
-        }
-
-        if (grid[0][j] != null && grid[2][j] != null)
-        {
-            if (grid[0][j].tileType == grid[2][j].tileType)
-                return true; //continue if false
-        }
-
-        return false; //false if both is true
-    }
-
-    boolean isEndOfSequenceForZero(int j) {
-        if (j < numCols && j>=3 && grid[0][j] != null && grid[0][j-1] != null && grid[0][j-2] != null && grid[0][j-3] != null)
-        {
-            if (grid[0][j-1].tileType == grid[0][j].tileType && grid[0][j-2].tileType == grid[0][j].tileType && grid[0][j-3].tileType == grid[0][j].tileType)
-                return true; //continue if false
-        }
-
-        return false; //false if both is true
-    }
+//    boolean isBeginningOfSequenceForZero(int j) //row always 0 for this (only use for spawning at row=0)
+//    {
+//        if (j >= 0 && j < numCols-3 && grid[0][j] != null && grid[0][j+1] != null && grid[0][j+2] != null && grid[0][j+3] != null)
+//        {
+//            if (grid[0][j].tileType == grid[0][j+1].tileType && grid[0][j].tileType == grid[0][j+2].tileType && grid[0][j].tileType == grid[0][j+3].tileType)
+//                return true; //continue if false
+//        }
+//
+//        if (grid[0][j] != null && grid[2][j] != null)
+//        {
+//            if (grid[0][j].tileType == grid[2][j].tileType)
+//                return true; //continue if false
+//        }
+//
+//        return false; //false if both is true
+//    }
+//
+//    boolean isEndOfSequenceForZero(int j) {
+//        if (j < numCols && j>=3 && grid[0][j] != null && grid[0][j-1] != null && grid[0][j-2] != null && grid[0][j-3] != null)
+//        {
+//            if (grid[0][j-1].tileType == grid[0][j].tileType && grid[0][j-2].tileType == grid[0][j].tileType && grid[0][j-3].tileType == grid[0][j].tileType)
+//                return true; //continue if false
+//        }
+//
+//        return false; //false if both is true
+//    }
 }
