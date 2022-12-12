@@ -17,7 +17,7 @@ public class FPSTextEntity implements EntityBase{
 
     // Paint object
     Paint paint = new Paint();
-    private int red = 0, green = 0, blue = 0;
+    private int red = 255, green = 255, blue = 255;
 
     // Define how to use my own font type
     Typeface myFont;
