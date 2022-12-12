@@ -125,20 +125,28 @@ public class MainGameSceneState implements StateBase {
 
         board.updateBoard(level, tileWidth, _dt);
 
-        //Update UI texts (maybe should only do this when the value change)
-        //scoreText.text = String.format("%09d", player.score);
-        //levelText.text = "Level " + level;
+        //Update UI texts
+        scoreText.text = String.format("%09d", player.score);
+        levelText.text = "Level " + level;
 
         if (leftButton.isDown)
         {
             player.MoveLeft();
             board.setPlayerCol(player.column);
+            if (board.selectedTile != null)
+            {
+                board.selectedTile.SetPosX(player.xPos);
+            }
             leftButton.isDown = false;
         }
         else if (rightButton.isDown)
         {
             player.MoveRight();
             board.setPlayerCol(player.column);
+            if (board.selectedTile != null)
+            {
+                board.selectedTile.SetPosX(player.xPos);
+            }
             rightButton.isDown = false;
         }
 

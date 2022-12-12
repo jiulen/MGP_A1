@@ -40,7 +40,7 @@ public class BoardManager {
 
     public TileEntity [][] grid = new TileEntity[numRows][numCols];
 
-    TileEntity selectedTile = null;
+    public TileEntity selectedTile = null;
 
     void setButtonDownA(boolean state)
     {
@@ -92,7 +92,6 @@ public class BoardManager {
 
     void updateBoard(int level, int width, float dt)
     {
-
         if(!lose)
         {
             switch (boardState)
@@ -212,13 +211,27 @@ public class BoardManager {
     }
     public final boolean dropTile(int col)
     {
-        for(int i = 1; i < 11; i++)
+//        for(int i = 1; i < 11; i++)
+//        {
+//            if(grid[i][col] == null)
+//            {
+//                grid[i][col] = selectedTile;
+//                grid[i][col].SetPosY((grid[i][col].GetWidth() * i) - yoffset);
+//                grid[i][col].SetPosX(grid[i][col].GetWidth() * (col + 0.5f));
+//                selectedTile = null;
+//                for (int j = 0; j < numCols; j++)
+//                    grid[12][j] = null;
+//                return true;
+//            }
+//        }
+//        return false;
+
+        for (int i = 10; i >= 1 ; --i)
         {
-            if(grid[i][col] == null)
+            if(grid[i][col] != null)
             {
-                grid[i][col] = selectedTile;
-                grid[i][col].SetPosY((grid[i][col].GetWidth() * i) - yoffset);
-                grid[i][col].SetPosX(grid[i][col].GetWidth() * (col + 0.5f));
+                grid[i+1][col] = selectedTile;
+                grid[i+1][col].SetPosY((grid[i][col].GetPosY() + selectedTile.GetWidth()));
                 selectedTile = null;
                 for (int j = 0; j < numCols; j++)
                     grid[12][j] = null;

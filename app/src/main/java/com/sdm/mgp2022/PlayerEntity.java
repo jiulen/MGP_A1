@@ -12,7 +12,7 @@ public class PlayerEntity implements EntityBase {
     private boolean isDone = false;
     private boolean isInit = false;
 
-    private float xPos, yPos = 0;
+    public float xPos, yPos = 0;
     private int width, height = 0;
 
     private int tileWidth = 0;
