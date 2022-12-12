@@ -165,6 +165,7 @@ public class BoardManager {
                         clearTime += dt;
                     else {
                         //Clear tiles
+                        clearedTiles();
                         clearTime = 0;
                         boardState = boardStates.GRAVITATE;
                     }
@@ -172,7 +173,7 @@ public class BoardManager {
                 }
                 case GRAVITATE: {
                     gravitateBoardStep();
-                    boardState = boardStates.LOSE;
+                    boardState = boardStates.CHECKSEQ;
                     break;
                 }
                 case LOSE: {
@@ -253,18 +254,7 @@ public class BoardManager {
         }
         return false;
     }
-//    public final boolean hasSequencesProximity(int row, int col) {
-//        // Check if one of the tiles to the left/above the current tile is a beginning of a sequence (and perhaps involving
-//        // the current tile)
-//        for(int i = Math.max(row-1, 0); i < Math.min(row+2, numRows); ++i) {
-//            for (int j = Math.max(col-1, 0); j < Math.min(col+2, numCols); ++j) {
-//                if (isBeginningOfSequence(i, j) || isEndOfSequence(i, j)) {
-//                    return true;
-//                }
-//            }
-//        }
-//        return false;
-//    }
+
 
     boolean gravitateBoardStep() {
         boolean toGravitate = false;
@@ -325,6 +315,25 @@ public class BoardManager {
         return false;
     }
 
+    int clearedTiles(){
+        int cleared = 0;
+        for(int i = 1; i < numRows; ++i)
+        {
+            for(int j = 0; j< numCols; ++j)
+            {
+                if(grid[i][j] != null)
+                {
+                    if(grid[i][j].isAttack == true)
+                    {
+                        grid[i][j].SetIsDone(true);
+                        grid[i][j] = null;
+                        cleared++;
+                    }
+                }
+            }
+        }
+        return cleared;
+    }
     boolean markAllSequencesOnBoard() {
         if (!findAllSequences()) {
             return false;
