@@ -239,29 +239,27 @@ public class BoardManager {
     }
 
     boolean gravitateBoardStep() {
-        boolean found = false;
-        for(int j = 0; j < numCols; ++j) {
-            /// Gravitate up until the first row.
-            for(int i = numRows - 1; i >0 ; --i) {
-                if(grid[i][j] == null) {
-                    // Found empty tile - move all tiles above it back.
-                    for(int k = i; k > 0; --k) {
-                        if(grid[k][j] != null) {
+        boolean toGravitate = false;
+        for (int j = 0; j < numCols; ++j) {
+            for (int i = 11; i > 0; ++i) {
+                // check if there is an empty space
+                if (grid[i][j] == null) {
+                    // if found, index it, check if there are tiles above empty space
+                    for (int k = i; k < 11; k++) {
+                        if (grid[k][j] != null) {
                             // Moved back a non-empty tile - board no gravity
                             float prevpos = grid[k][j].GetPosY();
-                            grid[k-1][j] = grid[k][j];
+                            grid[k - 1][j] = grid[k][j];
                             grid[k][j] = null;
-                            grid[k-1][j].SetPosY(prevpos - grid[k-1][j].GetWidth());
+                            grid[k - 1][j].SetPosY(prevpos - grid[k - 1][j].GetWidth());
 
-                            found = true;
+                            toGravitate = true;
                         }
-
                     }
-                    break;
                 }
             }
         }
-        return found;
+        return toGravitate;
     }
 
     boolean dropNewTilesRow(int width) {
