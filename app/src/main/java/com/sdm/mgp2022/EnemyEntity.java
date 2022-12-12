@@ -51,7 +51,7 @@ public class EnemyEntity implements EntityBase {
     public void Init(SurfaceView _view)
     {
         //For name
-        enemyNameText = TextEntity.Create(xPos, yPos - width * 0.6f, 0, 0, 0, 50, Paint.Align.CENTER);
+        enemyNameText = TextEntity.Create(xPos, yPos - width * 0.6f, 255, 255, 255, 50, Paint.Align.CENTER);
         enemyNameText.text = "Home";
         //For background of bitmap
         bgPaint.setARGB(255, 0, 0, 0);
@@ -69,12 +69,12 @@ public class EnemyEntity implements EntityBase {
 //        scaledBmps[2] = Bitmap.createScaledBitmap(bmps[2], width, width, true);
 //        scaledBmps[3] = Bitmap.createScaledBitmap(bmps[3], width, width, true);
         //For health bar
-        hpName = TextEntity.Create(xPos, yPos + width * 0.7f, 0, 0, 0, 50, Paint.Align.CENTER);
+        hpName = TextEntity.Create(xPos, yPos + width * 0.7f, 255, 255, 255, 50, Paint.Align.CENTER);
         hpName.text = "Health";
         hpPaint.setARGB(255, 255, 0, 0);
         hpPosY = yPos + width * 1.0f;
         //For attack bar
-        atkName = TextEntity.Create(xPos, yPos + width * 1.4f, 0, 0, 0, 50, Paint.Align.CENTER);
+        atkName = TextEntity.Create(xPos, yPos + width * 1.4f, 255, 255, 255, 50, Paint.Align.CENTER);
         atkName.text = "Attack";
         atkPaint.setARGB(255, 0, 0, 255);
         atkPosY = yPos + width * 1.7f;

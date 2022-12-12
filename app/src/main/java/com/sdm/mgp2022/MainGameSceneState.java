@@ -72,13 +72,13 @@ public class MainGameSceneState implements StateBase {
                                             0,tileWidth * 12, ScreenWidth, tileWidth * 12 + 10);
         //UI Buttons (set initial position based on width)
         aButton = ButtonEntity.Create(R.drawable.a_button, ScreenWidth / 5, ScreenWidth / 5,
-                ScreenWidth / 10 * 7 - 10, ScreenHeight - ScreenWidth / 10 - 20);
+                ScreenWidth / 10 * 7 - 20, ScreenHeight - ScreenWidth / 10 - 20);
         bButton = ButtonEntity.Create(R.drawable.b_button, ScreenWidth / 5, ScreenWidth / 5,
-                ScreenWidth / 10 * 9 - 10, ScreenHeight - ScreenWidth / 10 * 3 - 20);
+                ScreenWidth / 10 * 9 - 20, ScreenHeight - ScreenWidth / 10 * 3 - 20);
         leftButton = ButtonEntity.Create(R.drawable.left_button, ScreenWidth / 5, ScreenWidth / 5,
-                ScreenWidth / 10 + 50, ScreenHeight - ScreenWidth / 10 - 20);
+                ScreenWidth / 10 + 50, ScreenHeight - ScreenWidth / 5 - 10);
         rightButton = ButtonEntity.Create(R.drawable.right_button, ScreenWidth / 5, ScreenWidth / 5,
-                ScreenWidth / 10 * 3 + 100, ScreenHeight - ScreenWidth / 10 - 20);
+                ScreenWidth / 10 * 3 + 100, ScreenHeight - ScreenWidth / 5 - 10);
 
         //PauseButtonEntity.Create();
 
@@ -92,14 +92,12 @@ public class MainGameSceneState implements StateBase {
         //Enemy
         enemy = EnemyEntity.Create((int)(ScreenWidth / 9 * 7.5), (int)(ScreenWidth / 9 * 2.5), (int)(ScreenWidth / 9 * 2));
         //More text
-        scoreTitleText = TextEntity.Create((int)(ScreenWidth / 9 * 7.5), (int)(ScreenWidth / 9 * 8.5), 0, 0, 0, 50, Paint.Align.CENTER);
+        scoreTitleText = TextEntity.Create((int)(ScreenWidth / 9 * 7.5), (int)(ScreenWidth / 9 * 8.5), 255, 255, 255, 50, Paint.Align.CENTER);
         scoreTitleText.text = "Score";
-        scoreText = TextEntity.Create((int)(ScreenWidth / 9 * 7.5), (int)(ScreenWidth / 9 * 9), 0, 0, 0, 50, Paint.Align.CENTER);
+        scoreText = TextEntity.Create((int)(ScreenWidth / 9 * 7.5), (int)(ScreenWidth / 9 * 9), 255, 255, 255, 50, Paint.Align.CENTER);
         scoreText.text = String.format("%09d", player.score);
-        levelText = TextEntity.Create((int)(ScreenWidth / 9 * 7.5), (int)(ScreenWidth / 9 * 11), 0, 0, 0, 50, Paint.Align.CENTER);
+        levelText = TextEntity.Create((int)(ScreenWidth / 9 * 7.5), (int)(ScreenWidth / 9 * 11), 255, 255, 255, 50, Paint.Align.CENTER);
         levelText.text = "Level " + level;
-
-        //UI Other
 
         board.fillBoard(tileWidth);
         board.setPlayerCol(player.column);
