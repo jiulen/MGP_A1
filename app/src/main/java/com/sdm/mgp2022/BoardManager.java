@@ -42,6 +42,9 @@ public class BoardManager {
 
     public TileEntity selectedTile = null;
 
+    private final float clearDelay = 0.2f;
+    private float clearTime = 0;
+
     void setButtonDownA(boolean state)
     {
         aButtonDown = state;
@@ -147,14 +150,24 @@ public class BoardManager {
                         boardState = boardStates.READY;
                     else
                     {
-                        System.out.println(matchingSequences.size());
-                        boardState = boardStates.GRAVITATE;
+                        clearTime = 0;
+                        boardState = boardStates.CLEARING;
                     }
                     break;
                 }
                 case GENERATE: {
                     dropNewTilesRow(width);
                     boardState = boardStates.READY;
+                    break;
+                }
+                case CLEARING: {
+                    if (clearTime < clearDelay)
+                        clearTime += dt;
+                    else {
+                        //Clear tiles
+                        clearTime = 0;
+                        boardState = boardStates.GRAVITATE;
+                    }
                     break;
                 }
                 case GRAVITATE: {
@@ -445,7 +458,6 @@ public class BoardManager {
                  j < sequence.getStartCol() + sequence.getSize();
                  ++j)
             {
-                System.out.println(sequence.getStartRow() + " " + j);
                 grid[sequence.getStartRow()][j].isAttack = true;
             }
         }
