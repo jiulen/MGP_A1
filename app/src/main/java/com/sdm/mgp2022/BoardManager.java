@@ -45,6 +45,9 @@ public class BoardManager {
     private final float clearDelay = 0.2f;
     private float clearTime = 0;
 
+    public int clearedTilesNum = 0;
+    public boolean attackSent = true;
+
     void setButtonDownA(boolean state)
     {
         aButtonDown = state;
@@ -133,6 +136,10 @@ public class BoardManager {
                     {
                         System.out.println("Invalid drop location");
                     }
+                    else
+                    {
+                        clearedTilesNum = 0; //only need reset clearedTiles when tile added/moved
+                    }
                     boardState = boardStates.CHECKSEQ;
                     break;
                 }
@@ -141,13 +148,21 @@ public class BoardManager {
                     {
                         System.out.println("Invalid swap");
                     }
+                    else
+                    {
+                        clearedTilesNum = 0; //only need reset clearedTiles when tile added/moved
+                    }
+
                     boardState = boardStates.CHECKSEQ;
                     break;
                 }
                 // if no sequences change board to ready
                 case CHECKSEQ: {
                     if (!markAllSequencesOnBoard())
+                    {
+                        attackSent = false;
                         boardState = boardStates.READY;
+                    }
                     else
                     {
                         clearTime = 0;
@@ -165,7 +180,7 @@ public class BoardManager {
                         clearTime += dt;
                     else {
                         //Clear tiles
-                        clearedTiles();
+                        clearedTilesNum += clearedTiles();
                         clearTime = 0;
                         boardState = boardStates.GRAVITATE;
                     }

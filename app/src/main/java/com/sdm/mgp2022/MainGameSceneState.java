@@ -123,6 +123,21 @@ public class MainGameSceneState implements StateBase {
 
         board.updateBoard(level, tileWidth, _dt);
 
+        if (!board.attackSent)
+        {
+            if (board.clearedTilesNum > 0)
+            {
+                //Send attack if attack not sent yet
+                System.out.println("Attack: " + board.clearedTilesNum);
+                //Damage enemy
+                enemy.health -= (board.clearedTilesNum - 4); //first 4 tiles cleared not counted towards player damage
+                //Get points
+                player.score += (board.clearedTilesNum * 200 - 400); //Simplified from this: board.clearedTilesNum * 100 + (board.clearedTilesNum - 4) * 100
+            }
+
+            board.attackSent = true; //Set attackSent back to true
+        }
+
         //Update UI texts
         scoreText.text = String.format("%09d", player.score);
         levelText.text = "Level " + level;
