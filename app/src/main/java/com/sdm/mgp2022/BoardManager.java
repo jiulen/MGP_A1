@@ -146,7 +146,10 @@ public class BoardManager {
                     if (!markAllSequencesOnBoard())
                         boardState = boardStates.READY;
                     else
+                    {
+                        System.out.println(matchingSequences.size());
                         boardState = boardStates.GRAVITATE;
+                    }
                     break;
                 }
                 case GENERATE: {
@@ -181,7 +184,7 @@ public class BoardManager {
                     if (grid[i][j] != null)
                     {
                         float prevpos = grid[i][j].GetPosY();
-                        float newpos = prevpos + (level * 50 * dt);
+                        float newpos = prevpos + (level * 20 * dt);
                         grid[i][j].SetPosY(newpos);
                         yoffset = width - (newpos % width);
                         if((grid[i][j].GetPosY() + grid[i][j].GetWidth() * 0.5) / grid[i][j].GetWidth() > i)
@@ -233,18 +236,18 @@ public class BoardManager {
         }
         return false;
     }
-    public final boolean hasSequencesProximity(int row, int col) {
-        // Check if one of the tiles to the left/above the current tile is a beginning of a sequence (and perhaps involving
-        // the current tile)
-        for(int i = Math.max(row-1, 0); i < Math.min(row+2, numRows); ++i) {
-            for (int j = Math.max(col-1, 0); j < Math.min(col+2, numCols); ++j) {
-                if (isBeginningOfSequence(i, j) || isEndOfSequence(i, j)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
+//    public final boolean hasSequencesProximity(int row, int col) {
+//        // Check if one of the tiles to the left/above the current tile is a beginning of a sequence (and perhaps involving
+//        // the current tile)
+//        for(int i = Math.max(row-1, 0); i < Math.min(row+2, numRows); ++i) {
+//            for (int j = Math.max(col-1, 0); j < Math.min(col+2, numCols); ++j) {
+//                if (isBeginningOfSequence(i, j) || isEndOfSequence(i, j)) {
+//                    return true;
+//                }
+//            }
+//        }
+//        return false;
+//    }
 
     boolean gravitateBoardStep() {
         boolean toGravitate = false;
@@ -333,19 +336,33 @@ public class BoardManager {
                     curMatchLen = 1;
                     continue;
                 }
-
-                // Found a sequence of same tiles in a row of length 2 at least.
-                if (grid[i][j] == grid[i][j + 1]) {
-                    curMatchLen++;
+                if(grid[i][j+1] != null)
+                {
+                    // Found a sequence of same tiles in a row of length 2 at least.
+                    if (grid[i][j].tileType == grid[i][j + 1].tileType) {
+                        curMatchLen++;
+                    }
+                    else {
+                        // match sequence broken - check if previous sequence was more than 3
+                        if (curMatchLen >= 4) {
+                            matchingSequences.add(
+                                    new TileSequence(grid[i][j].tileType,
+                                            TileSequence.Orientation.HORIZONTAL,
+                                            i,
+                                            j - (curMatchLen - 2), // Start column position for the sequence
+                                            curMatchLen));
+                        }
+                        curMatchLen = 1;
+                    }
                 }
                 else {
                     // match sequence broken - check if previous sequence was more than 3
-                    if (curMatchLen >= 3) {
+                    if (curMatchLen >= 4) {
                         matchingSequences.add(
                                 new TileSequence(grid[i][j].tileType,
                                         TileSequence.Orientation.HORIZONTAL,
                                         i,
-                                        j - (curMatchLen - 1), // Start column position for the sequence
+                                        j - (curMatchLen - 2), // Start column position for the sequence
                                         curMatchLen));
                     }
                     curMatchLen = 1;
@@ -353,7 +370,7 @@ public class BoardManager {
             }
 
             // Found a match up until the last item in current row.
-            if (curMatchLen >= 3) {
+            if (curMatchLen >= 4) {
                 matchingSequences.add(
                         new TileSequence(grid[i][numCols - 1].tileType,
                                 TileSequence.Orientation.HORIZONTAL,
@@ -372,18 +389,32 @@ public class BoardManager {
                     curMatchLen = 1;
                     continue;
                 }
-
-                // Found a sequence of same tiles in a row of length 2 at least.
-                if (grid[i][j] == grid[i + 1][j]) {
-                    curMatchLen++;
+                if (grid[i + 1][j] != null)
+                {
+                    // Found a sequence of same tiles in a row of length 2 at least.
+                    if (grid[i][j].tileType == grid[i + 1][j].tileType) {
+                        curMatchLen++;
+                    }
+                    else {
+                        // match sequence broken - check if previous sequence was more than 3
+                        if (curMatchLen >= 4) {
+                            matchingSequences.add(
+                                    new TileSequence(grid[i][j].tileType,
+                                            TileSequence.Orientation.VERTICAL,
+                                            i - (curMatchLen - 2), // Start row position for the sequence
+                                            j,
+                                            curMatchLen));
+                        }
+                        curMatchLen = 1;
+                    }
                 }
                 else {
                     // match sequence broken - check if previous sequence was more than 3
-                    if (curMatchLen >= 3) {
+                    if (curMatchLen >= 4) {
                         matchingSequences.add(
                                 new TileSequence(grid[i][j].tileType,
                                         TileSequence.Orientation.VERTICAL,
-                                        i - (curMatchLen - 1), // Start row position for the sequence
+                                        i - (curMatchLen - 2), // Start row position for the sequence
                                         j,
                                         curMatchLen));
                     }
@@ -392,7 +423,7 @@ public class BoardManager {
             }
 
             // Found a match up until the last item in current row.
-            if (curMatchLen >= 3) {
+            if (curMatchLen >= 4) {
                 matchingSequences.add(
                         new TileSequence(grid[numRows - 1][j].tileType,
                                 TileSequence.Orientation.VERTICAL,
@@ -411,6 +442,7 @@ public class BoardManager {
                  j < sequence.getStartCol() + sequence.getSize();
                  ++j)
             {
+                System.out.println(sequence.getStartRow() + " " + j);
                 grid[sequence.getStartRow()][j].isAttack = true;
             }
         }

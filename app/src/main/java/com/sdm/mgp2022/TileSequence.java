@@ -18,8 +18,8 @@ public class TileSequence {
     TileSequence(TileEntity.TILE_TYPES type, Orientation orientation, int startRow, int startCol, int size)
     {
         s_orientation = orientation;
-        col = col;
-        row = row;
+        col = startCol;
+        row = startRow;
         s_size = size;
         typeid = type;
     }
