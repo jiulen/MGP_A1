@@ -110,6 +110,11 @@ public class BoardManager {
                         }
                         aButtonDown = false;
                     }
+                    if (bButtonDown)
+                    {
+                        boardState = boardStates.SWAP;
+                        bButtonDown = false;
+                    }
                     break;
                 }
                 case SELECT: {
@@ -124,6 +129,14 @@ public class BoardManager {
                     if(!dropTile(playercol))
                     {
                         System.out.println("Invalid drop location");
+                    }
+                    boardState = boardStates.READY;
+                    break;
+                }
+                case SWAP:{
+                    if(!swapTiles(playercol))
+                    {
+                        System.out.println("Invalid swap");
                     }
                     boardState = boardStates.READY;
                     break;
@@ -178,12 +191,6 @@ public class BoardManager {
                             boardState = boardStates.GENERATE;
                         }
                     }
-//                    if(hasSequencesProximity(i, j))
-//                    {
-//                        markAllSequencesOnBoard(width);
-//                        gravitateBoardStep();
-//                        System.out.println("aaaaaaaaaaaaOSE");
-//                    }
                 }
                 else
                 {
@@ -281,16 +288,37 @@ public class BoardManager {
     }
 
     // swap on 1 column
-    boolean swapTiles(int row, int col) {
+    boolean swapTiles(int col) {
+        for(int row = 10; row > 0; --row) {
+            if (grid[row][col] != null && grid[row - 1][col] != null) {
+                if (grid[row][col].tileType != grid[row - 1][col].tileType)
+                {
+                    TileEntity tmp = grid[row-1][col];
 
-        if(grid[row][col] == null || grid[row - 1][col] == null ||
-                grid[row][col] == grid[row - 1][col]) {
-            return false; // if either tile is empty or they have same color - no need to swap
+                    grid[row - 1][col] = grid[row][col];
+                    grid[row - 1][col].SetPosY(grid[row - 1][col].GetPosY() - grid[row - 1][col].GetWidth());
+
+                    grid[row][col] = tmp;
+                    grid[row][col].SetPosY(grid[row][col].GetPosY() + grid[row][col].GetWidth());
+                }
+                return true;
+            }
         }
-        TileEntity tmp = grid[row-1][col];
-        grid[row - 1][col] = grid[row][col];
-        grid[row][col] = tmp;
-        return true;
+        return false;
+
+//        if(grid[row][col] == null || grid[row - 1][col] == null ||
+//           grid[row][col].tileType != grid[row - 1][col].tileType) {
+//            return false; // if either tile is empty or they have same color - no need to swap
+//        }
+//        TileEntity tmp = grid[row-1][col];
+//        tmp.SetPosY(grid[row][col].GetPosY()); //keep previous y
+//
+//        float oldY = grid[row - 1][col].GetPosY(); //keep previous y
+//        grid[row - 1][col] = grid[row][col];
+//        grid[row - 1][col].SetPosY(oldY);
+//
+//        grid[row][col] = tmp;
+//        return true;
     }
 
     boolean markAllSequencesOnBoard() {
