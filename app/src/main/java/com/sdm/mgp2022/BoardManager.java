@@ -419,9 +419,9 @@ public class BoardManager {
                 return true; //continue if false
         }
 
-        if (i >= 0 && i < numRows-5 && grid[i][j] != null && grid[i+1][j] != null && grid[i+2][j] != null && grid[i+3][j] != null)
+        if (i >= 0 && i < numRows-3 && grid[i][j] != null && grid[i+1][j] != null)
         {
-            if (grid[i][j].tileType == grid[i+1][j].tileType && grid[i][j].tileType == grid[i+2][j].tileType && grid[i][j].tileType == grid[i+3][j].tileType)
+            if (grid[i][j].tileType == grid[i+1][j].tileType)
                 return true; //continue if false
         }
 
@@ -436,9 +436,9 @@ public class BoardManager {
                 return true; //continue if false
         }
 
-        if (i < numRows-2 && i>=3 && grid[i][j] != null && grid[i-1][j] != null && grid[i-2][j] != null && grid[i-3][j] != null)
+        if (i < numRows-2 && i>=3 && grid[i][j] != null && grid[i-1][j] != null)
         {
-            if (grid[i-1][j].tileType == grid[i][j].tileType && grid[i-2][j].tileType == grid[i][j].tileType && grid[i-3][j].tileType == grid[i][j].tileType)
+            if (grid[i-1][j].tileType == grid[i][j].tileType)
                 return true; //continue if false
         }
 
@@ -453,9 +453,9 @@ public class BoardManager {
                 return true; //continue if false
         }
 
-        if (grid[0][j] != null && grid[2][j] != null && grid[3][j] != null && grid[4][j] != null)
+        if (grid[0][j] != null && grid[2][j] != null)
         {
-            if (grid[0][j].tileType == grid[2][j].tileType && grid[0][j].tileType == grid[3][j].tileType && grid[0][j].tileType == grid[4][j].tileType)
+            if (grid[0][j].tileType == grid[2][j].tileType)
                 return true; //continue if false
         }
 
