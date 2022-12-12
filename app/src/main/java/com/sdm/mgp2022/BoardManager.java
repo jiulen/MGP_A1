@@ -130,7 +130,7 @@ public class BoardManager {
                     {
                         System.out.println("Invalid drop location");
                     }
-                    boardState = boardStates.READY;
+                    boardState = boardStates.CHECKSEQ;
                     break;
                 }
                 case SWAP:{
@@ -138,7 +138,7 @@ public class BoardManager {
                     {
                         System.out.println("Invalid swap");
                     }
-                    boardState = boardStates.READY;
+                    boardState = boardStates.CHECKSEQ;
                     break;
                 }
                 // if no sequences change board to ready
@@ -156,6 +156,7 @@ public class BoardManager {
                 }
                 case GRAVITATE: {
                     gravitateBoardStep();
+                    boardState = boardStates.LOSE;
                     break;
                 }
                 case LOSE: {
@@ -248,7 +249,7 @@ public class BoardManager {
     boolean gravitateBoardStep() {
         boolean toGravitate = false;
         for (int j = 0; j < numCols; ++j) {
-            for (int i = 11; i > 0; ++i) {
+            for (int i = 11; i > 0; --i) {
                 // check if there is an empty space
                 if (grid[i][j] == null) {
                     // if found, index it, check if there are tiles above empty space
@@ -303,20 +304,6 @@ public class BoardManager {
             }
         }
         return false;
-
-//        if(grid[row][col] == null || grid[row - 1][col] == null ||
-//           grid[row][col].tileType != grid[row - 1][col].tileType) {
-//            return false; // if either tile is empty or they have same color - no need to swap
-//        }
-//        TileEntity tmp = grid[row-1][col];
-//        tmp.SetPosY(grid[row][col].GetPosY()); //keep previous y
-//
-//        float oldY = grid[row - 1][col].GetPosY(); //keep previous y
-//        grid[row - 1][col] = grid[row][col];
-//        grid[row - 1][col].SetPosY(oldY);
-//
-//        grid[row][col] = tmp;
-//        return true;
     }
 
     boolean markAllSequencesOnBoard() {
