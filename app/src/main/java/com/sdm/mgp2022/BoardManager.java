@@ -465,7 +465,7 @@ public class BoardManager {
             // Found a match up until the last item in current row.
             if (curMatchLen >= 4) {
                 matchingSequences.add(
-                        new TileSequence(grid[numRows - 1][j].tileType,
+                        new TileSequence(grid[numRows - 2][j].tileType,
                                 TileSequence.Orientation.VERTICAL,
                                 numRows - 1 - curMatchLen, // Start row position for the sequence
                                 j,
