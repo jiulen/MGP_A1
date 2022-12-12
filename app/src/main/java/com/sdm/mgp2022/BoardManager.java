@@ -130,7 +130,7 @@ public class BoardManager {
                 }
                 // if no sequences change board to ready
                 case CHECKSEQ: {
-                    if (!markAllSequencesOnBoard(width))
+                    if (!markAllSequencesOnBoard())
                         boardState = boardStates.READY;
                     else
                         boardState = boardStates.GRAVITATE;
@@ -211,21 +211,6 @@ public class BoardManager {
     }
     public final boolean dropTile(int col)
     {
-//        for(int i = 1; i < 11; i++)
-//        {
-//            if(grid[i][col] == null)
-//            {
-//                grid[i][col] = selectedTile;
-//                grid[i][col].SetPosY((grid[i][col].GetWidth() * i) - yoffset);
-//                grid[i][col].SetPosX(grid[i][col].GetWidth() * (col + 0.5f));
-//                selectedTile = null;
-//                for (int j = 0; j < numCols; j++)
-//                    grid[12][j] = null;
-//                return true;
-//            }
-//        }
-//        return false;
-
         for (int i = 10; i >= 1 ; --i)
         {
             if(grid[i][col] != null)
@@ -308,53 +293,14 @@ public class BoardManager {
         return true;
     }
 
-
-//    boolean hasMoreMoves() {
-//        boolean hasMove = false;
-//        // Horizontal moves - pass on every column and switch each tile with the one to its right.
-//        for(int j = 0; j < numCols-1; ++j) {
-//            for(int i = 0; i < numRows; ++i) {
-//                if(hasMove) {
-//                    return true;
-//                }
-//
-//                if(swapTiles(i, j, i, j+1)) {
-//                    if(hasSequencesProximity(i, j)) {
-//                        hasMove=true;
-//                    }
-//                    // Swap occurred - swap back to preserve board state.
-//                    swapTiles(i, j, i, j+1);
-//                }
-//            }
-//        }
-//
-//        // Vertical moves - pass on every row and switch each tile with the one to below it.
-//        for(int i = 0; i< numRows - 1; ++i) {
-//            for(int j = 0; j < numCols; ++j) {
-//                if(hasMove) {
-//                    return true;
-//                }
-//
-//                if(swapTiles(i, j, i+1, j)) {
-//                    if(hasSequencesProximity(i, j)) {
-//                        hasMove=true;
-//                    }
-//                    // Swap occurred - swap back to preserve board state.
-//                    swapTiles(i, j, i+1, j);
-//                }
-//            }
-//        }
-//        return hasMove;
-//    }
-
-    boolean markAllSequencesOnBoard(int width) {
+    boolean markAllSequencesOnBoard() {
         if (!findAllSequences()) {
             return false;
         }
 
         for ( int i = 0; i < matchingSequences.size(); i++)
         {
-            markSequenceOnBoard(matchingSequences.get(i), width);
+            markSequenceOnBoard(matchingSequences.get(i));
         }
         return true;
     }
@@ -446,7 +392,7 @@ public class BoardManager {
         return !matchingSequences.isEmpty();
     }
 
-    void markSequenceOnBoard(TileSequence sequence,int width) {
+    void markSequenceOnBoard(TileSequence sequence) {
         if (sequence.getOrientation() == TileSequence.Orientation.HORIZONTAL) {
             for (int j = sequence.getStartCol();
                  j < sequence.getStartCol() + sequence.getSize();
