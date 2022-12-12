@@ -282,7 +282,6 @@ public class BoardManager {
         for(int j = 0; j < numCols; ++j) {
             if(grid[0][j] == null && grid[1][j] == null) {
                 dropped = true;
-
                 do {
                     if (grid[1][j] != null)
                         grid[1][j].SetIsDone(true);
