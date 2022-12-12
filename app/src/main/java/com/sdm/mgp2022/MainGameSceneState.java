@@ -4,6 +4,8 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.util.DisplayMetrics;
 import android.view.SurfaceView;
 
@@ -34,8 +36,6 @@ public class MainGameSceneState implements StateBase {
     TextEntity levelText;
 
     EnemyEntity enemy;
-
-    //Add the bars
 
     //GameObjects
     PlayerEntity player;
@@ -153,13 +153,13 @@ public class MainGameSceneState implements StateBase {
         if (aButton.isDown)
         {
             //Swap tiles
-            board.setButtonDownA(aButton.isDown);
+            board.setButtonDownA(true);
             aButton.isDown = false;
         }
         if (bButton.isDown)
         {
             //Swap tiles
-            board.setButtonDownB(bButton.isDown);
+            board.setButtonDownB(true);
             bButton.isDown = false;
         }
     }

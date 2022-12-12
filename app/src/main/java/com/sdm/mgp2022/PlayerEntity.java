@@ -28,8 +28,6 @@ public class PlayerEntity implements EntityBase {
 
     public int score = 0;
 
-    private Vibrator vibrator;
-
     public boolean IsDone() {
         return isDone;
     }
@@ -51,9 +49,6 @@ public class PlayerEntity implements EntityBase {
 
         xPos = (column + 0.5f) * tileWidth;
         yPos = 11 * tileWidth; // wont change
-
-        //Setup vibrator
-        vibrator = (Vibrator)_view.getContext().getSystemService(_view.getContext().VIBRATOR_SERVICE);
 
         isInit = true;
     }
@@ -102,8 +97,6 @@ public class PlayerEntity implements EntityBase {
             xPos -= tileWidth;
             moving = true;
             currentTime = MOVE_COOLDOWN;
-
-            startVibrate();
         }
     }
 
@@ -115,17 +108,6 @@ public class PlayerEntity implements EntityBase {
             xPos += tileWidth;
             moving = true;
             currentTime = MOVE_COOLDOWN;
-
-            startVibrate();
         }
-    }
-
-    public void startVibrate()
-    {
-        vibrator.vibrate(VibrationEffect.createOneShot(150, 10));
-    }
-    public void stopVibrate()
-    {
-        vibrator.cancel();
     }
 }

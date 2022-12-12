@@ -3,6 +3,8 @@ package com.sdm.mgp2022;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.view.SurfaceView;
 
 public class ButtonEntity implements EntityBase {
@@ -20,6 +22,12 @@ public class ButtonEntity implements EntityBase {
     public boolean isDown = false;
     public boolean isUp = true;
 
+    //Vibration
+    private Vibrator vibrator;
+    public long vibrateTimeMS = 100;
+    public int amplitude = 5;
+    public boolean canVibrate = true;
+
     public boolean IsDone() {
         return isDone;
     }
@@ -36,6 +44,9 @@ public class ButtonEntity implements EntityBase {
         bmp = BitmapFactory.decodeResource(_view.getResources(), resourceID, bfo);
         scaledBmp = Bitmap.createScaledBitmap(bmp, width, height, true);
 
+        //Setup vibrator
+        vibrator = (Vibrator)_view.getContext().getSystemService(_view.getContext().VIBRATOR_SERVICE);
+
         isInit = true;
     }
 
@@ -48,6 +59,7 @@ public class ButtonEntity implements EntityBase {
                         0.0f, xPos, yPos, width * 0.5f)) {
                     isDown = true;
                     isUp = false;
+                    startVibrate();
                 }
             }
 
@@ -133,5 +145,15 @@ public class ButtonEntity implements EntityBase {
         else {
             yPos = yMinBound + height * 0.5f;
         }
+    }
+
+    public void startVibrate()
+    {
+        if (canVibrate)
+            vibrator.vibrate(VibrationEffect.createOneShot(vibrateTimeMS, amplitude));
+    }
+    public void stopVibrate()
+    {
+        vibrator.cancel();
     }
 }
