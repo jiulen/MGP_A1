@@ -18,7 +18,8 @@ public class BoardManager {
         GENERATE,
         GRAVITATE,
         CHECKSEQ,
-        LOSE
+        LOSE,
+        WIN
     }
     boardStates boardState;
 
@@ -33,8 +34,10 @@ public class BoardManager {
 
     boolean aButtonDown = false;
     boolean bButtonDown = false;
+    int enemyHealth = 25;
     int playercol = 2;
     boolean lose = false;
+    boolean win = false;
     boolean isPressed = false;
     Vector<TileSequence> matchingSequences = new Vector<TileSequence>();
 
@@ -59,6 +62,10 @@ public class BoardManager {
     void setPlayerCol(int col)
     {
         playercol = col;
+    }
+    void setEnemyHealth(int health)
+    {
+        enemyHealth = health;
     }
 
     public static TileEntity.TILE_TYPES randomTile()
@@ -98,7 +105,11 @@ public class BoardManager {
 
     void updateBoard(int level, int width, float dt)
     {
-        if(!lose)
+        if(enemyHealth <= 0)
+        {
+            boardState = boardStates.WIN;
+        }
+        if(!lose && !win)
         {
             switch (boardState)
             {
@@ -202,6 +213,11 @@ public class BoardManager {
                 case LOSE: {
                     System.out.println("LOSE");
                     lose = true;
+                    break;
+                }
+                case WIN:{
+                    System.out.println("WIN");
+                    win = true;
                     break;
                 }
             }
