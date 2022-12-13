@@ -437,7 +437,7 @@ public class BoardManager {
                         curMatchLen++;
                     }
                     else {
-                        // match sequence broken - check if previous sequence was more than 3
+                        // match sequence broken - check if previous sequence was more than 4
                         if (curMatchLen >= 4) {
                             matchingSequences.add(
                                     new TileSequence(grid[i][j].tileType,
@@ -450,7 +450,7 @@ public class BoardManager {
                     }
                 }
                 else {
-                    // match sequence broken - check if previous sequence was more than 3
+                    // match sequence broken - check if previous sequence was more than 4
                     if (curMatchLen >= 4) {
                         matchingSequences.add(
                                 new TileSequence(grid[i][j].tileType,
@@ -490,7 +490,7 @@ public class BoardManager {
                         curMatchLen++;
                     }
                     else {
-                        // match sequence broken - check if previous sequence was more than 3
+                        // match sequence broken - check if previous sequence was more than 4
                         if (curMatchLen >= 4) {
                             matchingSequences.add(
                                     new TileSequence(grid[i][j].tileType,
@@ -503,7 +503,7 @@ public class BoardManager {
                     }
                 }
                 else {
-                    // match sequence broken - check if previous sequence was more than 3
+                    // match sequence broken - check if previous sequence was more than 4
                     if (curMatchLen >= 4) {
                         matchingSequences.add(
                                 new TileSequence(grid[i][j].tileType,
