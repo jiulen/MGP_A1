@@ -24,7 +24,7 @@ public class EnemyEntity implements EntityBase {
     //Health bar
     TextEntity hpName;
     Paint hpPaint = new Paint();
-    public int health = 50; //enemy die when health = 0
+    public int health = 25; //enemy die when health = 0
     private float hpPosY;
     //Attack bar
     TextEntity atkName;
@@ -107,7 +107,7 @@ public class EnemyEntity implements EntityBase {
         }
         //Draw health bar
         _canvas.drawRect(xPos - width * 0.5f, hpPosY - 15,
-                        xPos - width * 0.5f + width * (health / 50.f), hpPosY + 15, hpPaint);
+                        xPos - width * 0.5f + width * (health / 25.f), hpPosY + 15, hpPaint);
         _canvas.drawRect(xPos - width * 0.5f - outlineWidth * 0.5f, hpPosY - 15 - outlineWidth * 0.5f,
                         xPos + width * 0.5f + outlineWidth * 0.5f, hpPosY + 15 + outlineWidth * 0.5f,
                              outlinePaint);

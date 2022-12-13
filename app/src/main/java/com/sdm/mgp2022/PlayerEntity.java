@@ -21,11 +21,6 @@ public class PlayerEntity implements EntityBase {
 
     private Bitmap bmp, scaledBmp = null;
 
-    private boolean moving = false;
-
-    private final float MOVE_COOLDOWN = 0.1f;
-    private float currentTime = 0;
-
     public int score = 0;
 
     public boolean IsDone() {
@@ -54,11 +49,6 @@ public class PlayerEntity implements EntityBase {
     }
 
     public void Update(float _dt){
-        if (moving)
-            currentTime -= _dt;
-
-        if (moving && currentTime <= 0)
-            moving = false;
     }
 
     public void Render(Canvas _canvas)
@@ -91,23 +81,19 @@ public class PlayerEntity implements EntityBase {
 
     public void MoveLeft()
     {
-        if (column > 0 && !moving)
+        if (column > 0)
         {
             column -= 1;
             xPos -= tileWidth;
-            moving = true;
-            currentTime = MOVE_COOLDOWN;
         }
     }
 
     public void MoveRight()
     {
-        if (column < 5 && !moving)
+        if (column < 5)
         {
             column += 1;
             xPos += tileWidth;
-            moving = true;
-            currentTime = MOVE_COOLDOWN;
         }
     }
 }
