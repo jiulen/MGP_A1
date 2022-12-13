@@ -1,7 +1,5 @@
 package com.sdm.mgp2022; //by jonathan
 
-import java.lang.reflect.Type;
-
 public class TileSequence {
 
     private Orientation s_orientation;
