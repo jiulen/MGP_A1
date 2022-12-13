@@ -47,7 +47,7 @@ public class MainGameSceneState implements StateBase {
 
     BoardManager board = new BoardManager();
     @Override
-    public void OnEnter(SurfaceView _view)
+    public void OnEnter(SurfaceView _view) //by jiulen
     {
         DisplayMetrics displayMetrics = Resources.getSystem().getDisplayMetrics();
         ScreenWidth = displayMetrics.widthPixels;
@@ -117,7 +117,7 @@ public class MainGameSceneState implements StateBase {
     }
 
     @Override
-    public void Update(float _dt)
+    public void Update(float _dt) //by jiulen
     {
         EntityManager.Instance.Update(_dt);
 

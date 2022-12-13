@@ -1,4 +1,4 @@
-package com.sdm.mgp2022;
+package com.sdm.mgp2022; //by jiulen
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
