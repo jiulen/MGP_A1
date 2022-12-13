@@ -13,12 +13,14 @@ public class Sprite {
 
     private Bitmap bmp = null;
 
-    private int currentFrame = 0;
-    private int startFrame = 0;
-    private int endFrame = 0;
+    public int currentFrame = 0;
+    public int startFrame = 0;
+    public int endFrame = 0;
 
     private float timePerFrame = 0.0f;
     private float timeAcc = 0.0f;
+
+    public boolean canLoop = true;
 
     // method to call in the entity when loading a sprite for animation
     public Sprite (Bitmap _bmp, int _row, int _col, int _fps){
@@ -53,9 +55,19 @@ public class Sprite {
     public void Update(float _dt){
         timeAcc += _dt;
         if (timeAcc > timePerFrame){
-            ++currentFrame;
-            if(currentFrame >= endFrame)
+            if (canLoop)
+            {
+                if(currentFrame < endFrame)
+                    ++currentFrame;
+            }
+            else
+            {
+                if(currentFrame < endFrame - 1)
+                    ++currentFrame;
+            }
+            if(currentFrame >= endFrame && canLoop)
                 currentFrame = startFrame;
+
             timeAcc = 0.0f;
         }
     }

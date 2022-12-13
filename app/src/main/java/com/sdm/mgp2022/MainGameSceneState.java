@@ -167,6 +167,18 @@ public class MainGameSceneState implements StateBase {
         {
             //Swap tiles
             board.setButtonDownA(true);
+            if (board.selectedTile == null)
+            {
+                player.isSelect = true;
+                player.isDrop = false;
+                player.spritesheet.currentFrame = player.spritesheet.startFrame;
+            }
+            else
+            {
+                player.isDrop = true;
+                player.isSelect = false;
+                player.spritesheetRev.currentFrame = player.spritesheetRev.startFrame;
+            }
             aButton.isDown = false;
         }
         if (bButton.isDown)
