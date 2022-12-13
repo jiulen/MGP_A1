@@ -8,6 +8,7 @@ import java.util.Vector;
 
 public class BoardManager {
 
+    // Done by jonathan
     enum boardStates
     {
         READY,
@@ -30,19 +31,16 @@ public class BoardManager {
     private static final int tilesSize = TILES.size();
     private static final Random RANDOM = new Random();
 
-    float yoffset = 0.f;
-
-    boolean aButtonDown = false;
-    boolean bButtonDown = false;
     int enemyHealth = 25;
     int playercol = 2;
+    float yoffset = 0.f;
+    boolean aButtonDown = false;
+    boolean bButtonDown = false;
     boolean lose = false;
     boolean win = false;
-    boolean isPressed = false;
-    Vector<TileSequence> matchingSequences = new Vector<TileSequence>();
 
+    public Vector<TileSequence> matchingSequences = new Vector<TileSequence>();
     public TileEntity [][] grid = new TileEntity[numRows][numCols];
-
     public TileEntity selectedTile = null;
 
     private final float clearDelayTotal = 0.5f;
@@ -70,12 +68,13 @@ public class BoardManager {
         enemyHealth = health;
     }
 
+    // done by jonathan
     public static TileEntity.TILE_TYPES randomTile()
     {
         return TILES.get(RANDOM.nextInt(tilesSize));
-        //return TileEntity.TILE_TYPES.TILE_EMPTY;
     }
 
+    // done by jonathan
     public void fillBoard(int width)
     {
         boolean boardReady = false;
@@ -105,6 +104,7 @@ public class BoardManager {
         boardState = boardStates.READY;
     }
 
+    // by jonathan
     void updateBoard(int level, int width, float dt)
     {
         if(enemyHealth <= 0)
@@ -128,13 +128,11 @@ public class BoardManager {
 
                     if (aButtonDown)
                     {
-                        if (selectedTile != null) {
+                        if (selectedTile != null)
                             boardState = boardStates.DROP;
-                        }
+
                         else
-                        {
                             boardState = boardStates.SELECT;
-                        }
                         aButtonDown = false;
                     }
                     if (bButtonDown)
@@ -146,33 +144,26 @@ public class BoardManager {
                 }
                 case SELECT: {
                     if(!selectTile(playercol))
-                    {
                         System.out.println("nothing to select");
-                    }
                     boardState = boardStates.READY;
                     break;
                 }
                 case DROP:{
                     if(!dropTile(playercol))
-                    {
                         System.out.println("Invalid drop location");
-                    }
+
                     else
-                    {
                         clearedTilesNum = 0; //only need reset clearedTiles when tile added/moved
-                    }
+
                     boardState = boardStates.CHECKSEQ;
                     break;
                 }
                 case SWAP:{
                     if(!swapTiles(playercol))
-                    {
                         System.out.println("Invalid swap");
-                    }
+
                     else
-                    {
                         clearedTilesNum = 0; //only need reset clearedTiles when tile added/moved
-                    }
 
                     boardState = boardStates.CHECKSEQ;
                     break;
@@ -196,6 +187,7 @@ public class BoardManager {
                     boardState = boardStates.READY;
                     break;
                 }
+                // by jiulen
                 case CLEARING: {
                     if (clearTime < clearDelayTotal)
                     {
@@ -227,6 +219,7 @@ public class BoardManager {
                     }
                     break;
                 }
+                // jonathan
                 case GRAVITATE: {
                     gravitateBoardStep();
                     boardState = boardStates.CHECKSEQ;
@@ -246,6 +239,7 @@ public class BoardManager {
         }
     }
 
+    // by jonathan
     void moveTilesDownGrid(int level,int width,float dt)
     {
         boolean lost = false;
@@ -260,9 +254,11 @@ public class BoardManager {
                     if (grid[i][j] != null)
                     {
                         float prevpos = grid[i][j].GetPosY();
-                        float newpos = prevpos + (level * 20 * dt);
+                        float newpos = prevpos + (level * 15 * dt);
                         grid[i][j].SetPosY(newpos);
                         yoffset = width - (newpos % width);
+
+                        // jiulen helped optimise if statement
                         if((grid[i][j].GetPosY() + grid[i][j].GetWidth() * 0.5) / grid[i][j].GetWidth() > i)
                         {
                             grid[i + 1][j] = grid[i][j];
@@ -278,11 +274,11 @@ public class BoardManager {
                 }
             }
         }
-
         if (lost)
             boardState = boardStates.LOSE;
     }
 
+    // by jonathan
     public final boolean selectTile(int col)
     {
         for(int i = 10; i >= 0; --i)
@@ -291,6 +287,7 @@ public class BoardManager {
             {
                 selectedTile = grid[i][col];
                 grid[12][col] = selectedTile;
+                // set pos fixed by jiulen
                 grid[12][col].SetPosY(grid[12][col].GetWidth() * (10.5f));
                 grid[12][col].SetPosX(grid[i][col].GetWidth() * (col + 0.5f));
                 grid[i][col] = null;
@@ -299,6 +296,8 @@ public class BoardManager {
         }
         return false;
     }
+
+    // by jonathan
     public final boolean dropTile(int col)
     {
         for (int i = 10; i >= 1 ; --i)
@@ -306,6 +305,7 @@ public class BoardManager {
             if(grid[i][col] != null)
             {
                 grid[i+1][col] = selectedTile;
+                // set pos fixed by jiulen
                 grid[i+1][col].SetPosY((grid[i][col].GetPosY() + selectedTile.GetWidth()));
                 selectedTile = null;
                 for (int j = 0; j < numCols; j++)
@@ -316,7 +316,7 @@ public class BoardManager {
         return false;
     }
 
-
+    // by jonathan
     boolean gravitateBoardStep() {
         boolean toGravitate = false;
         for (int j = 0; j < numCols; ++j) {
@@ -330,6 +330,7 @@ public class BoardManager {
                             float prevpos = grid[k][j].GetPosY();
                             grid[k - 1][j] = grid[k][j];
                             grid[k][j] = null;
+                            // set pos fixed by jiulen
                             grid[k - 1][j].SetPosY(prevpos - grid[k - 1][j].GetWidth());
 
                             toGravitate = true;
@@ -341,6 +342,7 @@ public class BoardManager {
         return toGravitate;
     }
 
+    // by jonathan
     boolean dropNewTilesRow(int width) {
         boolean dropped = false;
         for(int j = 0; j < numCols; ++j) {
@@ -357,6 +359,7 @@ public class BoardManager {
     }
 
     // swap on 1 column
+    // by jonathan
     boolean swapTiles(int col) {
         for(int row = 10; row > 0; --row) {
             if (grid[row][col] != null && grid[row - 1][col] != null) {
@@ -364,6 +367,7 @@ public class BoardManager {
                 {
                     TileEntity tmp = grid[row-1][col];
 
+                    // setpos fixed by jiulen
                     grid[row - 1][col] = grid[row][col];
                     grid[row - 1][col].SetPosY(grid[row - 1][col].GetPosY() - grid[row - 1][col].GetWidth());
 
@@ -376,6 +380,8 @@ public class BoardManager {
         return false;
     }
 
+
+    // by jonathan
     int clearedTiles(){
         int cleared = 0;
         for(int i = 1; i < numRows; ++i)
@@ -395,6 +401,8 @@ public class BoardManager {
         }
         return cleared;
     }
+
+    // by jonathan
     boolean markAllSequencesOnBoard() {
         if (!findAllSequences()) {
             return false;
@@ -407,7 +415,7 @@ public class BoardManager {
         return true;
     }
 
-
+    // by jonathan, start column position fixed by jiulen
     boolean findAllSequences() {
         matchingSequences.clear();
 
@@ -522,6 +530,7 @@ public class BoardManager {
         return !matchingSequences.isEmpty();
     }
 
+    // by jonathan
     void markSequenceOnBoard(TileSequence sequence) {
         if (sequence.getOrientation() == TileSequence.Orientation.HORIZONTAL) {
             for (int j = sequence.getStartCol();
@@ -542,6 +551,7 @@ public class BoardManager {
     }
 
     // change to 4
+    // done by jonathan updated by jiulen
     boolean isBeginningOfSequence(int i, int j) {
         if (j >= 0 && j < numCols-3 && grid[i][j] != null && grid[i][j+1] != null && grid[i][j+2] != null && grid[i][j+3] != null)
         {
@@ -558,7 +568,7 @@ public class BoardManager {
         return false; //false if both is true
     }
 
-
+    // done by jonathan updated by jiulen
     boolean isEndOfSequence(int i,int j) {
         if (j < numCols && j>=3 && grid[i][j] != null && grid[i][j-1] != null && grid[i][j-2] != null && grid[i][j-3] != null)
         {
@@ -575,6 +585,7 @@ public class BoardManager {
         return false; //false if both is true
     }
 
+    //done by jiulen
 //    boolean isBeginningOfSequenceForZero(int j) //row always 0 for this (only use for spawning at row=0)
 //    {
 //        if (j >= 0 && j < numCols-3 && grid[0][j] != null && grid[0][j+1] != null && grid[0][j+2] != null && grid[0][j+3] != null)
