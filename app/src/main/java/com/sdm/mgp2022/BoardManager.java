@@ -109,7 +109,7 @@ public class BoardManager {
         {
             boardState = boardStates.WIN;
         }
-        if(!lose || !win)
+        if(!lose && !win)
         {
             switch (boardState)
             {
