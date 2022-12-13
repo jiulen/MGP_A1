@@ -24,7 +24,7 @@
         android:layout_height="72dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="249dp"
+        android:layout_marginLeft="200dp"
         android:layout_marginBottom="12dp"
         android:background="@null"
         android:contentDescription="Leaderboard"
