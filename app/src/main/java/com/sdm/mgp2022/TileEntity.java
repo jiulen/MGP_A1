@@ -17,6 +17,9 @@ public class TileEntity implements EntityBase {
     private Bitmap bmpA, scaledBmpA = null; //for attack tile
     private Bitmap bmpG, scaledBmpG = null; //for garbage tile
 
+    private Bitmap bmpC, scaledBmpC = null; //for clearing tile
+    private Sprite clearSpritesheet = null; //for clearing tile
+
     enum TILE_TYPES {
         TILE_PAPER,
         TILE_PLASTIC,
@@ -27,6 +30,7 @@ public class TileEntity implements EntityBase {
     public TILE_TYPES tileType;
     public boolean isAttack = false;
     public boolean isGarbage = false;
+    public boolean isClearing = false;
 
     public boolean IsDone() {
         return isDone;
@@ -45,22 +49,27 @@ public class TileEntity implements EntityBase {
             case TILE_PAPER:
                 bmpN = BitmapFactory.decodeResource(_view.getResources(), R.drawable.tile_paper_normal, bfo);
                 bmpA = BitmapFactory.decodeResource(_view.getResources(), R.drawable.tile_paper_atk, bfo);
+                bmpC = BitmapFactory.decodeResource(_view.getResources(), R.drawable.tile_paper_clear, bfo);
                 break;
             case TILE_PLASTIC:
                 bmpN = BitmapFactory.decodeResource(_view.getResources(), R.drawable.tile_plastic_normal, bfo);
                 bmpA = BitmapFactory.decodeResource(_view.getResources(), R.drawable.tile_plastic_atk, bfo);
+                bmpC = BitmapFactory.decodeResource(_view.getResources(), R.drawable.tile_plastic_clear, bfo);
                 break;
             case TILE_METAL:
                 bmpN = BitmapFactory.decodeResource(_view.getResources(), R.drawable.tile_metal_normal, bfo);
                 bmpA = BitmapFactory.decodeResource(_view.getResources(), R.drawable.tile_metal_atk, bfo);
+                bmpC = BitmapFactory.decodeResource(_view.getResources(), R.drawable.tile_metal_clear, bfo);
                 break;
             case TILE_GLASS:
                 bmpN = BitmapFactory.decodeResource(_view.getResources(), R.drawable.tile_glass_normal, bfo);
                 bmpA = BitmapFactory.decodeResource(_view.getResources(), R.drawable.tile_glass_atk, bfo);
+                bmpC = BitmapFactory.decodeResource(_view.getResources(), R.drawable.tile_glass_clear, bfo);
                 break;
             case TILE_WOOD:
                 bmpN = BitmapFactory.decodeResource(_view.getResources(), R.drawable.tile_wood_normal, bfo);
                 bmpA = BitmapFactory.decodeResource(_view.getResources(), R.drawable.tile_wood_atk, bfo);
+                bmpC = BitmapFactory.decodeResource(_view.getResources(), R.drawable.tile_wood_clear, bfo);
                 break;
         }
 
@@ -69,17 +78,27 @@ public class TileEntity implements EntityBase {
         scaledBmpN = Bitmap.createScaledBitmap(bmpN, width, width, true);
         scaledBmpA = Bitmap.createScaledBitmap(bmpA, width, width, true);
         scaledBmpG = Bitmap.createScaledBitmap(bmpG, width, width, true);
+        scaledBmpC = Bitmap.createScaledBitmap(bmpC, width * 4, width, true); //* 4 since 4 columns in spritesheet
+
+        clearSpritesheet = new Sprite(scaledBmpC, 1, 4, 16);
+        clearSpritesheet.canLoop = false;
 
         isInit = true;
     }
 
     public void Update(float _dt){
-
+        if (isClearing)
+            clearSpritesheet.Update(_dt);
     }
 
     public void Render(Canvas _canvas)
     {
-        if (isGarbage)
+        if (isClearing)
+        {
+            if (clearSpritesheet != null)
+                clearSpritesheet.Render(_canvas, (int)xPos, (int)yPos);
+        }
+        else if (isGarbage)
         {
             if (scaledBmpG != null) {
                 _canvas.drawBitmap(scaledBmpG, xPos - scaledBmpG.getWidth() * 0.5f,

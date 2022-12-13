@@ -45,8 +45,10 @@ public class BoardManager {
 
     public TileEntity selectedTile = null;
 
-    private final float clearDelay = 0.2f;
+    private final float clearDelayTotal = 0.5f;
+    private final float clearAnimStart = 0.2f;
     private float clearTime = 0;
+    private boolean clearAnimStarted = false;
 
     public int clearedTilesNum = 0;
     public boolean attackSent = true;
@@ -195,12 +197,32 @@ public class BoardManager {
                     break;
                 }
                 case CLEARING: {
-                    if (clearTime < clearDelay)
+                    if (clearTime < clearDelayTotal)
+                    {
+                        if (clearTime > clearAnimStart && !clearAnimStarted) //Start clear animation for all clearing tiles
+                        {
+                            for(int i = 1; i < numRows; ++i)
+                            {
+                                for(int j = 0; j< numCols; ++j)
+                                {
+                                    if(grid[i][j] != null)
+                                    {
+                                        if(grid[i][j].isAttack == true)
+                                        {
+                                            grid[i][j].isClearing = true;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
                         clearTime += dt;
+                    }
                     else {
                         //Clear tiles
                         clearedTilesNum += clearedTiles();
                         clearTime = 0;
+                        clearAnimStarted = false;
                         boardState = boardStates.GRAVITATE;
                     }
                     break;
