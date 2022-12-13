@@ -130,7 +130,7 @@ public class MainGameSceneState implements StateBase {
                 //Send attack if attack not sent yet
                 System.out.println("Attack: " + board.clearedTilesNum);
                 //Damage enemy
-                enemy.health -= (board.clearedTilesNum - 4); //first 4 tiles cleared not counted towards player damage
+                enemy.health -= board.clearedTilesNum;
                 //Get points
                 player.score += (board.clearedTilesNum * 200 - 400); //Simplified from this: board.clearedTilesNum * 100 + (board.clearedTilesNum - 4) * 100
             }
