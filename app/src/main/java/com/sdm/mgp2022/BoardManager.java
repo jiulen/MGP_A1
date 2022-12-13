@@ -104,8 +104,16 @@ public class BoardManager {
             {
                 case READY: {
                     moveTilesDownGrid(level, width, dt);
+                    //Check if row 1 all empty
+                    boolean emptyLastRow = true;
+                    for (int j = 0; j < numCols; ++j) {
+                        if (grid[1][j] != null)
+                            emptyLastRow = false;
+                    }
+                    if (emptyLastRow)
+                        boardState = boardStates.GENERATE;
 
-                    if(aButtonDown)
+                    if (aButtonDown)
                     {
                         if (selectedTile != null) {
                             boardState = boardStates.DROP;
@@ -222,7 +230,7 @@ public class BoardManager {
                             grid[i + 1][j] = grid[i][j];
                             grid[i + 1][j].SetPosY(width * (i - 0.5f));
                             grid[i][j] = null;
-                            boardState = boardStates.GENERATE;
+                            //boardState = boardStates.GENERATE;
                         }
                     }
                 }
