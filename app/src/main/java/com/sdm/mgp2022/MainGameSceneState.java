@@ -131,6 +131,8 @@ public class MainGameSceneState implements StateBase {
                 System.out.println("Attack: " + board.clearedTilesNum);
                 //Damage enemy
                 enemy.health -= board.clearedTilesNum;
+                if (enemy.health < 0)
+                    enemy.health = 0;
                 //Get points
                 player.score += (board.clearedTilesNum * 200 - 400); //Simplified from this: board.clearedTilesNum * 100 + (board.clearedTilesNum - 4) * 100
             }
