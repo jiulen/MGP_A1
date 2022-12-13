@@ -175,6 +175,8 @@ public class MainGameSceneState implements StateBase {
             board.setButtonDownB(true);
             bButton.isDown = false;
         }
+
+        board.setEnemyHealth(enemy.health);
     }
 }
 
