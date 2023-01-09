@@ -1,11 +1,14 @@
 package com.sdm.mgp2022;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.util.DisplayMetrics;
 import android.view.SurfaceView;
+
+import androidx.fragment.app.FragmentManager;
 
 public class PauseButtonEntity implements EntityBase {
 
@@ -20,7 +23,8 @@ public class PauseButtonEntity implements EntityBase {
 
     private boolean Paused = false;
 
-    int xPos, yPos;
+    float xPos, yPos;
+    int width, height;
     int ScreenWidth, ScreenHeight;
 
     float buttonDelay = 0;
@@ -34,23 +38,19 @@ public class PauseButtonEntity implements EntityBase {
     }
 
     public void Init(SurfaceView _view) {
-
         //Display screensize
         DisplayMetrics metrics = _view.getResources().getDisplayMetrics();
         ScreenWidth = metrics.widthPixels;
         ScreenHeight = metrics.heightPixels;
 
-        bmpP = ResourceManager.Instance.GetBitmap(R.drawable.pause);
-        bmpUP = ResourceManager.Instance.GetBitmap(R.drawable.pause1);
+        BitmapFactory.Options bfo = new BitmapFactory.Options();
+        bfo.inScaled = true;
 
-        scaledbmpP = Bitmap.createScaledBitmap(bmpP, (int) ScreenWidth / 7, (int) ScreenWidth / 7, true);
-        //if it still appears too big. own scale down it.
-        // (int) ScreenWidth/12, (int) ScreenHeight/7,
+        bmpP = BitmapFactory.decodeResource(_view.getResources(), R.drawable.pause, bfo);
+        bmpUP = BitmapFactory.decodeResource(_view.getResources(), R.drawable.pause1, bfo);
 
-        scaledbmpUP = Bitmap.createScaledBitmap(bmpUP, (int) ScreenWidth / 7, (int) ScreenWidth / 7, true);
-
-        xPos = ScreenWidth - 150;
-        yPos = 150;  // I using a hard number.. U can use ScreenHeight - 50
+        scaledbmpP = Bitmap.createScaledBitmap(bmpP, width, height, true);
+        scaledbmpUP = Bitmap.createScaledBitmap(bmpUP, width, height, true);
 
         isInit = true;
     }
@@ -66,6 +66,13 @@ public class PauseButtonEntity implements EntityBase {
                 if (Collision.SphereToSphere(TouchManager.Instance.GetPosX(), TouchManager.Instance.GetPosY(),
                         0.0f, xPos, yPos, imgRadius) && buttonDelay >= 0.25) {
                     Paused = true;
+
+                    //Button got clicked show the popup dialog
+                    if (PauseConfirmDialogFragment.IsShown)
+                        return;
+
+                    PauseConfirmDialogFragment newPauseConfirm = new PauseConfirmDialogFragment();
+                    newPauseConfirm.show(GamePage.Instance.getSupportFragmentManager(), "Pause Confirm");
                 }
                 // if not just want a pause without the popup dialog
                 buttonDelay = 0;
@@ -89,7 +96,7 @@ public class PauseButtonEntity implements EntityBase {
     }
 
     public int GetRenderLayer() {
-        return LayerConstants.PAUSEBUTTON_LAYER;
+        return LayerConstants.UI_LAYER;
     }
 
     public void SetRenderLayer(int _newLayer) {
@@ -100,9 +107,13 @@ public class PauseButtonEntity implements EntityBase {
         return ENTITY_TYPE.ENT_PAUSE;
     }
 
-    public static PauseButtonEntity Create() {
+    public static PauseButtonEntity Create(int _width, int _height, float _xPos, float _yPos) {
         PauseButtonEntity result = new PauseButtonEntity();
         EntityManager.Instance.AddEntity(result, ENTITY_TYPE.ENT_PAUSE);
+        result.width = _width;
+        result.height = _height;
+        result.xPos = _xPos;
+        result.yPos = _yPos;
         return result;
     }
 }

@@ -37,7 +37,6 @@ public class ButtonEntity implements EntityBase {
     }
 
     public void Init(SurfaceView _view) {
-        //Display screen size
         BitmapFactory.Options bfo = new BitmapFactory.Options();
         bfo.inScaled = true;
 

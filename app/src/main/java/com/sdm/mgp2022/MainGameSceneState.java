@@ -35,6 +35,8 @@ public class MainGameSceneState implements StateBase {
     TextEntity levelText;
 
     EnemyEntity enemy;
+    
+    PauseButtonEntity pauseButton;
 
     //GameObjects
     PlayerEntity player;
@@ -79,7 +81,8 @@ public class MainGameSceneState implements StateBase {
         rightButton = ButtonEntity.Create(R.drawable.right_button, ScreenWidth / 5, ScreenWidth / 5,
                 ScreenWidth / 10 * 3 + 100, ScreenHeight - ScreenWidth / 5 - 20);
 
-        //PauseButtonEntity.Create();
+        pauseButton = PauseButtonEntity.Create(ScreenWidth / 7, ScreenWidth / 7,
+                (int)(ScreenWidth / 9 * 7.5), ScreenWidth / 9 * 11);
 
         //Set bounds for game buttons (based on bottomBG)
         aButton.SetBounds(0, ScreenWidth, tileWidth * 12, ScreenHeight);
@@ -120,74 +123,85 @@ public class MainGameSceneState implements StateBase {
 
         board.updateBoard(level, tileWidth, _dt);
 
-        if (!board.attackSent)
+        if (board.lose) //If lose
         {
-            if (board.clearedTilesNum > 0)
+
+        }
+        else if (board.win) //If win
+        {
+
+        }
+        else //Only play if not won or lost
+        {
+            if (!board.attackSent)
             {
-                //Send attack if attack not sent yet
-                System.out.println("Attack: " + board.clearedTilesNum);
-                //Damage enemy
-                enemy.health -= board.clearedTilesNum;
-                if (enemy.health < 0)
-                    enemy.health = 0;
-                //Get points
-                player.score += (board.clearedTilesNum * 200 - 400); //Simplified from this: board.clearedTilesNum * 100 + (board.clearedTilesNum - 4) * 100
+                if (board.clearedTilesNum > 0)
+                {
+                    //Send attack if attack not sent yet
+                    System.out.println("Attack: " + board.clearedTilesNum);
+                    //Damage enemy
+                    enemy.health -= board.clearedTilesNum;
+                    if (enemy.health < 0)
+                        enemy.health = 0;
+                    //Get points
+                    player.score += (board.clearedTilesNum * 200 - 400); //Simplified from this: board.clearedTilesNum * 100 + (board.clearedTilesNum - 4) * 100
+                }
+
+                board.attackSent = true; //Set attackSent back to true
             }
 
-            board.attackSent = true; //Set attackSent back to true
-        }
+            //Update UI texts
+            scoreText.text = "Score " + String.format("%09d", player.score);
+            levelText.text = "Level " + level;
 
-        //Update UI texts
-        scoreText.text = "Score " + String.format("%09d", player.score);
-        levelText.text = "Level " + level;
+            board.setEnemyHealth(enemy.health);
 
-        if (leftButton.isDown)
-        {
-            player.MoveLeft();
-            board.setPlayerCol(player.column);
-            if (board.selectedTile != null)
+            if (leftButton.isDown)
             {
-                board.selectedTile.SetPosX(player.xPos);
+                player.MoveLeft();
+                board.setPlayerCol(player.column);
+                if (board.selectedTile != null)
+                {
+                    board.selectedTile.SetPosX(player.xPos);
+                }
+                leftButton.isDown = false;
             }
-            leftButton.isDown = false;
-        }
-        else if (rightButton.isDown)
-        {
-            player.MoveRight();
-            board.setPlayerCol(player.column);
-            if (board.selectedTile != null)
+            else if (rightButton.isDown)
             {
-                board.selectedTile.SetPosX(player.xPos);
+                player.MoveRight();
+                board.setPlayerCol(player.column);
+                if (board.selectedTile != null)
+                {
+                    board.selectedTile.SetPosX(player.xPos);
+                }
+                rightButton.isDown = false;
             }
-            rightButton.isDown = false;
-        }
 
-        if (aButton.isDown)
-        {
-            //Swap tiles
-            board.setButtonDownA(true);
-            if (board.selectedTile == null)
+            if (aButton.isDown)
             {
-                player.isSelect = true;
-                player.isDrop = false;
-                player.spritesheet.currentFrame = player.spritesheet.startFrame;
+                //Swap tiles
+                board.setButtonDownA(true);
+                if (board.selectedTile == null)
+                {
+                    player.isSelect = true;
+                    player.isDrop = false;
+                    player.spritesheet.currentFrame = player.spritesheet.startFrame;
+                }
+                else
+                {
+                    player.isDrop = true;
+                    player.isSelect = false;
+                    player.spritesheetRev.currentFrame = player.spritesheetRev.startFrame;
+                }
+                aButton.isDown = false;
             }
-            else
+            if (bButton.isDown)
             {
-                player.isDrop = true;
-                player.isSelect = false;
-                player.spritesheetRev.currentFrame = player.spritesheetRev.startFrame;
+                //Swap tiles
+                board.setButtonDownB(true);
+                bButton.isDown = false;
             }
-            aButton.isDown = false;
         }
-        if (bButton.isDown)
-        {
-            //Swap tiles
-            board.setButtonDownB(true);
-            bButton.isDown = false;
-        }
-
-        board.setEnemyHealth(enemy.health);
     }
 }
 
