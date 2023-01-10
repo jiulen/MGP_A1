@@ -76,7 +76,6 @@ public class PauseButtonEntity implements EntityBase {
                 }
                 // if not just want a pause without the popup dialog
                 buttonDelay = 0;
-                GameSystem.Instance.SetIsPaused(!GameSystem.Instance.GetIsPaused());
             }
         } else Paused = false;
     }
