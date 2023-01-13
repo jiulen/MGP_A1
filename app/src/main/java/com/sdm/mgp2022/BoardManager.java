@@ -473,11 +473,6 @@ public class BoardManager {
                     if(grid[i][j] != null) {
                         int length = dfs(i, j, grid[i][j].tileType, visited, identicalElements);
                         if (length >= MIN_LENGTH) {
-//                            for (Integer[] element : identicalElements) {
-//                                // Mark identical elements that form a chain of minimum length
-//                                grid[element[0]][element[1]].isAttack = true;
-//                                hasattack = true;
-//                            }
                             hasattack = true;
                         }
                     }
@@ -488,6 +483,7 @@ public class BoardManager {
         return hasattack;
     }
 
+    // for finding adjacent garbage tiles to turn them back to normal tiles
     public int dfsGarbage(int i, int j, ArrayList<Integer[]> garbageTiles) {
         if (i < 0 || i >= numRows || j < 0 || j >= numCols || grid[i][j] == null || !grid[i][j].isGarbage) {
             return 0;
