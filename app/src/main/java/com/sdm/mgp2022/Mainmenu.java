@@ -13,7 +13,7 @@ import android.widget.ImageButton;
 
 // Created by TanSiewLan2021
 
-public class Mainmenu extends Activity implements OnClickListener, StateBase {  //Using StateBase class
+public class Mainmenu extends Activity implements OnClickListener {
 
     //Define buttons
     private ImageButton btn_play;
@@ -39,8 +39,6 @@ public class Mainmenu extends Activity implements OnClickListener, StateBase {  
         btn_leaderboard.setOnClickListener(this); //Set Listener to this button --> Leaderboard Button
         btn_settings = findViewById(R.id.btn_settings);
         btn_settings.setOnClickListener(this); //Set Listener to this button --> Leaderboard Button
-
-        StateManager.Instance.AddState(new Mainmenu());
     }
 
     @Override
@@ -58,42 +56,18 @@ public class Mainmenu extends Activity implements OnClickListener, StateBase {  
             // intent --> to set to another class which another page or screen that we are launching.
             intent.setClass(this, GamePage.class);
             StateManager.Instance.ChangeState("MainGame");
-
         }
         else if (v == btn_leaderboard)
         {
-//            intent.setClass(this, GamePage.class);
-//            StateManager.Instance.ChangeState("Leaderboard");
+//            intent.setClass(this, Leaderboard.class);
         }
         else if (v == btn_settings)
         {
             intent.setClass(this, Settings.class);
-            StateManager.Instance.ChangeState("Settings");
         }
 
         startActivity(intent);
 
-    }
-
-    @Override
-    public void Render(Canvas _canvas) {
-    }
-	
-    @Override
-    public void OnEnter(SurfaceView _view) {
-    }
-	
-    @Override
-    public void OnExit() {
-    }
-	
-    @Override
-    public void Update(float _dt) {
-    }
-	
-    @Override
-    public String GetName() {
-        return "Mainmenu";
     }
 
     @Override

@@ -4,6 +4,7 @@ package com.sdm.mgp2022;
 // Create a GamePage is an activity class used to hold the GameView which will have a surfaceview
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.Window;
@@ -40,5 +41,11 @@ public class GamePage extends FragmentActivity {
         return true;
     }
 
+    //Pause screen (change class)
+    public void StartPause()
+    {
+        //Intent intent = new Intent(this, Settings.class);
+        //startActivity(intent);
+    }
 }
 

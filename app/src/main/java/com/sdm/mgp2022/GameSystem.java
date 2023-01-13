@@ -30,7 +30,6 @@ public class GameSystem {
         sharedPref = GamePage.Instance.getSharedPreferences(SHARED_PREF_ID,0);
 
         // We will add all of our states into the state manager here!
-        StateManager.Instance.AddState(new Mainmenu());
         StateManager.Instance.AddState(new MainGameSceneState());
     }
 

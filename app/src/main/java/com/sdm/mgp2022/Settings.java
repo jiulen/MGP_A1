@@ -11,7 +11,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 
-public class Settings extends Activity implements View.OnClickListener, View.OnTouchListener, StateBase {  //Using StateBase class{
+public class Settings extends Activity implements View.OnClickListener, View.OnTouchListener {
     //Define buttons
     private ImageButton btn_back;
 
@@ -31,8 +31,6 @@ public class Settings extends Activity implements View.OnClickListener, View.OnT
         btn_back = findViewById(R.id.btn_back);
         btn_back.setOnClickListener(this); //Set Listener to this button --> Play Button
         btn_back.setOnTouchListener(this);
-
-        StateManager.Instance.AddState(new Settings());
     }
 
     @Override
@@ -58,41 +56,8 @@ public class Settings extends Activity implements View.OnClickListener, View.OnT
     //Invoke a callback event in the view
     public void onClick(View v)
     {
-        // Intent = action to be performed.
-        // Intent is an object provides runtime binding.
-        // new instance of this object intent
-
-        Intent intent = new Intent();
-
         if (v == btn_back)
-        {
-            // intent --> to set to another class which another page or screen that we are launching.
-            intent.setClass(this, Mainmenu.class);
-            StateManager.Instance.ChangeState("MainGame"); // Default is like a loading page
-        }
-
-        startActivity(intent);
-    }
-
-    @Override
-    public void Render(Canvas _canvas) {
-    }
-
-    @Override
-    public void OnEnter(SurfaceView _view) {
-    }
-
-    @Override
-    public void OnExit() {
-    }
-
-    @Override
-    public void Update(float _dt) {
-    }
-
-    @Override
-    public String GetName() {
-        return "Settings";
+            finish();
     }
 
     @Override

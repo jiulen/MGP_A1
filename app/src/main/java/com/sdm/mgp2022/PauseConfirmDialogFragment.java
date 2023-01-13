@@ -23,6 +23,7 @@ public class PauseConfirmDialogFragment extends DialogFragment {
                        //User triggered pause
                        GameSystem.Instance.SetIsPaused(!GameSystem.Instance.GetIsPaused());
                        IsShown = false;
+                       GamePage.Instance.StartPause();
                    }
                })
                .setNegativeButton("No", new DialogInterface.OnClickListener() {
