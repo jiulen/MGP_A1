@@ -15,6 +15,7 @@ public class StateManager {
 
     // Container to store all our states!
     private HashMap<String, StateBase> stateMap = new HashMap<String, StateBase>();
+    private StateBase prevState = null;
     private StateBase currState = null;
     private StateBase nextState = null;
 
@@ -44,6 +45,8 @@ public class StateManager {
         // If no next state, we assign back to current state
         if (nextState == null)
             nextState = currState;
+        else
+            prevState = currState;
 
         // Extra to add if possible : throw some warning if next state function fails
     }
@@ -75,6 +78,14 @@ public class StateManager {
             return "INVALID";
 
         return currState.GetName();
+    }
+
+    String GetPrevState()
+    {
+        if (prevState == null)
+            return "INVALID";
+
+        return prevState.GetName();
     }
 
     void Start(String _newCurrent)
