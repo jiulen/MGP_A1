@@ -76,4 +76,8 @@ public class GameSystem {
     {
         return sharedPref.getInt(_key, 10);
     }
+
+    public boolean CheckKeyInSave(String _key) {
+        return sharedPref.contains(_key);
+    }
 }

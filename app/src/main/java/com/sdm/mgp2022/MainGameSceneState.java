@@ -32,6 +32,7 @@ public class MainGameSceneState implements StateBase {
     ButtonEntity rightButton;
 
     TextEntity scoreText;
+    TextEntity hiScoreText;
     TextEntity levelText;
 
     EnemyEntity enemy;
@@ -50,6 +51,16 @@ public class MainGameSceneState implements StateBase {
     @Override
     public void OnEnter(SurfaceView _view) //by jiulen
     {
+        //Set scores in save
+        GameSystem.Instance.SaveEditBegin();
+        //Init score saved
+        GameSystem.Instance.SetIntInSave("Score", 0);
+        //Init hi-score saved (if no hi-score)
+        if (!GameSystem.Instance.CheckKeyInSave("Hi-Score")) {
+            GameSystem.Instance.SetIntInSave("Hi-Score", 0);
+        }
+        GameSystem.Instance.SaveEditEnd();
+
         DisplayMetrics displayMetrics = Resources.getSystem().getDisplayMetrics();
         ScreenWidth = displayMetrics.widthPixels;
         ScreenHeight = displayMetrics.heightPixels;
@@ -94,10 +105,12 @@ public class MainGameSceneState implements StateBase {
         //Enemy
         enemy = EnemyEntity.Create((int)(ScreenWidth / 9 * 7.5), (int)(ScreenWidth / 9 * 3), (int)(ScreenWidth / 9 * 2));
         //More text
-        scoreText = TextEntity.Create((int)(ScreenWidth / 9 * 8.5), (int)(ScreenWidth / 9 * 12.75), 255, 255, 255, 50, Paint.Align.RIGHT);
-        scoreText.text = "Score " + String.format("%09d", player.score);
-        levelText = TextEntity.Create((int)(ScreenWidth / 9 * 0.5), (int)(ScreenWidth / 9 * 12.75), 255, 255, 255, 50, Paint.Align.LEFT);
-        levelText.text = "Level " + level;
+        scoreText = TextEntity.Create((int)(ScreenWidth / 9 * 3), (int)(ScreenWidth / 9 * 12.75), 255, 255, 255, 50, Paint.Align.RIGHT);
+        scoreText.text = "SCORE " + String.format("%09d", GameSystem.Instance.GetIntFromSave("Score"));
+        hiScoreText = TextEntity.Create((int)(ScreenWidth / 9 * 3), (int)(ScreenWidth / 9 * 13.25), 255, 255, 255, 50, Paint.Align.RIGHT);
+        hiScoreText.text = "HI-SCORE " + String.format("%09d", GameSystem.Instance.GetIntFromSave("Hi-Score"));
+        levelText = TextEntity.Create((int)(ScreenWidth / 9 * 7.5), (int)(ScreenWidth / 9 * 12.75), 255, 255, 255, 50, Paint.Align.LEFT);
+        levelText.text = "SCORE " + level;
 
         board.fillBoard(tileWidth);
         board.setPlayerCol(player.column);
@@ -145,16 +158,25 @@ public class MainGameSceneState implements StateBase {
                         enemy.health -= board.clearedTilesNum;
                         if (enemy.health < 0)
                             enemy.health = 0;
-                        //Get points
+                        //Get score
                         player.score += (board.clearedTilesNum * 200 - 400); //Simplified from this: board.clearedTilesNum * 100 + (board.clearedTilesNum - 4) * 100
+                        //Save new score
+                        GameSystem.Instance.SaveEditBegin();
+                        GameSystem.Instance.SetIntInSave("Score", player.score);
+                        if (player.score > GameSystem.Instance.GetIntFromSave("Hi-Score"))
+                        {
+                            GameSystem.Instance.SetIntInSave("Hi-Score", player.score);
+                        }
+                        GameSystem.Instance.SaveEditEnd();
                     }
 
                     board.attackSent = true; //Set attackSent back to true
                 }
 
                 //Update UI texts
-                scoreText.text = "Score " + String.format("%09d", player.score);
-                levelText.text = "Level " + level;
+                scoreText.text = "SCORE " + String.format("%09d", GameSystem.Instance.GetIntFromSave("Score"));
+                hiScoreText.text = "HI-SCORE " + String.format("%09d", GameSystem.Instance.GetIntFromSave("Hi-Score"));
+                levelText.text = "LEVEL " + level;
 
                 board.setEnemyHealth(enemy.health);
 
