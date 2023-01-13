@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.Vector;
+import java.util.ArrayList;
 
 public class BoardManager {
 
@@ -26,6 +27,7 @@ public class BoardManager {
 
     private int numRows = 13;
     private int numCols = 6;
+    private final int MIN_LENGTH = 4;
     private int startGarbage = 4;
     private static final List<TileEntity.TILE_TYPES> TILES = Collections.unmodifiableList(Arrays.asList(TileEntity.TILE_TYPES.values()));
     private static final int tilesSize = TILES.size();
@@ -67,6 +69,12 @@ public class BoardManager {
     {
         enemyHealth = health;
     }
+
+
+
+
+
+
 
     // done by jonathan
     public static TileEntity.TILE_TYPES randomTile()
@@ -170,13 +178,23 @@ public class BoardManager {
                 }
                 // if no sequences change board to ready
                 case CHECKSEQ: {
-                    if (!markAllSequencesOnBoard())
+                    if (!MarkIdenticalTiles())
                     {
                         attackSent = false;
                         boardState = boardStates.READY;
                     }
+                    //List<IdenticalElementsInfo> IdenticalAdjacent = AdjacentTiles.findIdenticalAdjacentElements(grid,4);
+//                    if(IdenticalAdjacent.isEmpty())
+//                    {
+//                        attackSent = false;
+//                        boardState = boardStates.READY;
+//                    }
                     else
                     {
+//                        for(int i = 0; i < IdenticalAdjacent.size(); i++)
+//                        {
+//                            grid[IdenticalAdjacent.get(i).getPositionX()][IdenticalAdjacent.get(i).getPositionY()].isAttack = true;
+//                        }
                         clearTime = 0;
                         boardState = boardStates.CLEARING;
                     }
@@ -402,152 +420,47 @@ public class BoardManager {
         return cleared;
     }
 
-    // by jonathan
-    boolean markAllSequencesOnBoard() {
-        if (!findAllSequences()) {
-            return false;
+    // By Jonathan
+    // Implementation of depth-first search (dfs) algorithm to find chains of identical elements. The dfs algorithm starts at each element in the
+    // 2D array, and checks its adjacent elements recursively. If it finds an element that is identical to the current element, it adds it to a list
+    // of identical elements. When it finishes searching a chain of identical elements, it checks if the length of the chain is greater than or equal
+    // to the minimum length.
+    public int dfs(int i, int j, TileEntity.TILE_TYPES type, boolean[][] visited, ArrayList<Integer[]> identicalElements) {
+        if (i < 0 || i >= numRows || j < 0 || j >= numCols || visited[i][j] || grid[i][j] == null || grid[i][j].tileType != type) {
+            return 0;
         }
-
-        for ( int i = 0; i < matchingSequences.size(); i++)
-        {
-            markSequenceOnBoard(matchingSequences.get(i));
-        }
-        return true;
+        visited[i][j] = true;
+        identicalElements.add(new Integer[]{i, j});
+        return 1 + dfs(i - 1, j, type, visited, identicalElements)
+                + dfs(i + 1, j, type, visited, identicalElements) 
+                + dfs(i, j - 1, type, visited, identicalElements)
+                + dfs(i, j + 1, type, visited, identicalElements);
     }
 
-    // by jonathan, start column position fixed by jiulen
-    boolean findAllSequences() {
-        matchingSequences.clear();
-
-        // Find all the horizontal matches and create the matching sequence objects.
-        int curMatchLen = 1;
-
-        // Look for horizontal matches - check each tile with the one after it.
-        for (int i = 0; i < numRows; ++i) {
-            curMatchLen = 1;
-            for (int j = 0; j < numCols - 1; ++j) {
-                if (grid[i][j] == null) {
-                    curMatchLen = 1;
-                    continue;
-                }
-                if(grid[i][j+1] != null)
-                {
-                    // Found a sequence of same tiles in a row of length 2 at least.
-                    if (grid[i][j].tileType == grid[i][j + 1].tileType) {
-                        curMatchLen++;
-                    }
-                    else {
-                        // match sequence broken - check if previous sequence was more than 4
-                        if (curMatchLen >= 4) {
-                            matchingSequences.add(
-                                    new TileSequence(grid[i][j].tileType,
-                                            TileSequence.Orientation.HORIZONTAL,
-                                            i,
-                                            j - (curMatchLen - 1), // Start column position for the sequence
-                                            curMatchLen));
+    // uses dfs
+    public boolean MarkIdenticalTiles()
+    {
+        boolean[][] visited = new boolean[numRows][numCols];
+        ArrayList<Integer[]> identicalElements = new ArrayList<>();
+        boolean hasattack = false;
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < numCols; j++) {
+                if (!visited[i][j]) {
+                    if(grid[i][j] != null) {
+                        int length = dfs(i, j, grid[i][j].tileType, visited, identicalElements);
+                        if (length >= MIN_LENGTH) {
+                            for (Integer[] element : identicalElements) {
+                                // Mark identical elements that form a chain of minimum length
+                                grid[element[0]][element[1]].isAttack = true;
+                                hasattack = true;
+                            }
                         }
-                        curMatchLen = 1;
                     }
+                    identicalElements.clear();
                 }
-                else {
-                    // match sequence broken - check if previous sequence was more than 4
-                    if (curMatchLen >= 4) {
-                        matchingSequences.add(
-                                new TileSequence(grid[i][j].tileType,
-                                        TileSequence.Orientation.HORIZONTAL,
-                                        i,
-                                        j - (curMatchLen - 1), // Start column position for the sequence
-                                        curMatchLen));
-                    }
-                    curMatchLen = 1;
-                }
-            }
-
-            // Found a match up until the last item in current row.
-            if (curMatchLen >= 4) {
-                matchingSequences.add(
-                        new TileSequence(grid[i][numCols - 1].tileType,
-                                TileSequence.Orientation.HORIZONTAL,
-                                i,
-                                numCols - curMatchLen, // Start column position for the sequence
-                                curMatchLen));
             }
         }
-
-        // Look for vertical matches -  check each tile with the one after it.
-        curMatchLen = 1;
-        for (int j = 0; j < numCols; ++j) {
-            curMatchLen = 1;
-            for (int i = 0; i < numRows - 2; ++i) {
-                if (grid[i][j] == null) {
-                    curMatchLen = 1;
-                    continue;
-                }
-                if (grid[i + 1][j] != null)
-                {
-                    // Found a sequence of same tiles in a row of length 2 at least.
-                    if (grid[i][j].tileType == grid[i + 1][j].tileType) {
-                        curMatchLen++;
-                    }
-                    else {
-                        // match sequence broken - check if previous sequence was more than 4
-                        if (curMatchLen >= 4) {
-                            matchingSequences.add(
-                                    new TileSequence(grid[i][j].tileType,
-                                            TileSequence.Orientation.VERTICAL,
-                                            i - (curMatchLen - 1), // Start row position for the sequence
-                                            j,
-                                            curMatchLen));
-                        }
-                        curMatchLen = 1;
-                    }
-                }
-                else {
-                    // match sequence broken - check if previous sequence was more than 4
-                    if (curMatchLen >= 4) {
-                        matchingSequences.add(
-                                new TileSequence(grid[i][j].tileType,
-                                        TileSequence.Orientation.VERTICAL,
-                                        i - (curMatchLen - 1), // Start row position for the sequence
-                                        j,
-                                        curMatchLen));
-                    }
-                    curMatchLen = 1;
-                }
-            }
-
-            // Found a match up until the last item in current row.
-            if (curMatchLen >= 4) {
-                matchingSequences.add(
-                        new TileSequence(grid[numRows - 2][j].tileType,
-                                TileSequence.Orientation.VERTICAL,
-                                numRows - 1 - curMatchLen, // Start row position for the sequence
-                                j,
-                                curMatchLen));
-            }
-        }
-
-        return !matchingSequences.isEmpty();
-    }
-
-    // by jonathan
-    void markSequenceOnBoard(TileSequence sequence) {
-        if (sequence.getOrientation() == TileSequence.Orientation.HORIZONTAL) {
-            for (int j = sequence.getStartCol();
-                 j < sequence.getStartCol() + sequence.getSize();
-                 ++j)
-            {
-                grid[sequence.getStartRow()][j].isAttack = true;
-            }
-        }
-        else if (sequence.getOrientation() == TileSequence.Orientation.VERTICAL) {
-            for (int i = sequence.getStartRow();
-                 i < sequence.getStartRow() + sequence.getSize();
-                 ++i)
-            {
-                grid[i][sequence.getStartCol()].isAttack = true;
-            }
-        }
+        return hasattack;
     }
 
     // change to 4
@@ -584,32 +497,4 @@ public class BoardManager {
 
         return false; //false if both is true
     }
-
-    //done by jiulen
-//    boolean isBeginningOfSequenceForZero(int j) //row always 0 for this (only use for spawning at row=0)
-//    {
-//        if (j >= 0 && j < numCols-3 && grid[0][j] != null && grid[0][j+1] != null && grid[0][j+2] != null && grid[0][j+3] != null)
-//        {
-//            if (grid[0][j].tileType == grid[0][j+1].tileType && grid[0][j].tileType == grid[0][j+2].tileType && grid[0][j].tileType == grid[0][j+3].tileType)
-//                return true; //continue if false
-//        }
-//
-//        if (grid[0][j] != null && grid[2][j] != null)
-//        {
-//            if (grid[0][j].tileType == grid[2][j].tileType)
-//                return true; //continue if false
-//        }
-//
-//        return false; //false if both is true
-//    }
-//
-//    boolean isEndOfSequenceForZero(int j) {
-//        if (j < numCols && j>=3 && grid[0][j] != null && grid[0][j-1] != null && grid[0][j-2] != null && grid[0][j-3] != null)
-//        {
-//            if (grid[0][j-1].tileType == grid[0][j].tileType && grid[0][j-2].tileType == grid[0][j].tileType && grid[0][j-3].tileType == grid[0][j].tileType)
-//                return true; //continue if false
-//        }
-//
-//        return false; //false if both is true
-//    }
 }
