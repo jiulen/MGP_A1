@@ -183,18 +183,8 @@ public class BoardManager {
                         attackSent = false;
                         boardState = boardStates.READY;
                     }
-                    //List<IdenticalElementsInfo> IdenticalAdjacent = AdjacentTiles.findIdenticalAdjacentElements(grid,4);
-//                    if(IdenticalAdjacent.isEmpty())
-//                    {
-//                        attackSent = false;
-//                        boardState = boardStates.READY;
-//                    }
                     else
                     {
-//                        for(int i = 0; i < IdenticalAdjacent.size(); i++)
-//                        {
-//                            grid[IdenticalAdjacent.get(i).getPositionX()][IdenticalAdjacent.get(i).getPositionY()].isAttack = true;
-//                        }
                         clearTime = 0;
                         boardState = boardStates.CLEARING;
                     }
@@ -442,6 +432,7 @@ public class BoardManager {
     {
         boolean[][] visited = new boolean[numRows][numCols];
         ArrayList<Integer[]> identicalElements = new ArrayList<>();
+        ArrayList<Integer[]> garbageElements = new ArrayList<>();
         boolean hasattack = false;
         for (int i = 0; i < numRows; i++) {
             for (int j = 0; j < numCols; j++) {
@@ -452,10 +443,17 @@ public class BoardManager {
                             for (Integer[] element : identicalElements) {
                                 // Mark identical elements that form a chain of minimum length
                                 grid[element[0]][element[1]].isAttack = true;
+
+                                // remove garbage status from adjacent tiles from the ones that got cleared
+                                dfsGarbage(element[0],element[1],garbageElements);
+                                for (Integer[] garbage : garbageElements) {
+                                    grid[garbage[0]][garbage[1]].isGarbage = false;
+                                }
                                 hasattack = true;
                             }
                         }
                     }
+                    garbageElements.clear();
                     identicalElements.clear();
                 }
             }
@@ -488,5 +486,17 @@ public class BoardManager {
             }
         }
         return hasattack;
+    }
+
+    public int dfsGarbage(int i, int j, ArrayList<Integer[]> garbageTiles) {
+        if (i < 0 || i >= numRows || j < 0 || j >= numCols || grid[i][j] == null || !grid[i][j].isGarbage) {
+            return 0;
+        }
+
+        garbageTiles.add(new Integer[]{i, j});
+        return 1 + dfsGarbage(i - 1, j, garbageTiles)
+                + dfsGarbage(i + 1, j, garbageTiles)
+                + dfsGarbage(i, j - 1, garbageTiles)
+                + dfsGarbage(i, j + 1, garbageTiles);
     }
 }
