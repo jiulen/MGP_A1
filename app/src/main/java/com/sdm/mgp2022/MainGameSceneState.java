@@ -105,12 +105,12 @@ public class MainGameSceneState implements StateBase {
         //Enemy
         enemy = EnemyEntity.Create((int)(ScreenWidth / 9 * 7.5), (int)(ScreenWidth / 9 * 3), (int)(ScreenWidth / 9 * 2));
         //More text
-        scoreText = TextEntity.Create((int)(ScreenWidth / 9 * 3), (int)(ScreenWidth / 9 * 12.75), 255, 255, 255, 50, Paint.Align.RIGHT);
+        scoreText = TextEntity.Create((int)(ScreenWidth / 9 * 3.3), (int)(ScreenWidth / 9 * 12.75), 255, 255, 255, 50, Paint.Align.RIGHT);
         scoreText.text = "SCORE " + String.format("%09d", GameSystem.Instance.GetIntFromSave("Score"));
-        hiScoreText = TextEntity.Create((int)(ScreenWidth / 9 * 3), (int)(ScreenWidth / 9 * 13.25), 255, 255, 255, 50, Paint.Align.RIGHT);
+        hiScoreText = TextEntity.Create((int)(ScreenWidth / 9 * 3.3), (int)(ScreenWidth / 9 * 13.25), 255, 255, 255, 50, Paint.Align.RIGHT);
         hiScoreText.text = "HI-SCORE " + String.format("%09d", GameSystem.Instance.GetIntFromSave("Hi-Score"));
         levelText = TextEntity.Create((int)(ScreenWidth / 9 * 7.5), (int)(ScreenWidth / 9 * 12.75), 255, 255, 255, 50, Paint.Align.LEFT);
-        levelText.text = "SCORE " + level;
+        levelText.text = "LEVEL " + level;
 
         board.fillBoard(tileWidth);
         board.setPlayerCol(player.column);
