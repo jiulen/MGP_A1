@@ -76,7 +76,7 @@ public class EnemyEntity implements EntityBase {
         //For attack bar
         atkName = TextEntity.Create(xPos, yPos + width * 1.4f, 255, 255, 255, 50, Paint.Align.CENTER);
         atkName.text = "Attack";
-        atkPaint.setARGB(255, 0, 0, 255);
+        atkPaint.setARGB(255, 0, 255, 255);
         atkPosY = yPos + width * 1.7f;
         //Both bar
         outlinePaint.setARGB(255, 255, 255, 255);
