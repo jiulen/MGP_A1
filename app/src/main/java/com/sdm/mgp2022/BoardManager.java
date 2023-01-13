@@ -101,7 +101,7 @@ public class BoardManager {
             // the isBeginningOfSequence method checks if the row is in boundary.
             for(int i = 0; i < startGarbage; ++i) {
                 for(int j = 0; j < numCols; ++j) {
-                    if(isBeginningOfSequence(i, j) || isEndOfSequence(i, j)) {
+                    if(MarkIdenticalTilesVar(4)) {
                         boardReady = false;
                         grid[i][j].SetIsDone(true);
                         grid[i][j] = TileEntity.Create(randomTile(), width,width * (j + 0.5f), width * (i + 0.5f) - width);
@@ -370,7 +370,7 @@ public class BoardManager {
                     if (grid[1][j] != null)
                         grid[1][j].SetIsDone(true);
                     grid[1][j] = TileEntity.Create(randomTile(), width,width * (j + 0.5f), width * (0.5f) - width);
-                } while (isBeginningOfSequence(1, j) || isEndOfSequence(1, j));
+                } while (MarkIdenticalTilesVar(2));
             }
         }
         return dropped;
@@ -463,38 +463,30 @@ public class BoardManager {
         return hasattack;
     }
 
-    // change to 4
-    // done by jonathan updated by jiulen
-    boolean isBeginningOfSequence(int i, int j) {
-        if (j >= 0 && j < numCols-3 && grid[i][j] != null && grid[i][j+1] != null && grid[i][j+2] != null && grid[i][j+3] != null)
-        {
-            if (grid[i][j].tileType == grid[i][j+1].tileType && grid[i][j].tileType == grid[i][j+2].tileType && grid[i][j].tileType == grid[i][j+3].tileType)
-                return true; //continue if false
+    // similar to MarkIdenticalTiles but numRows checked can be changed
+    public boolean MarkIdenticalTilesVar(int numRowsChecked)
+    {
+        boolean[][] visited = new boolean[numRows][numCols];
+        ArrayList<Integer[]> identicalElements = new ArrayList<>();
+        boolean hasattack = false;
+        for (int i = 0; i < numRowsChecked; i++) {
+            for (int j = 0; j < numCols; j++) {
+                if (!visited[i][j]) {
+                    if(grid[i][j] != null) {
+                        int length = dfs(i, j, grid[i][j].tileType, visited, identicalElements);
+                        if (length >= MIN_LENGTH) {
+//                            for (Integer[] element : identicalElements) {
+//                                // Mark identical elements that form a chain of minimum length
+//                                grid[element[0]][element[1]].isAttack = true;
+//                                hasattack = true;
+//                            }
+                            hasattack = true;
+                        }
+                    }
+                    identicalElements.clear();
+                }
+            }
         }
-
-        if (i >= 0 && i < numRows-3 && grid[i][j] != null && grid[i+1][j] != null && grid[i+2][j] != null && grid[i+3][j] != null)
-        {
-            if (grid[i][j].tileType == grid[i+1][j].tileType && grid[i][j].tileType == grid[i+2][j].tileType && grid[i][j].tileType == grid[i+3][j].tileType)
-                return true; //continue if false
-        }
-
-        return false; //false if both is true
-    }
-
-    // done by jonathan updated by jiulen
-    boolean isEndOfSequence(int i,int j) {
-        if (j < numCols && j>=3 && grid[i][j] != null && grid[i][j-1] != null && grid[i][j-2] != null && grid[i][j-3] != null)
-        {
-            if (grid[i][j-1].tileType == grid[i][j].tileType && grid[i][j-2].tileType == grid[i][j].tileType && grid[i][j-3].tileType == grid[i][j].tileType)
-                return true; //continue if false
-        }
-
-        if (i < numRows-2 && i>=3 && grid[i][j] != null && grid[i-1][j] != null && grid[i-2][j] != null && grid[i-3][j] != null)
-        {
-            if (grid[i-1][j].tileType == grid[i][j].tileType && grid[i-2][j].tileType == grid[i][j].tileType && grid[i-3][j].tileType == grid[i][j].tileType)
-                return true; //continue if false
-        }
-
-        return false; //false if both is true
+        return hasattack;
     }
 }
