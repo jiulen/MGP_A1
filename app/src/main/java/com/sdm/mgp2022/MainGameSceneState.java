@@ -237,18 +237,6 @@ public class MainGameSceneState implements StateBase {
                 {
                     //Swap tiles
                     board.setButtonDownA(true);
-                    if (board.selectedTile == null)
-                    {
-                        player.isSelect = true;
-                        player.isDrop = false;
-                        player.spritesheet.currentFrame = player.spritesheet.startFrame;
-                    }
-                    else
-                    {
-                        player.isDrop = true;
-                        player.isSelect = false;
-                        player.spritesheetRev.currentFrame = player.spritesheetRev.startFrame;
-                    }
                     aButton.isDown = false;
                 }
                 if (bButton.isDown)
@@ -256,6 +244,25 @@ public class MainGameSceneState implements StateBase {
                     //Swap tiles
                     board.setButtonDownB(true);
                     bButton.isDown = false;
+                }
+
+                //Player animation
+                switch (board.playerAnim)
+                {
+                    case DROP:
+                        player.isDrop = true;
+                        player.isSelect = false;
+                        player.spritesheetRev.currentFrame = player.spritesheetRev.startFrame;
+
+                        board.playerAnim = BoardManager.playerAnimation.NONE;
+                        break;
+                    case SELECT:
+                        player.isSelect = true;
+                        player.isDrop = false;
+                        player.spritesheet.currentFrame = player.spritesheet.startFrame;
+
+                        board.playerAnim = BoardManager.playerAnimation.NONE;
+                        break;
                 }
             }
         }

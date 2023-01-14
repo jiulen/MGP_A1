@@ -57,6 +57,13 @@ public class BoardManager {
     public int tileMoveSpeed = 15;
     public int moveSpeedMultiplier = 1;
 
+    enum playerAnimation {
+        DROP,
+        SELECT,
+        NONE
+    }
+    public playerAnimation playerAnim = playerAnimation.NONE;
+
     void setButtonDownA(boolean state)
     {
         aButtonDown = state;
@@ -154,15 +161,20 @@ public class BoardManager {
                 case SELECT: {
                     if(!selectTile(playercol))
                         System.out.println("nothing to select");
+                    else
+                        playerAnim = playerAnimation.SELECT;
+
                     boardState = boardStates.READY;
                     break;
                 }
                 case DROP:{
                     if(!dropTile(playercol))
                         System.out.println("Invalid drop location");
-
                     else
+                    {
                         clearedTilesNum = 0; //only need reset clearedTiles when tile added/moved
+                        playerAnim = playerAnimation.DROP;
+                    }
 
                     boardState = boardStates.CHECKSEQ;
                     break;
