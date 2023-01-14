@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/blankbg">
+
+    <TextView
+        android:id="@+id/settingsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:fontFamily="monospace"
+        android:textColor="@color/white"
+        android:text="Settings"/>
+
+    <TextView
+        android:id="@+id/settingsText1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="250dp"
+        android:fontFamily="monospace"
+        android:textColor="@color/white"
+        android:text="Drag and drop buttons to move" />
+
+    <TextView
+        android:id="@+id/settingsText2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="285dp"
+        android:fontFamily="monospace"
+        android:textColor="@color/white"
+        android:text="them within the bounding box" />
+
+    <ImageButton
+        android:id="@+id/btn_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@null"
+        android:contentDescription="Play"
+        android:src="@drawable/back_icon"
+        app:srcCompat="@drawable/back_icon"/>
+
+    <ImageView
+        android:id="@+id/bounding_rect"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="fitXY"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="0dp"
+        android:layout_marginBottom="0dp"
+        android:background="@null"
+        android:contentDescription="B Icon"
+        android:src="@drawable/gray_square"
+        app:srcCompat="@drawable/gray_square" />
+
+    <ImageView
+        android:id="@+id/btn_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@null"
+        android:contentDescription="Left Icon"
+        android:src="@drawable/left_button"
+        app:srcCompat="@drawable/left_button" />
+
+    <ImageView
+        android:id="@+id/btn_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="100dp"
+        android:layout_marginBottom="20dp"
+        android:background="@null"
+        android:contentDescription="Right Icon"
+        android:src="@drawable/right_button"
+        app:srcCompat="@drawable/right_button" />
+
+    <ImageView
+        android:id="@+id/btn_a"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="80dp"
+        android:layout_marginBottom="20dp"
+        android:background="@null"
+        android:contentDescription="A Icon"
+        android:src="@drawable/a_button"
+        app:srcCompat="@drawable/a_button" />
+
+    <ImageView
+        android:id="@+id/btn_b"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="80dp"
+        android:background="@null"
+        android:contentDescription="B Icon"
+        android:src="@drawable/b_button"
+        app:srcCompat="@drawable/b_button" />
+
+</RelativeLayout>

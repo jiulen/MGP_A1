@@ -9,7 +9,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 
-public class PauseScreen extends Activity implements View.OnClickListener {
+public class Leaderboard extends Activity implements View.OnClickListener {
     //Define buttons
     private Button btn_resume;
     private Button btn_mainmenu;
@@ -27,16 +27,16 @@ public class PauseScreen extends Activity implements View.OnClickListener {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        setContentView(R.layout.pause);
+        setContentView(R.layout.leaderboard);
 
-        btn_resume = findViewById(R.id.resumeButton);
-        btn_resume.setOnClickListener(this); //Set Listener to this button --> Resume Button
-        btn_mainmenu = findViewById(R.id.mainmenuButton);
-        btn_mainmenu.setOnClickListener(this); //Set Listener to this button --> Main Menu Button
-        btn_leaderboard = findViewById(R.id.btn_leaderboard);
-        btn_leaderboard.setOnClickListener(this); //Set Listener to this button --> Leaderboard Button
-        btn_settings = findViewById(R.id.btn_settings);
-        btn_settings.setOnClickListener(this); //Set Listener to this button --> Settings Button
+//        btn_resume = findViewById(R.id.resumeButton);
+//        btn_resume.setOnClickListener(this); //Set Listener to this button --> Resume Button
+//        btn_mainmenu = findViewById(R.id.mainmenuButton);
+//        btn_mainmenu.setOnClickListener(this); //Set Listener to this button --> Main Menu Button
+//        btn_leaderboard = findViewById(R.id.btn_leaderboard);
+//        btn_leaderboard.setOnClickListener(this); //Set Listener to this button --> Leaderboard Button
+//        btn_settings = findViewById(R.id.btn_settings);
+//        btn_settings.setOnClickListener(this); //Set Listener to this button --> Settings Button
     }
 
     @Override
@@ -58,7 +58,7 @@ public class PauseScreen extends Activity implements View.OnClickListener {
         }
         else if (v == btn_leaderboard)
         {
-            intent.setClass(this, Leaderboard.class);
+//            intent.setClass(this, Leaderboard.class);
         }
         else if (v == btn_settings)
         {
