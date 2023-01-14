@@ -198,63 +198,7 @@ public class BoardManager {
                     }
                     else
                     {
-                        //Undo garbage
-                        if (!garbageVector.isEmpty())
-                        {
-                            for (int g = garbageVector.size() - 1; g >= 0; --g)
-                            {
-                                //get coords of tile in grid
-                                TileEntity checkingGarbage = garbageVector.get(g);
-                                int garbX, garbY;
-                                garbX = Math.round((checkingGarbage.GetPosX() - checkingGarbage.GetWidth() * 0.5f) / checkingGarbage.GetWidth());
-                                garbY = Math.round((checkingGarbage.GetPosY() + checkingGarbage.GetWidth() * 0.5f) / checkingGarbage.GetWidth());
-
-                                //check for adjacent attack tiles
-                                boolean canUndo = false;
-                                // check left
-                                if (garbX - 1 >= 0)
-                                {
-                                    if (grid[garbY][garbX - 1] != null)
-                                    {
-                                        if (grid[garbY][garbX - 1].isAttack)
-                                            canUndo = true;
-                                    }
-                                }
-                                // check right
-                                if (!canUndo && garbX + 1 < numCols)
-                                {
-                                    if (grid[garbY][garbX + 1] != null)
-                                    {
-                                        if (grid[garbY][garbX + 1].isAttack)
-                                            canUndo = true;
-                                    }
-                                }
-                                // check up
-                                if (!canUndo && garbY - 1 >= 0)
-                                {
-                                    if (grid[garbY - 1][garbX] != null)
-                                    {
-                                        if (grid[garbY - 1][garbX].isAttack)
-                                            canUndo = true;
-                                    }
-                                }
-                                // check down
-                                if (!canUndo && garbY + 1 < numRows - 1)
-                                {
-                                    if (grid[garbY + 1][garbX] != null)
-                                    {
-                                        if (grid[garbY + 1][garbX].isAttack)
-                                            canUndo = true;
-                                    }
-                                }
-
-                                if (canUndo)
-                                {
-                                    checkingGarbage.isGarbage = false;
-                                    garbageVector.remove(g);
-                                }
-                            }
-                        }
+                        CheckCleanGarbage();
 
                         clearTime = 0;
                         boardState = boardStates.CLEARING;
@@ -608,5 +552,81 @@ public class BoardManager {
             return true;
         }
         return false;
+    }
+
+    boolean CheckCleanGarbage()
+    {
+        boolean cleanedGarbage = false;
+        //Clean garbage
+        if (!garbageVector.isEmpty())
+        {
+            for (int g = garbageVector.size() - 1; g >= 0; --g)
+            {
+                //get coords of tile in grid
+                TileEntity checkingGarbage = garbageVector.get(g);
+                int garbX, garbY;
+                garbX = Math.round((checkingGarbage.GetPosX() - checkingGarbage.GetWidth() * 0.5f) / checkingGarbage.GetWidth());
+                garbY = Math.round((checkingGarbage.GetPosY() + checkingGarbage.GetWidth() * 0.5f) / checkingGarbage.GetWidth());
+
+                //check for adjacent attack tiles
+                boolean canClean = false;
+                // check left
+                if (garbX - 1 >= 0)
+                {
+                    if (grid[garbY][garbX - 1] != null)
+                    {
+                        if (grid[garbY][garbX - 1].isAttack)
+                        {
+                            cleanedGarbage = true;
+                            canClean = true;
+                        }
+                    }
+                }
+                // check right
+                if (!canClean && garbX + 1 < numCols)
+                {
+                    if (grid[garbY][garbX + 1] != null)
+                    {
+                        if (grid[garbY][garbX + 1].isAttack)
+                        {
+                            cleanedGarbage = true;
+                            canClean = true;
+                        }
+                    }
+                }
+                // check up
+                if (!canClean && garbY - 1 >= 0)
+                {
+                    if (grid[garbY - 1][garbX] != null)
+                    {
+                        if (grid[garbY - 1][garbX].isAttack)
+                        {
+                            cleanedGarbage = true;
+                            canClean = true;
+                        }
+                    }
+                }
+                // check down
+                if (!canClean && garbY + 1 < numRows - 1)
+                {
+                    if (grid[garbY + 1][garbX] != null)
+                    {
+                        if (grid[garbY + 1][garbX].isAttack)
+                        {
+                            cleanedGarbage = true;
+                            canClean = true;
+                        }
+                    }
+                }
+
+                if (canClean)
+                {
+                    checkingGarbage.isGarbage = false;
+                    garbageVector.remove(g);
+                }
+            }
+        }
+
+        return cleanedGarbage;
     }
 }
