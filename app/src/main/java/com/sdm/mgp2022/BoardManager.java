@@ -44,8 +44,6 @@ public class BoardManager {
     public TileEntity [][] grid = new TileEntity[numRows][numCols];
     public TileEntity selectedTile = null;
 
-    private Vector<TileEntity> garbageVector = new Vector<TileEntity>(); //stores all garbage tiles
-
     private final float clearDelayTotal = 0.5f;
     private final float clearAnimStart = 0.2f;
     private float clearTime = 0;
@@ -198,8 +196,6 @@ public class BoardManager {
                     }
                     else
                     {
-                        CheckCleanGarbage();
-
                         clearTime = 0;
                         boardState = boardStates.CLEARING;
                     }
@@ -476,7 +472,6 @@ public class BoardManager {
     {
         boolean[][] visited = new boolean[numRows][numCols];
         ArrayList<Integer[]> identicalElements = new ArrayList<>();
-        ArrayList<Integer[]> garbageElements = new ArrayList<>();
         boolean hasattack = false;
         for (int i = 0; i < numRows; i++) {
             for (int j = 0; j < numCols; j++) {
@@ -489,16 +484,11 @@ public class BoardManager {
                                 grid[element[0]][element[1]].isAttack = true;
 
                                 // remove garbage status from adjacent tiles from the ones that got cleared
-//                                dfsGarbage(element[0],element[1],garbageElements);
-//                                for (Integer[] garbage : garbageElements) {
-//                                    grid[garbage[0]][garbage[1]].isGarbage = false;
-//                                }
-
+                                clearGarbage(element[0],element[1]);
                             }
                             hasattack = true;
                         }
                     }
-                    garbageElements.clear();
                     identicalElements.clear();
                 }
             }
@@ -528,18 +518,7 @@ public class BoardManager {
         return hasattack;
     }
 
-//    // for finding adjacent garbage tiles to turn them back to normal tiles
-//    public int dfsGarbage(int i, int j, ArrayList<Integer[]> garbageTiles) {
-//        if (i < 0 || i >= numRows || j < 0 || j >= numCols || grid[i][j] == null || !grid[i][j].isGarbage) {
-//            return 0;
-//        }
-//
-//        garbageTiles.add(new Integer[]{i, j});
-//        return 1 + dfsGarbage(i - 1, j, garbageTiles)
-//                + dfsGarbage(i + 1, j, garbageTiles)
-//                + dfsGarbage(i, j - 1, garbageTiles)
-//                + dfsGarbage(i, j + 1, garbageTiles);
-//    }
+
 
     // By Jiu Len
     // for converting tiles to garbage tiles
@@ -547,86 +526,37 @@ public class BoardManager {
     {
         if(grid[i][j] != null) {
             grid[i][j].isGarbage = true;
-            garbageVector.add(grid[i][j]);
 
             return true;
         }
         return false;
     }
 
-    boolean CheckCleanGarbage()
+    // By Jonathan
+    void clearGarbage(int row, int col)
     {
-        boolean cleanedGarbage = false;
-        //Clean garbage
-        if (!garbageVector.isEmpty())
-        {
-            for (int g = garbageVector.size() - 1; g >= 0; --g)
-            {
-                //get coords of tile in grid
-                TileEntity checkingGarbage = garbageVector.get(g);
-                int garbX, garbY;
-                garbX = Math.round((checkingGarbage.GetPosX() - checkingGarbage.GetWidth() * 0.5f) / checkingGarbage.GetWidth());
-                garbY = Math.round((checkingGarbage.GetPosY() + checkingGarbage.GetWidth() * 0.5f) / checkingGarbage.GetWidth());
-
-                //check for adjacent attack tiles
-                boolean canClean = false;
-                // check left
-                if (garbX - 1 >= 0)
-                {
-                    if (grid[garbY][garbX - 1] != null)
-                    {
-                        if (grid[garbY][garbX - 1].isAttack)
-                        {
-                            cleanedGarbage = true;
-                            canClean = true;
-                        }
-                    }
-                }
-                // check right
-                if (!canClean && garbX + 1 < numCols)
-                {
-                    if (grid[garbY][garbX + 1] != null)
-                    {
-                        if (grid[garbY][garbX + 1].isAttack)
-                        {
-                            cleanedGarbage = true;
-                            canClean = true;
-                        }
-                    }
-                }
-                // check up
-                if (!canClean && garbY - 1 >= 0)
-                {
-                    if (grid[garbY - 1][garbX] != null)
-                    {
-                        if (grid[garbY - 1][garbX].isAttack)
-                        {
-                            cleanedGarbage = true;
-                            canClean = true;
-                        }
-                    }
-                }
-                // check down
-                if (!canClean && garbY + 1 < numRows - 1)
-                {
-                    if (grid[garbY + 1][garbX] != null)
-                    {
-                        if (grid[garbY + 1][garbX].isAttack)
-                        {
-                            cleanedGarbage = true;
-                            canClean = true;
-                        }
-                    }
-                }
-
-                if (canClean)
-                {
-                    checkingGarbage.isGarbage = false;
-                    garbageVector.remove(g);
-                }
-            }
+        // Check element above
+        if (row > 0) {
+            if(grid[row-1][col] != null && grid[row-1][col].isGarbage)
+                grid[row-1][col].isGarbage = false;
         }
 
-        return cleanedGarbage;
+        // Check element below
+        if (row < numRows - 1) {
+            if(grid[row+1][col] != null && grid[row+1][col].isGarbage)
+                grid[row+1][col].isGarbage = false;
+        }
+
+        // Check element to the left
+        if (col > 0) {
+            if(grid[row][col-1] != null && grid[row][col-1].isGarbage)
+                grid[row][col-1].isGarbage = false;
+        }
+
+        // Check element to the right
+        if (col < numCols - 1) {
+            if(grid[row][col+1] != null && grid[row][col+1].isGarbage)
+                grid[row][col+1].isGarbage = false;
+        }
     }
 }
