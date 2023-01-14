@@ -48,21 +48,16 @@ public class Mainmenu extends Activity implements OnClickListener, StateBase{
     //Invoke a callback event in the view
     public void onClick(View v)
     {
-        // Intent = action to be performed.
-        // Intent is an object provides runtime binding.
-        // new instance of this object intent
-
         Intent intent = new Intent();
 
         if (v == btn_play)
         {
-            // intent --> to set to another class which another page or screen that we are launching.
             intent.setClass(this, GamePage.class);
             StateManager.Instance.ChangeState("MainGame");
         }
         else if (v == btn_leaderboard)
         {
-//            intent.setClass(this, Leaderboard.class);
+            intent.setClass(this, Leaderboard.class);
         }
         else if (v == btn_settings)
         {
