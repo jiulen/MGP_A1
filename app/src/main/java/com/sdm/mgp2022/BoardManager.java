@@ -212,23 +212,23 @@ public class BoardManager {
                 }
                 // by jiulen
                 case CLEARING: {
+                    int rand = RANDOM.nextInt(3);
+                    switch (rand)
+                    {
+                        case 1:
+                            AudioManager.Instance.PlayAudio(R.raw.combo1, 100, false);
+                            break;
+                        case 2:
+                            AudioManager.Instance.PlayAudio(R.raw.combo2, 100, false);
+                            break;
+                        case 3:
+                            AudioManager.Instance.PlayAudio(R.raw.combo3, 100, false);
+                            break;
+                    }
                     if (clearTime < clearDelayTotal)
                     {
                         if (clearTime > clearAnimStart && !clearAnimStarted) //Start clear animation for all clearing tiles
                         {
-                            int rand = RANDOM.nextInt(3);
-                            switch (rand)
-                            {
-                                case 1:
-                                    AudioManager.Instance.PlayAudio(R.raw.combo1, 100, false);
-                                    break;
-                                case 2:
-                                    AudioManager.Instance.PlayAudio(R.raw.combo2, 100, false);
-                                    break;
-                                case 3:
-                                    AudioManager.Instance.PlayAudio(R.raw.combo3, 100, false);
-                                    break;
-                            }
                             for(int i = 1; i < numRows; ++i)
                             {
                                 for(int j = 0; j< numCols; ++j)
@@ -554,12 +554,15 @@ public class BoardManager {
     public void ConvertGarbage1()
     {
         int i = 0;
+        AudioManager.Instance.PlayAudio(R.raw.trash, 100, false);
+        AudioManager.Instance.PlayAudio(R.raw.block, 100, false);
         while (i < 3)
         {
             int x = RANDOM.nextInt(numRows - 1);
             int y = RANDOM.nextInt(numCols);
 
-            if(grid[x][y] != null) {
+            if(grid[x][y] != null && grid[x][y] != null) {
+
                 grid[x][y].isGarbage = true;
                 i++;
             }
@@ -570,22 +573,31 @@ public class BoardManager {
     // 2nd boss attack patten
     public void ConvertGarbage2()
     {
-        int y = RANDOM.nextInt(numCols);
-        for (int i = 0; i < numRows - 1; i++) {
-            if(grid[i][y] != null) {
-                grid[i][y].isGarbage = true;
+        AudioManager.Instance.PlayAudio(R.raw.trash, 100, false);
+        AudioManager.Instance.PlayAudio(R.raw.block, 100, false);
+        while(true)
+        {
+            int y = RANDOM.nextInt(numCols);
+            if(grid[0][y] != null && !grid[0][y].isGarbage)
+                continue;
+            for (int i = 0; i < numRows - 1; i++) {
+                if(grid[i][y] != null) {
+                    grid[i][y].isGarbage = true;
+                }
             }
+            break;
         }
+
     }
 
     // By Jiu Len
     // 3rd boss attack pattern
     public void ConvertGarbage3(int i)
     {
+        AudioManager.Instance.PlayAudio(R.raw.trash, 100, false);
+        AudioManager.Instance.PlayAudio(R.raw.block, 100, false);
         for (int j = 0; j < 6; j++) {
             if (grid[i][j] != null) {
-                AudioManager.Instance.PlayAudio(R.raw.trash, 100, false);
-                AudioManager.Instance.PlayAudio(R.raw.block, 100, false);
                 grid[i][j].isGarbage = true;
             }
         }
@@ -595,6 +607,8 @@ public class BoardManager {
     // 4th boss attack pattern
     public void ConvertGarbage4()
     {
+        AudioManager.Instance.PlayAudio(R.raw.trash, 100, false);
+        AudioManager.Instance.PlayAudio(R.raw.block, 100, false);
         for (int i = 0; i < numRows - 1; i++) {
             for (int j = 0; j < numCols; j++) {
                 if (grid[i][j] != null) {
