@@ -182,7 +182,11 @@ public class BoardManager {
                         System.out.println("Invalid swap");
 
                     else
+                    {
+                        AudioManager.Instance.PlayAudio(R.raw.switchh, 100, false);
                         clearedTilesNum = 0; //only need reset clearedTiles when tile added/moved
+                    }
+
 
                     boardState = boardStates.CHECKSEQ;
                     break;
@@ -212,6 +216,19 @@ public class BoardManager {
                     {
                         if (clearTime > clearAnimStart && !clearAnimStarted) //Start clear animation for all clearing tiles
                         {
+                            int rand = RANDOM.nextInt(3);
+                            switch (rand)
+                            {
+                                case 1:
+                                    AudioManager.Instance.PlayAudio(R.raw.combo1, 100, false);
+                                    break;
+                                case 2:
+                                    AudioManager.Instance.PlayAudio(R.raw.combo2, 100, false);
+                                    break;
+                                case 3:
+                                    AudioManager.Instance.PlayAudio(R.raw.combo3, 100, false);
+                                    break;
+                            }
                             for(int i = 1; i < numRows; ++i)
                             {
                                 for(int j = 0; j< numCols; ++j)
@@ -567,6 +584,8 @@ public class BoardManager {
     {
         for (int j = 0; j < 6; j++) {
             if (grid[i][j] != null) {
+                AudioManager.Instance.PlayAudio(R.raw.trash, 100, false);
+                AudioManager.Instance.PlayAudio(R.raw.block, 100, false);
                 grid[i][j].isGarbage = true;
             }
         }
