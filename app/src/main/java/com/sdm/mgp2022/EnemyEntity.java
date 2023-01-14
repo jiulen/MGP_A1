@@ -24,12 +24,14 @@ public class EnemyEntity implements EntityBase {
     //Health bar
     TextEntity hpName;
     Paint hpPaint = new Paint();
-    public int health = 25; //enemy die when health = 0
+    public int health = 50; //enemy die when health = 0
+    public int maxHealth = 50;
     private float hpPosY;
     //Attack bar
     TextEntity atkName;
     Paint atkPaint = new Paint();
     public int charge = 0; //enemy attack when charge = 100
+    public int maxCharge = 100;
     private float chargeTime = 0.3f; //time required to get +1 charge
     private float lastCharge = 0;
     private float atkPosY;
@@ -107,13 +109,13 @@ public class EnemyEntity implements EntityBase {
         }
         //Draw health bar
         _canvas.drawRect(xPos - width * 0.5f, hpPosY - 15,
-                        xPos - width * 0.5f + width * (health / 25.f), hpPosY + 15, hpPaint);
+                        xPos - width * 0.5f + width * (health / (float)maxHealth), hpPosY + 15, hpPaint);
         _canvas.drawRect(xPos - width * 0.5f - outlineWidth * 0.5f, hpPosY - 15 - outlineWidth * 0.5f,
                         xPos + width * 0.5f + outlineWidth * 0.5f, hpPosY + 15 + outlineWidth * 0.5f,
                              outlinePaint);
         //Draw attack bar
         _canvas.drawRect(xPos - width * 0.5f, atkPosY - 15,
-                xPos - width * 0.5f + width * (charge / 100.f), atkPosY + 15, atkPaint);
+                xPos - width * 0.5f + width * (charge / (float)maxCharge), atkPosY + 15, atkPaint);
         _canvas.drawRect(xPos - width * 0.5f - outlineWidth * 0.5f, atkPosY - 15 - outlineWidth * 0.5f,
                 xPos + width * 0.5f + outlineWidth * 0.5f, atkPosY + 15 + outlineWidth * 0.5f,
                 outlinePaint);

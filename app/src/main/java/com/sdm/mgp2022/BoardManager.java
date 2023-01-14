@@ -53,6 +53,9 @@ public class BoardManager {
     public int clearedTilesNum = 0;
     public boolean attackSent = true;
 
+    public int tileMoveSpeed = 15;
+    public int moveSpeedMultiplier = 1;
+
     void setButtonDownA(boolean state)
     {
         aButtonDown = state;
@@ -69,11 +72,6 @@ public class BoardManager {
     {
         enemyHealth = health;
     }
-
-
-
-
-
 
 
     // done by jonathan
@@ -262,7 +260,7 @@ public class BoardManager {
                     if (grid[i][j] != null)
                     {
                         float prevpos = grid[i][j].GetPosY();
-                        float newpos = prevpos + (level * 15 * dt);
+                        float newpos = prevpos + (level * tileMoveSpeed * moveSpeedMultiplier * dt);
                         grid[i][j].SetPosY(newpos);
                         yoffset = width - (newpos % width);
 
@@ -364,6 +362,29 @@ public class BoardManager {
             }
         }
         return dropped;
+    }
+
+    // by jiu len
+    // similar to dropNewTilesRow but for enemy attacks (so y pos is slightly different)
+    // return row where tiles are dropped
+    public int dropNewTilesRowEarly(int width) {
+        int rowDropped = -1;
+        for(int j = 0; j < numCols; ++j) {
+            if (grid[0][j] != null)
+                return rowDropped; //invalid
+
+            if (grid[1][j] != null) //drop in row 0
+                rowDropped = 0;
+            else
+                rowDropped = 1;
+
+            do {
+                if (grid[rowDropped][j] != null)
+                    grid[rowDropped][j].SetIsDone(true);
+                grid[rowDropped][j] = TileEntity.Create(randomTile(), width,width * (j + 0.5f), grid[rowDropped+1][j].GetPosY() - width);
+            } while (MarkIdenticalTilesVar(2));
+        }
+        return rowDropped;
     }
 
     // swap on 1 column
@@ -494,5 +515,14 @@ public class BoardManager {
                 + dfsGarbage(i + 1, j, garbageTiles)
                 + dfsGarbage(i, j - 1, garbageTiles)
                 + dfsGarbage(i, j + 1, garbageTiles);
+    }
+
+    // By Jiu Len
+    // for converting tiles to garbage tiles
+    public void ConvertGarbage(int i, int j)
+    {
+        if(grid[i][j] != null) {
+            grid[i][j].isGarbage = true;
+        }
     }
 }

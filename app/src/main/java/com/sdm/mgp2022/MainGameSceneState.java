@@ -136,8 +136,6 @@ public class MainGameSceneState implements StateBase {
 
         if (!GameSystem.Instance.GetIsPaused())
         {
-            board.updateBoard(level, tileWidth, _dt);
-
             if (board.lose) //If lose
             {
 
@@ -148,6 +146,39 @@ public class MainGameSceneState implements StateBase {
             }
             else //Only play if not won or lost
             {
+                board.updateBoard(level, tileWidth, _dt);
+
+                //check enemy attack
+                if (enemy.charge == enemy.maxCharge && board.boardState == BoardManager.boardStates.READY) //enemy atk charged and board ready
+                {
+                    switch (enemy.enemyLevel)
+                    {
+                        case 1:
+                            //supposed to be level 3 atk (test here for now)
+                            int rowDropped = board.dropNewTilesRowEarly(tileWidth);
+                            if (rowDropped == -1)
+                            {
+                               System.out.println("Invalid tile spawn - from level 3 attack");
+                            }
+                            else
+                            {
+                                for (int j = 0; j < 6; ++j)
+                                {
+                                    board.ConvertGarbage(rowDropped, j);
+                                }
+                            }
+                            break;
+                        case 2:
+                            break;
+                        case 3:
+                            break;
+                        case 4:
+                            break;
+                    }
+
+                    enemy.charge = 0; //reset charge after attack done
+                }
+
                 if (!board.attackSent)
                 {
                     if (board.clearedTilesNum > 0)
