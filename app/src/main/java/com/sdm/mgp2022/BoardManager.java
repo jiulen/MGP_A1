@@ -380,7 +380,7 @@ public class BoardManager {
     // similar to dropNewTilesRow but for enemy attacks (so y pos is slightly different)
     // return row where tiles are dropped
     public int dropNewTilesRowEarly(int width) {
-        int rowDropped = -1;
+        int rowDropped = -1; //for current tile dropped
         for(int j = 0; j < numCols; ++j) {
             if (grid[0][j] != null)
                 return rowDropped; //invalid
@@ -397,15 +397,29 @@ public class BoardManager {
                 float dropYPos;
                 if (rowDropped == 1)
                 {
-                    dropYPos = width * (0.5f) - width; //change this to find a reference tile
+                    dropYPos = width * (0.5f) - width; //if no reference tile
+                    for (int y = 0; y < numRows; ++y)
+                    {
+                        for (int x = 0; x < numCols; ++x)
+                        {
+                            if (y == rowDropped && x == j)
+                                continue;
+
+                            if (grid[y][x] != null)
+                            {
+                                dropYPos = grid[y][x].GetPosY() - (y - rowDropped + 1) * width;
+                                break;
+                            }
+                        }
+                    }
                 }
                 else
-                    dropYPos = grid[rowDropped + 1][j].GetPosY() - width;
+                    dropYPos = grid[1][j].GetPosY() - width;
 
-                grid[rowDropped][j] = TileEntity.Create(randomTile(), width,width * (j + 0.5f), dropYPos);
+                grid[0][j] = TileEntity.Create(randomTile(), width,width * (j + 0.5f), dropYPos);
             } while (MarkIdenticalTilesVar(2));
         }
-        return rowDropped;
+        return 0;
     }
 
     // swap on 1 column

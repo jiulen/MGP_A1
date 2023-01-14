@@ -168,7 +168,9 @@ public class MainGameSceneState implements StateBase {
                             {
                                 for (int j = 0; j < 6; ++j)
                                 {
-                                    board.ConvertGarbage(rowDropped, j);
+                                    boolean dropped = board.ConvertGarbage(rowDropped, j);
+                                    if (dropped)
+                                        System.out.println("row:" + rowDropped + "j:" + j);
                                 }
                             }
                             board.moveSpeedMultiplier = 5;
