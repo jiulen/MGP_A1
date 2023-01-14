@@ -204,6 +204,8 @@ public class MainGameSceneState implements StateBase {
                             GameSystem.Instance.SetIntInSave("Hi-Score", player.score);
                         }
                         GameSystem.Instance.SaveEditEnd();
+
+                        board.clearedTilesNum = 0;
                     }
 
                     board.attackSent = true; //Set attackSent back to true
