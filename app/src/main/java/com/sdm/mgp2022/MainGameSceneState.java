@@ -158,11 +158,16 @@ public class MainGameSceneState implements StateBase {
                     switch (enemy.enemyLevel)
                     {
                         case 1:
-                            //supposed to be level 3 atk (test here for now)
+                            board.ConvertGarbage1();
+                            break;
+                        case 2:
+                            board.ConvertGarbage2();
+                            break;
+                        case 3:
                             int rowDropped = board.dropNewTilesRowEarly(tileWidth);
                             if (rowDropped == -1)
                             {
-                               System.out.println("Invalid tile spawn - from level 3 attack");
+                                System.out.println("Invalid tile spawn - from level 3 attack");
                             }
                             else
                             {
@@ -170,11 +175,8 @@ public class MainGameSceneState implements StateBase {
                             }
                             board.moveSpeedMultiplier = 5;
                             break;
-                        case 2:
-                            break;
-                        case 3:
-                            break;
                         case 4:
+                            board.ConvertGarbage4();
                             break;
                     }
 

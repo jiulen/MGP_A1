@@ -532,14 +532,14 @@ public class BoardManager {
         return hasattack;
     }
 
-
+    // by jonathan
     // 1st boss attack pattern
     public void ConvertGarbage1()
     {
         int i = 0;
         while (i < 3)
         {
-            int x = RANDOM.nextInt(numRows);
+            int x = RANDOM.nextInt(numRows - 1);
             int y = RANDOM.nextInt(numCols);
 
             if(grid[x][y] != null) {
@@ -549,11 +549,12 @@ public class BoardManager {
         }
     }
 
+    // by jonathan
     // 2nd boss attack patten
     public void ConvertGarbage2()
     {
         int y = RANDOM.nextInt(numCols);
-        for (int i = 0; i < numRows; i++) {
+        for (int i = 0; i < numRows - 1; i++) {
             if(grid[i][y] != null) {
                 grid[i][y].isGarbage = true;
             }
@@ -571,10 +572,11 @@ public class BoardManager {
         }
     }
 
+    // by jonathan
     // 4th boss attack pattern
     public void ConvertGarbage4()
     {
-        for (int i = 0; i < numRows; i++) {
+        for (int i = 0; i < numRows - 1; i++) {
             for (int j = 0; j < numCols; j++) {
                 if (grid[i][j] != null) {
                     grid[i][j].isGarbage = true;
