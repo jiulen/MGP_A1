@@ -262,11 +262,13 @@ public class BoardManager {
                     break;
                 }
                 case LOSE: {
+                    AudioManager.Instance.PlayAudio(R.raw.gameover, 100, false);
                     System.out.println("LOSE");
                     lose = true;
                     break;
                 }
                 case WIN:{
+                    AudioManager.Instance.PlayAudio(R.raw.winsting, 100, false);
                     System.out.println("WIN");
                     win = true;
                     break;

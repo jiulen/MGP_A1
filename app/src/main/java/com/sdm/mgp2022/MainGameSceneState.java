@@ -115,6 +115,7 @@ public class MainGameSceneState implements StateBase {
         levelText.text = "LEVEL " + level;
 
         board.fillBoard(tileWidth);
+        AudioManager.Instance.PlayAudio(R.raw.startgame, 100, false);
         board.setPlayerCol(player.column);
 
         GameSystem.Instance.SetIsPaused(false);
