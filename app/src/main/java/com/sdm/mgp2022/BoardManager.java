@@ -41,9 +41,10 @@ public class BoardManager {
     boolean lose = false;
     boolean win = false;
 
-    public Vector<TileSequence> matchingSequences = new Vector<TileSequence>();
     public TileEntity [][] grid = new TileEntity[numRows][numCols];
     public TileEntity selectedTile = null;
+
+    private Vector<TileEntity> garbageVector = new Vector<TileEntity>(); //stores all garbage tiles
 
     private final float clearDelayTotal = 0.5f;
     private final float clearAnimStart = 0.2f;
@@ -185,13 +186,70 @@ public class BoardManager {
                     }
                     else
                     {
+                        //Undo garbage
+                        if (!garbageVector.isEmpty())
+                        {
+                            for (int g = garbageVector.size() - 1; g >= 0; --g)
+                            {
+                                //get coords of tile in grid
+                                TileEntity checkingGarbage = garbageVector.get(g);
+                                int garbX, garbY;
+                                garbX = Math.round((checkingGarbage.GetPosX() - checkingGarbage.GetWidth() * 0.5f) / checkingGarbage.GetWidth());
+                                garbY = Math.round((checkingGarbage.GetPosY() + checkingGarbage.GetWidth() * 0.5f) / checkingGarbage.GetWidth());
+
+                                //check for adjacent attack tiles
+                                boolean canUndo = false;
+                                // check left
+                                if (garbX - 1 >= 0)
+                                {
+                                    if (grid[garbY][garbX - 1] != null)
+                                    {
+                                        if (grid[garbY][garbX - 1].isAttack)
+                                            canUndo = true;
+                                    }
+                                }
+                                // check right
+                                if (!canUndo && garbX + 1 < numCols)
+                                {
+                                    if (grid[garbY][garbX + 1] != null)
+                                    {
+                                        if (grid[garbY][garbX + 1].isAttack)
+                                            canUndo = true;
+                                    }
+                                }
+                                // check up
+                                if (!canUndo && garbY - 1 >= 0)
+                                {
+                                    if (grid[garbY - 1][garbX] != null)
+                                    {
+                                        if (grid[garbY - 1][garbX].isAttack)
+                                            canUndo = true;
+                                    }
+                                }
+                                // check down
+                                if (!canUndo && garbY + 1 < numRows - 1)
+                                {
+                                    if (grid[garbY + 1][garbX] != null)
+                                    {
+                                        if (grid[garbY + 1][garbX].isAttack)
+                                            canUndo = true;
+                                    }
+                                }
+
+                                if (canUndo)
+                                {
+                                    checkingGarbage.isGarbage = false;
+                                    garbageVector.remove(g);
+                                }
+                            }
+                        }
+
                         clearTime = 0;
                         boardState = boardStates.CLEARING;
                     }
                     break;
                 }
                 case GENERATE: {
-
                     dropNewTilesRow(width);
                     boardState = boardStates.READY;
                     break;
@@ -383,7 +441,16 @@ public class BoardManager {
             do {
                 if (grid[rowDropped][j] != null)
                     grid[rowDropped][j].SetIsDone(true);
-                grid[rowDropped][j] = TileEntity.Create(randomTile(), width,width * (j + 0.5f), grid[rowDropped+1][j].GetPosY() - width);
+
+                float dropYPos;
+                if (rowDropped == 1)
+                {
+                    dropYPos = width * (0.5f) - width; //change this to find a reference tile
+                }
+                else
+                    dropYPos = grid[rowDropped + 1][j].GetPosY() - width;
+
+                grid[rowDropped][j] = TileEntity.Create(randomTile(), width,width * (j + 0.5f), dropYPos);
             } while (MarkIdenticalTilesVar(2));
         }
         return rowDropped;
@@ -394,17 +461,15 @@ public class BoardManager {
     boolean swapTiles(int col) {
         for(int row = 10; row > 0; --row) {
             if (grid[row][col] != null && grid[row - 1][col] != null) {
-                if (grid[row][col].tileType != grid[row - 1][col].tileType)
-                {
-                    TileEntity tmp = grid[row-1][col];
+                TileEntity tmp = grid[row-1][col];
 
-                    // setpos fixed by jiulen
-                    grid[row - 1][col] = grid[row][col];
-                    grid[row - 1][col].SetPosY(grid[row - 1][col].GetPosY() - grid[row - 1][col].GetWidth());
+                // setpos fixed by jiulen
+                grid[row - 1][col] = grid[row][col];
+                grid[row - 1][col].SetPosY(grid[row - 1][col].GetPosY() - grid[row - 1][col].GetWidth());
 
-                    grid[row][col] = tmp;
-                    grid[row][col].SetPosY(grid[row][col].GetPosY() + grid[row][col].GetWidth());
-                }
+                grid[row][col] = tmp;
+                grid[row][col].SetPosY(grid[row][col].GetPosY() + grid[row][col].GetWidth());
+
                 return true;
             }
         }
@@ -439,7 +504,7 @@ public class BoardManager {
     // of identical elements. When it finishes searching a chain of identical elements, it checks if the length of the chain is greater than or equal
     // to the minimum length.
     public int dfs(int i, int j, TileEntity.TILE_TYPES type, boolean[][] visited, ArrayList<Integer[]> identicalElements) {
-        if (i < 0 || i >= numRows || j < 0 || j >= numCols || visited[i][j] || grid[i][j] == null || grid[i][j].tileType != type) {
+        if (i < 0 || i >= numRows || j < 0 || j >= numCols || visited[i][j] || grid[i][j] == null || grid[i][j].tileType != type || grid[i][j].isGarbage) {
             return 0;
         }
         visited[i][j] = true;
@@ -468,12 +533,13 @@ public class BoardManager {
                                 grid[element[0]][element[1]].isAttack = true;
 
                                 // remove garbage status from adjacent tiles from the ones that got cleared
-                                dfsGarbage(element[0],element[1],garbageElements);
-                                for (Integer[] garbage : garbageElements) {
-                                    grid[garbage[0]][garbage[1]].isGarbage = false;
-                                }
-                                hasattack = true;
+//                                dfsGarbage(element[0],element[1],garbageElements);
+//                                for (Integer[] garbage : garbageElements) {
+//                                    grid[garbage[0]][garbage[1]].isGarbage = false;
+//                                }
+
                             }
+                            hasattack = true;
                         }
                     }
                     garbageElements.clear();
@@ -506,25 +572,29 @@ public class BoardManager {
         return hasattack;
     }
 
-    // for finding adjacent garbage tiles to turn them back to normal tiles
-    public int dfsGarbage(int i, int j, ArrayList<Integer[]> garbageTiles) {
-        if (i < 0 || i >= numRows || j < 0 || j >= numCols || grid[i][j] == null || !grid[i][j].isGarbage) {
-            return 0;
-        }
-
-        garbageTiles.add(new Integer[]{i, j});
-        return 1 + dfsGarbage(i - 1, j, garbageTiles)
-                + dfsGarbage(i + 1, j, garbageTiles)
-                + dfsGarbage(i, j - 1, garbageTiles)
-                + dfsGarbage(i, j + 1, garbageTiles);
-    }
+//    // for finding adjacent garbage tiles to turn them back to normal tiles
+//    public int dfsGarbage(int i, int j, ArrayList<Integer[]> garbageTiles) {
+//        if (i < 0 || i >= numRows || j < 0 || j >= numCols || grid[i][j] == null || !grid[i][j].isGarbage) {
+//            return 0;
+//        }
+//
+//        garbageTiles.add(new Integer[]{i, j});
+//        return 1 + dfsGarbage(i - 1, j, garbageTiles)
+//                + dfsGarbage(i + 1, j, garbageTiles)
+//                + dfsGarbage(i, j - 1, garbageTiles)
+//                + dfsGarbage(i, j + 1, garbageTiles);
+//    }
 
     // By Jiu Len
     // for converting tiles to garbage tiles
-    public void ConvertGarbage(int i, int j)
+    public boolean ConvertGarbage(int i, int j)
     {
         if(grid[i][j] != null) {
             grid[i][j].isGarbage = true;
+            garbageVector.add(grid[i][j]);
+
+            return true;
         }
+        return false;
     }
 }
