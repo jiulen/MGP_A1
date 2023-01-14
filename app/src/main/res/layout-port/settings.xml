@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:background="@drawable/blankbg">
 
-    <EditText
+    <TextView
         android:id="@+id/settingsTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -14,13 +14,11 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:inputType="text"
         android:fontFamily="monospace"
         android:textColor="@color/white"
-        android:text="Settings"
-        android:importantForAutofill="no"/>
+        android:text="Settings"/>
 
-    <EditText
+    <TextView
         android:id="@+id/settingsText1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -29,12 +27,10 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="250dp"
         android:fontFamily="monospace"
-        android:inputType="text"
         android:textColor="@color/white"
-        android:text="Drag and drop buttons to move"
-        android:importantForAutofill="no" />
+        android:text="Drag and drop buttons to move" />
 
-    <EditText
+    <TextView
         android:id="@+id/settingsText2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -43,10 +39,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="285dp"
         android:fontFamily="monospace"
-        android:inputType="text"
         android:textColor="@color/white"
-        android:text="them within the bounding box"
-        android:importantForAutofill="no" />
+        android:text="them within the bounding box" />
 
     <ImageButton
         android:id="@+id/btn_back"

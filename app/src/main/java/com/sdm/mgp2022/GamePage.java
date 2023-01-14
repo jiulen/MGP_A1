@@ -44,8 +44,8 @@ public class GamePage extends FragmentActivity {
     //Pause screen (change class)
     public void StartPause()
     {
-        //Intent intent = new Intent(this, Settings.class);
-        //startActivity(intent);
+        Intent intent = new Intent(this, PauseScreen.class);
+        startActivity(intent);
     }
 }
 

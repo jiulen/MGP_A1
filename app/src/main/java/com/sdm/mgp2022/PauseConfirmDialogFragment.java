@@ -21,7 +21,7 @@ public class PauseConfirmDialogFragment extends DialogFragment {
                    @Override
                    public void onClick(DialogInterface dialogInterface, int id) {
                        //User triggered pause
-                       GameSystem.Instance.SetIsPaused(!GameSystem.Instance.GetIsPaused());
+                       GameSystem.Instance.SetIsPaused(true);
                        IsShown = false;
                        GamePage.Instance.StartPause();
                    }

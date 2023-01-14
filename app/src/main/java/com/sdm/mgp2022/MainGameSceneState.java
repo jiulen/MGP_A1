@@ -47,10 +47,12 @@ public class MainGameSceneState implements StateBase {
         return "MainGame";
     }
 
-    BoardManager board = new BoardManager();
+    BoardManager board;
     @Override
     public void OnEnter(SurfaceView _view) //by jiulen
     {
+        board = new BoardManager();
+
         //Set scores in save
         GameSystem.Instance.SaveEditBegin();
         //Init score saved
@@ -114,6 +116,8 @@ public class MainGameSceneState implements StateBase {
 
         board.fillBoard(tileWidth);
         board.setPlayerCol(player.column);
+
+        GameSystem.Instance.SetIsPaused(false);
     }
 
     @Override

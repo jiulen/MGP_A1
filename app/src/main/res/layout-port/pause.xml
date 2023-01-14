@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/blankbg">
+
+    <TextView
+        android:id="@+id/pauseTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:fontFamily="monospace"
+        android:textColor="@color/white"
+        android:text="Paused" />
+
+    <Button
+        android:id="@+id/resumeButton"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="300dp"
+        android:fontFamily="monospace"
+        android:textColor="@color/white"
+        android:background="@drawable/white_border"
+        android:padding="10dp"
+        android:text="Resume" />
+
+    <Button
+        android:id="@+id/mainmenuButton"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="400dp"
+        android:fontFamily="monospace"
+        android:textColor="@color/white"
+        android:background="@drawable/white_border"
+        android:padding="10dp"
+        android:text="Main Menu" />
+
+    <ImageButton
+        android:id="@+id/btn_leaderboard"
+        android:layout_width="65dp"
+        android:layout_height="72dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="200dp"
+        android:layout_marginBottom="12dp"
+        android:background="@null"
+        android:contentDescription="Leaderboard"
+        android:scaleType="fitCenter"
+        android:src="@drawable/leaderboard_icon"
+        app:srcCompat="@drawable/leaderboard_icon" />
+
+    <ImageButton
+        android:id="@+id/btn_settings"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@null"
+        android:contentDescription="Settings"
+        android:src="@drawable/settings_icon"
+        app:srcCompat="@drawable/settings_icon" />
+
+    <ImageView
+        android:id="@+id/CompanyName"
+        android:layout_width="110dp"
+        android:layout_height="46dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="6dp"
+        android:contentDescription="Green match"
+        android:src="@drawable/greenlogo"
+        app:srcCompat="@drawable/greenlogo" />
+
+</RelativeLayout>

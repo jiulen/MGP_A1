@@ -56,5 +56,15 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name = ".PauseScreen"
+            android:screenOrientation ="portrait"
+            android:exported="true">
+            <intent-filter>
+                <action android:name = "android.intent.action.MAIN" />
+                <category android:name = "android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
     </application>
 </manifest>

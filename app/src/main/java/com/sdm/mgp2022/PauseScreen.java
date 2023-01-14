@@ -1,25 +1,18 @@
 package com.sdm.mgp2022;
 
 import android.app.Activity;
-import android.content.res.Resources;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.util.DisplayMetrics;
-import android.view.SurfaceView;
-import android.view.View;
-import android.view.View.OnClickListener;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.content.Intent;
+import android.widget.Button;
 import android.widget.ImageButton;
 
-// Created by TanSiewLan2021
-
-public class Mainmenu extends Activity implements OnClickListener, StateBase{
-
+public class PauseScreen extends Activity implements View.OnClickListener {
     //Define buttons
-    private ImageButton btn_play;
+    private Button btn_resume;
+    private Button btn_mainmenu;
     private ImageButton btn_leaderboard;
     private ImageButton btn_settings;
 
@@ -34,10 +27,12 @@ public class Mainmenu extends Activity implements OnClickListener, StateBase{
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        setContentView(R.layout.mainmenu);
+        setContentView(R.layout.pause);
 
-        btn_play = findViewById(R.id.btn_play);
-        btn_play.setOnClickListener(this); //Set Listener to this button --> Play Button
+        btn_resume = findViewById(R.id.resumeButton);
+        btn_resume.setOnClickListener(this); //Set Listener to this button --> Resume Button
+        btn_mainmenu = findViewById(R.id.mainmenuButton);
+        btn_mainmenu.setOnClickListener(this); //Set Listener to this button --> Main Menu Button
         btn_leaderboard = findViewById(R.id.btn_leaderboard);
         btn_leaderboard.setOnClickListener(this); //Set Listener to this button --> Leaderboard Button
         btn_settings = findViewById(R.id.btn_settings);
@@ -48,17 +43,18 @@ public class Mainmenu extends Activity implements OnClickListener, StateBase{
     //Invoke a callback event in the view
     public void onClick(View v)
     {
-        // Intent = action to be performed.
-        // Intent is an object provides runtime binding.
-        // new instance of this object intent
-
         Intent intent = new Intent();
 
-        if (v == btn_play)
+        if (v == btn_resume)
         {
-            // intent --> to set to another class which another page or screen that we are launching.
-            intent.setClass(this, GamePage.class);
-            StateManager.Instance.ChangeState("MainGame");
+            GameSystem.Instance.SetIsPaused(false);
+            intent = null;
+            finish();
+        }
+        else if (v == btn_mainmenu)
+        {
+            intent.setClass(this, Mainmenu.class);
+            StateManager.Instance.ChangeState("MainMenu");
         }
         else if (v == btn_leaderboard)
         {
@@ -69,32 +65,8 @@ public class Mainmenu extends Activity implements OnClickListener, StateBase{
             intent.setClass(this, Settings.class);
         }
 
-        startActivity(intent);
-
-    }
-
-    @Override
-    public String GetName() {
-        return "MainMenu";
-    }
-
-    @Override
-    public void OnEnter(SurfaceView _view)
-    {
-    }
-
-    @Override
-    public void OnExit() {
-    }
-
-    @Override
-    public void Render(Canvas _canvas)
-    {
-    }
-
-    @Override
-    public void Update(float _dt)
-    {
+        if (intent != null)
+            startActivity(intent);
     }
 
     @Override
