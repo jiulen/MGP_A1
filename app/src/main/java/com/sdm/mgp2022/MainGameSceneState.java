@@ -167,6 +167,7 @@ public class MainGameSceneState implements StateBase {
                                     board.ConvertGarbage(rowDropped, j);
                                 }
                             }
+                            board.moveSpeedMultiplier = 5;
                             break;
                         case 2:
                             break;

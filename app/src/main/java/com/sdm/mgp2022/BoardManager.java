@@ -129,8 +129,10 @@ public class BoardManager {
                         if (grid[1][j] != null)
                             emptyLastRow = false;
                     }
-                    if (emptyLastRow)
+                    if (emptyLastRow) {
+                        moveSpeedMultiplier = 1; //reset moveSpeedMultiplier when next row of tiles spawns
                         boardState = boardStates.GENERATE;
+                    }
 
                     if (aButtonDown)
                     {
@@ -189,6 +191,7 @@ public class BoardManager {
                     break;
                 }
                 case GENERATE: {
+
                     dropNewTilesRow(width);
                     boardState = boardStates.READY;
                     break;
