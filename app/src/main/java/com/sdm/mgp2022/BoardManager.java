@@ -263,7 +263,7 @@ public class BoardManager {
                     if (grid[i][j] != null)
                     {
                         float prevpos = grid[i][j].GetPosY();
-                        float newpos = prevpos + (level * tileMoveSpeed * moveSpeedMultiplier * dt);
+                        float newpos = prevpos + ((0.5f + 0.5f * level) * tileMoveSpeed * moveSpeedMultiplier * dt);
                         grid[i][j].SetPosY(newpos);
                         yoffset = width - (newpos % width);
 
@@ -273,7 +273,6 @@ public class BoardManager {
                             grid[i + 1][j] = grid[i][j];
                             grid[i + 1][j].SetPosY(width * (i - 0.5f));
                             grid[i][j] = null;
-                            //boardState = boardStates.GENERATE;
                         }
                     }
                 }
