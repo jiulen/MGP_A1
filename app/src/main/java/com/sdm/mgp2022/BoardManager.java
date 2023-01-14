@@ -533,17 +533,54 @@ public class BoardManager {
     }
 
 
+    // 1st boss attack pattern
+    public void ConvertGarbage1()
+    {
+        int i = 0;
+        while (i < 3)
+        {
+            int x = RANDOM.nextInt(numRows);
+            int y = RANDOM.nextInt(numCols);
+
+            if(grid[x][y] != null) {
+                grid[x][y].isGarbage = true;
+                i++;
+            }
+        }
+    }
+
+    // 2nd boss attack patten
+    public void ConvertGarbage2()
+    {
+        int y = RANDOM.nextInt(numCols);
+        for (int i = 0; i < numRows; i++) {
+            if(grid[i][y] != null) {
+                grid[i][y].isGarbage = true;
+            }
+        }
+    }
 
     // By Jiu Len
-    // for converting tiles to garbage tiles
-    public boolean ConvertGarbage(int i, int j)
+    // 3rd boss attack pattern
+    public void ConvertGarbage3(int i)
     {
-        if(grid[i][j] != null) {
-            grid[i][j].isGarbage = true;
-
-            return true;
+        for (int j = 0; j < 6; j++) {
+            if (grid[i][j] != null) {
+                grid[i][j].isGarbage = true;
+            }
         }
-        return false;
+    }
+
+    // 4th boss attack pattern
+    public void ConvertGarbage4()
+    {
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < numCols; j++) {
+                if (grid[i][j] != null) {
+                    grid[i][j].isGarbage = true;
+                }
+            }
+        }
     }
 
     // By Jonathan
