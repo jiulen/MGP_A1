@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.util.Set;
+
 public class Leaderboard extends Activity implements View.OnClickListener {
     //Define buttons
     private ImageButton btn_back;
@@ -45,6 +47,8 @@ public class Leaderboard extends Activity implements View.OnClickListener {
         super.onStart();
 
         //Parse data
+        Set<String> leaderboardInfoSet = GameSystem.Instance.GetStringSetFromSave("Leaderboard");
+        String[] leaderbaordInfoArray = leaderboardInfoSet.toArray(new String[leaderboardInfoSet.size()]);
 
         //Sort scores
 

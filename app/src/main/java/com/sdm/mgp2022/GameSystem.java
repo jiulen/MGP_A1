@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.view.SurfaceView;
 
+import java.util.HashSet;
+import java.util.Set;
+
 // Created by TanSiewLan2021
 
 public class GameSystem {
@@ -44,6 +47,15 @@ public class GameSystem {
         return isPaused;
     }
 
+    public void ResetSave()
+    {
+        if (editor != null)
+            return;
+
+        editor = sharedPref.edit();
+        editor.clear().commit();
+    }
+
     public void SaveEditBegin()
     {
         // Safety check, only allow if not already editing
@@ -80,12 +92,25 @@ public class GameSystem {
         editor.putBoolean(_key, _value);
     }
 
+    public void SetStringSetInSave(String _key, Set<String> _value)
+    {
+        if (editor == null)
+            return;
+
+        editor.putStringSet(_key, _value);
+    }
+
     public int GetIntFromSave(String _key)
     {
         return sharedPref.getInt(_key, 10);
     }
 
     public boolean GetBoolFromSave(String _key) { return sharedPref.getBoolean(_key, false); }
+
+    public Set<String> GetStringSetFromSave(String _key) {
+        Set<String> returnSet = new HashSet<String>(sharedPref.getStringSet(_key, new HashSet<String>()));
+        return returnSet; //returns a copy of string set
+    }
 
     public boolean CheckKeyInSave(String _key) {
         return sharedPref.contains(_key);

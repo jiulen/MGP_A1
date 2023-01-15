@@ -9,6 +9,9 @@ import android.widget.EditText;
 
 import androidx.fragment.app.DialogFragment;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class UsernameInputDialogFragment  extends DialogFragment {
     public static boolean IsShown = false;
 
@@ -31,6 +34,18 @@ public class UsernameInputDialogFragment  extends DialogFragment {
                             // Dont accept empty username - open another dialog
                             UsernameInputDialogFragment newUsernameInput = new UsernameInputDialogFragment();
                             newUsernameInput.show(WinLoseScreen.Instance.getSupportFragmentManager(), "WinLose Username Input");
+                        }
+                        else
+                        {
+                            Set<String> leaderboardInfo = GameSystem.Instance.GetStringSetFromSave("Leaderboard");
+                            //Comma delimited (Name,Score,Rank) - No rank here
+                            String playerInfo = usernameInput.getText().toString()
+                                    + "," + GameSystem.Instance.GetIntFromSave("Score")
+                                    + ",";
+                            leaderboardInfo.add(playerInfo);
+                            GameSystem.Instance.SaveEditBegin();
+                            GameSystem.Instance.SetStringSetInSave("Leaderboard", leaderboardInfo);
+                            GameSystem.Instance.SaveEditEnd();
                         }
                         IsShown = false;
                     }
