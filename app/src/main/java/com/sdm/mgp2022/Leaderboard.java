@@ -40,6 +40,14 @@ public class Leaderboard extends Activity implements View.OnClickListener {
     }
 
     @Override
+    protected void onStart()
+    {
+        super.onStart();
+
+        //Sort scores and stuff
+    }
+
+    @Override
     //Invoke a callback event in the view
     public void onClick(View v)
     {
