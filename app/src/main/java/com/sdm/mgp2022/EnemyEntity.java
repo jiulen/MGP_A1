@@ -154,15 +154,19 @@ public class EnemyEntity implements EntityBase {
         {
             case 1:
                 enemyNameText.text = "Home";
+                chargeTime = 0.3f;
                 break;
             case 2:
                 enemyNameText.text = "Home";
+                chargeTime = 0.4f;
                 break;
             case 3:
                 enemyNameText.text = "Home";
+                chargeTime = 0.5f;
                 break;
             case 4:
                 enemyNameText.text = "Home";
+                chargeTime = 0.6f;
                 break;
         }
 
