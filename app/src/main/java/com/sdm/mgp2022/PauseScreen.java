@@ -9,7 +9,11 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 
-public class PauseScreen extends Activity implements View.OnClickListener {
+import androidx.fragment.app.FragmentActivity;
+
+public class PauseScreen extends FragmentActivity implements View.OnClickListener {
+    public static PauseScreen Instance = null;
+
     //Define buttons
     private Button btn_resume;
     private Button btn_mainmenu;
@@ -37,6 +41,8 @@ public class PauseScreen extends Activity implements View.OnClickListener {
         btn_leaderboard.setOnClickListener(this); //Set Listener to this button --> Leaderboard Button
         btn_settings = findViewById(R.id.btn_settings);
         btn_settings.setOnClickListener(this); //Set Listener to this button --> Settings Button
+
+        Instance = this;
     }
 
     @Override
@@ -53,8 +59,14 @@ public class PauseScreen extends Activity implements View.OnClickListener {
         }
         else if (v == btn_mainmenu)
         {
-            intent.setClass(this, Mainmenu.class);
-            StateManager.Instance.ChangeState("MainMenu");
+            intent = null;
+
+            //Button got clicked show the popup dialog
+            if (MainMenuConfirmDialogFragment.IsShown)
+                return;
+
+            MainMenuConfirmDialogFragment newMainMenuConfirm = new MainMenuConfirmDialogFragment();
+            newMainMenuConfirm.show(PauseScreen.Instance.getSupportFragmentManager(), "Main Menu Confirm");
         }
         else if (v == btn_leaderboard)
         {
@@ -83,5 +95,12 @@ public class PauseScreen extends Activity implements View.OnClickListener {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    public void StartMainMenu()
+    {
+        Intent intent = new Intent(this, Mainmenu.class);
+        StateManager.Instance.ChangeState("MainMenu");
+        startActivity(intent);
     }
 }
