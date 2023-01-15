@@ -8,13 +8,15 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 public class Leaderboard extends Activity implements View.OnClickListener {
     //Define buttons
-    private Button btn_resume;
-    private Button btn_mainmenu;
-    private ImageButton btn_leaderboard;
-    private ImageButton btn_settings;
+    private ImageButton btn_back;
+
+    private TextView text_col_rank;
+    private TextView text_col_name;
+    private TextView text_col_score;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,14 +31,12 @@ public class Leaderboard extends Activity implements View.OnClickListener {
 
         setContentView(R.layout.leaderboard);
 
-//        btn_resume = findViewById(R.id.resumeButton);
-//        btn_resume.setOnClickListener(this); //Set Listener to this button --> Resume Button
-//        btn_mainmenu = findViewById(R.id.mainmenuButton);
-//        btn_mainmenu.setOnClickListener(this); //Set Listener to this button --> Main Menu Button
-//        btn_leaderboard = findViewById(R.id.btn_leaderboard);
-//        btn_leaderboard.setOnClickListener(this); //Set Listener to this button --> Leaderboard Button
-//        btn_settings = findViewById(R.id.btn_settings);
-//        btn_settings.setOnClickListener(this); //Set Listener to this button --> Settings Button
+        btn_back = findViewById(R.id.btn_back);
+        btn_back.setOnClickListener(this); //Set Listener to this button --> Resume Button
+
+        text_col_rank = findViewById(R.id.text_col_rank);
+        text_col_name = findViewById(R.id.text_col_name);
+        text_col_score = findViewById(R.id.text_col_score);
     }
 
     @Override
@@ -44,7 +44,12 @@ public class Leaderboard extends Activity implements View.OnClickListener {
     {
         super.onStart();
 
-        //Sort scores and stuff
+        //Parse data
+
+        //Sort scores
+
+        //Fill in leaderboard text
+
     }
 
     @Override
@@ -53,24 +58,11 @@ public class Leaderboard extends Activity implements View.OnClickListener {
     {
         Intent intent = new Intent();
 
-        if (v == btn_resume)
+        if (v == btn_back)
         {
             GameSystem.Instance.SetIsPaused(false);
             intent = null;
             finish();
-        }
-        else if (v == btn_mainmenu)
-        {
-            intent.setClass(this, Mainmenu.class);
-            StateManager.Instance.ChangeState("MainMenu");
-        }
-        else if (v == btn_leaderboard)
-        {
-//            intent.setClass(this, Leaderboard.class);
-        }
-        else if (v == btn_settings)
-        {
-            intent.setClass(this, Settings.class);
         }
 
         if (intent != null)

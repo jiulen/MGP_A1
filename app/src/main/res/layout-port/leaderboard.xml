@@ -16,31 +16,7 @@
         android:layout_marginTop="10dp"
         android:fontFamily="monospace"
         android:textColor="@color/white"
-        android:text="Settings"/>
-
-    <TextView
-        android:id="@+id/settingsText1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="250dp"
-        android:fontFamily="monospace"
-        android:textColor="@color/white"
-        android:text="Drag and drop buttons to move" />
-
-    <TextView
-        android:id="@+id/settingsText2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="285dp"
-        android:fontFamily="monospace"
-        android:textColor="@color/white"
-        android:text="them within the bounding box" />
+        android:text="Leaderboard"/>
 
     <ImageButton
         android:id="@+id/btn_back"
@@ -58,70 +34,47 @@
         android:src="@drawable/back_icon"
         app:srcCompat="@drawable/back_icon"/>
 
-    <ImageView
-        android:id="@+id/bounding_rect"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:scaleType="fitXY"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginRight="0dp"
-        android:layout_marginBottom="0dp"
-        android:background="@null"
-        android:contentDescription="B Icon"
-        android:src="@drawable/gray_square"
-        app:srcCompat="@drawable/gray_square" />
-
-    <ImageView
-        android:id="@+id/btn_left"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginBottom="20dp"
-        android:background="@null"
-        android:contentDescription="Left Icon"
-        android:src="@drawable/left_button"
-        app:srcCompat="@drawable/left_button" />
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/btn_back"
+        android:layout_margin="50dp">
 
-    <ImageView
-        android:id="@+id/btn_right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="100dp"
-        android:layout_marginBottom="20dp"
-        android:background="@null"
-        android:contentDescription="Right Icon"
-        android:src="@drawable/right_button"
-        app:srcCompat="@drawable/right_button" />
+        <TextView
+            android:id="@+id/text_col_rank"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:fontFamily="monospace"
+            android:text="RANK"
+            android:textAlignment="viewEnd"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
 
-    <ImageView
-        android:id="@+id/btn_a"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginRight="80dp"
-        android:layout_marginBottom="20dp"
-        android:background="@null"
-        android:contentDescription="A Icon"
-        android:src="@drawable/a_button"
-        app:srcCompat="@drawable/a_button" />
+        <TextView
+            android:id="@+id/text_col_name"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@id/text_col_rank"
+            android:layout_marginLeft="25dp"
+            android:fontFamily="monospace"
+            android:text="NAME"
+            android:textAlignment="viewEnd"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
 
-    <ImageView
-        android:id="@+id/btn_b"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="80dp"
-        android:background="@null"
-        android:contentDescription="B Icon"
-        android:src="@drawable/b_button"
-        app:srcCompat="@drawable/b_button" />
+        <TextView
+            android:id="@+id/text_col_score"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="25dp"
+            android:fontFamily="monospace"
+            android:text="SCORE"
+            android:textAlignment="viewEnd"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+    </RelativeLayout>
 
 </RelativeLayout>
