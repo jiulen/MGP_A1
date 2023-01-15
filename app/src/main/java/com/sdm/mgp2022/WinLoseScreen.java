@@ -10,7 +10,11 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-public class WinLoseScreen extends Activity implements View.OnClickListener{
+import androidx.fragment.app.FragmentActivity;
+
+public class WinLoseScreen extends FragmentActivity implements View.OnClickListener{
+    public static WinLoseScreen Instance = null;
+
     //Define buttons
     private Button btn_mainmenu;
 
@@ -37,6 +41,8 @@ public class WinLoseScreen extends Activity implements View.OnClickListener{
         text_winlose = findViewById(R.id.winloseTitle);
         text_score = findViewById(R.id.scoreText);
         text_highscore = findViewById(R.id.highscoreText);
+
+        Instance = this;
     }
 
     @Override
@@ -51,6 +57,9 @@ public class WinLoseScreen extends Activity implements View.OnClickListener{
 
         text_score.setText("HI-SCORE " + String.format("%09d", GameSystem.Instance.GetIntFromSave("Score")));
         text_highscore.setText("   SCORE " + String.format("%09d", GameSystem.Instance.GetIntFromSave("Hi-Score")));
+
+        UsernameInputDialogFragment newUsernameInput = new UsernameInputDialogFragment();
+        newUsernameInput.show(WinLoseScreen.Instance.getSupportFragmentManager(), "WinLose Username Input");
     }
 
     @Override
