@@ -33,7 +33,7 @@ public class BoardManager {
     private static final int tilesSize = TILES.size();
     private static final Random RANDOM = new Random();
 
-    int enemyHealth = 25;
+    int enemyHealth = 50;
     int playercol = 2;
     float yoffset = 0.f;
     boolean aButtonDown = false;
@@ -630,5 +630,35 @@ public class BoardManager {
             if(grid[row][col+1] != null && grid[row][col+1].isGarbage)
                 grid[row][col+1].isGarbage = false;
         }
+    }
+
+    public void ResetBoard() // Fill board, set player column and set enemy health done outside
+    {
+        yoffset = 0.f;
+        aButtonDown = false;
+        bButtonDown = false;
+        lose = false;
+        win = false;
+
+        for (int i = 0; i < numRows; ++i) //clear grid
+        {
+            for (int j = 0; j < numCols; ++j)
+            {
+                if (grid[i][j] != null)
+                {
+                    grid[i][j].SetIsDone(true);
+                    grid[i][j] = null;
+                }
+            }
+        }
+        selectedTile = null;
+
+        clearTime = 0;
+        clearAnimStarted = false;
+
+        clearedTilesNum = 0;
+        attackSent = true;
+
+        moveSpeedMultiplier = 1;
     }
 }

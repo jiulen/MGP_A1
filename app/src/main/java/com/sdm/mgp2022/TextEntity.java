@@ -20,6 +20,9 @@ public class TextEntity implements EntityBase {
     int fontSize;
     Paint.Align alignment;
 
+    public boolean rendered;
+    private int renderLayer;
+
     public boolean IsDone()
     {
         return isDone;
@@ -44,14 +47,17 @@ public class TextEntity implements EntityBase {
     {
     }
     public void Render(Canvas _canvas) {
-        _canvas.drawText(text, xPos, yPos, textPaint);
+        if (rendered)
+        {
+            _canvas.drawText(text, xPos, yPos, textPaint);
+        }
     }
 
     public boolean IsInit() { return isInit; }
 
     public int GetRenderLayer()
     {
-        return LayerConstants.UI_LAYER;
+        return renderLayer;
     }
     public void SetRenderLayer(int _newLayer)
     {
@@ -63,7 +69,7 @@ public class TextEntity implements EntityBase {
         return ENTITY_TYPE.ENT_TEXT;
     }
 
-    public static TextEntity Create(float _xPos, float _yPos, int r, int g, int b, int _fontSize, Paint.Align align)
+    public static TextEntity Create(float _xPos, float _yPos, int r, int g, int b, int _fontSize, Paint.Align align, int _renderLayer, boolean _rendered)
     {
         TextEntity result = new TextEntity();
         EntityManager.Instance.AddEntity(result, ENTITY_TYPE.ENT_TEXT);
@@ -74,6 +80,8 @@ public class TextEntity implements EntityBase {
         result.blue = b;
         result.fontSize = _fontSize;
         result.alignment = align;
+        result.renderLayer = _renderLayer;
+        result.rendered = _rendered;
         return result;
     }
 }

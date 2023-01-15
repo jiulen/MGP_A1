@@ -24,8 +24,8 @@ public class EnemyEntity implements EntityBase {
     //Health bar
     TextEntity hpName;
     Paint hpPaint = new Paint();
-    public int health = 50; //enemy die when health = 0
     public int maxHealth = 50;
+    public int health = maxHealth; //enemy die when health = 0
     private float hpPosY;
     //Attack bar
     TextEntity atkName;
@@ -53,7 +53,7 @@ public class EnemyEntity implements EntityBase {
     public void Init(SurfaceView _view)
     {
         //For name
-        enemyNameText = TextEntity.Create(xPos, yPos - width * 0.6f, 255, 255, 255, 50, Paint.Align.CENTER);
+        enemyNameText = TextEntity.Create(xPos, yPos - width * 0.6f, 255, 255, 255, 50, Paint.Align.CENTER, LayerConstants.UI_LAYER, true);
         enemyNameText.text = "Home";
         //For background of bitmap
         bgPaint.setARGB(255, 0, 0, 0);
@@ -71,12 +71,12 @@ public class EnemyEntity implements EntityBase {
 //        scaledBmps[2] = Bitmap.createScaledBitmap(bmps[2], width, width, true);
 //        scaledBmps[3] = Bitmap.createScaledBitmap(bmps[3], width, width, true);
         //For health bar
-        hpName = TextEntity.Create(xPos, yPos + width * 0.7f, 255, 255, 255, 50, Paint.Align.CENTER);
+        hpName = TextEntity.Create(xPos, yPos + width * 0.7f, 255, 255, 255, 50, Paint.Align.CENTER, LayerConstants.UI_LAYER, true);
         hpName.text = "Health";
         hpPaint.setARGB(255, 255, 0, 0);
         hpPosY = yPos + width * 1.0f;
         //For attack bar
-        atkName = TextEntity.Create(xPos, yPos + width * 1.4f, 255, 255, 255, 50, Paint.Align.CENTER);
+        atkName = TextEntity.Create(xPos, yPos + width * 1.4f, 255, 255, 255, 50, Paint.Align.CENTER, LayerConstants.UI_LAYER, true);
         atkName.text = "Attack";
         atkPaint.setARGB(255, 0, 255, 255);
         atkPosY = yPos + width * 1.7f;
@@ -134,13 +134,13 @@ public class EnemyEntity implements EntityBase {
 
     public ENTITY_TYPE GetEntityType()
     {
-        return ENTITY_TYPE.ENT_TEXT;
+        return ENTITY_TYPE.ENT_ENEMY;
     }
 
     public static EnemyEntity Create(float _xPos, float _yPos, int _width)
     {
         EnemyEntity result = new EnemyEntity();
-        EntityManager.Instance.AddEntity(result, ENTITY_TYPE.ENT_TEXT);
+        EntityManager.Instance.AddEntity(result, ENTITY_TYPE.ENT_ENEMY);
         result.xPos = _xPos;
         result.yPos = _yPos;
         result.width = _width;
@@ -150,7 +150,7 @@ public class EnemyEntity implements EntityBase {
     public void ChangeLevel(int newLevel)
     {
         enemyLevel = newLevel;
-        switch (newLevel) //change other things here e.g. hp, charge time
+        switch (newLevel) //change other things here e.g. picture
         {
             case 1:
                 enemyNameText.text = "Home";
@@ -165,6 +165,11 @@ public class EnemyEntity implements EntityBase {
                 enemyNameText.text = "Home";
                 break;
         }
+
+        // Reset values
+        health = maxHealth;
+        charge = 0;
+        lastCharge = 0;
     }
 }
 

@@ -13,4 +13,6 @@ public class LayerConstants {
     public final static int GAMEOBJECTS_LAYER = 100;
     public final static int UIBG_LAYER = 999;
     public final static int UI_LAYER = 1000;
+    public final static int OVERLAY_BG_LAYER = 1100;
+    public final static int OVERLAY_TEXT_LAYER = 1100;
 }

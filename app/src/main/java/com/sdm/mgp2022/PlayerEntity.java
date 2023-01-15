@@ -133,4 +133,17 @@ public class PlayerEntity implements EntityBase {
             xPos += tileWidth;
         }
     }
+
+    public void ResetPlayer()
+    {
+        // Reset sprite animation
+        isSelect = false;
+        isDrop = false;
+        isReverse = false;
+        spritesheet.currentFrame = spritesheet.startFrame;
+
+        // Reset position
+        column = 2;
+        xPos = (column + 0.5f) * tileWidth;
+    }
 }

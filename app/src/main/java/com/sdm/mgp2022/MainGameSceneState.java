@@ -39,6 +39,9 @@ public class MainGameSceneState implements StateBase {
     
     PauseButtonEntity pauseButton;
 
+    //Overlay
+    LevelClearOverlay levelClearOverlay;
+
     //GameObjects
     PlayerEntity player;
 
@@ -107,15 +110,19 @@ public class MainGameSceneState implements StateBase {
         //Enemy
         enemy = EnemyEntity.Create((int)(ScreenWidth / 9 * 7.5), (int)(ScreenWidth / 9 * 3), (int)(ScreenWidth / 9 * 2));
         //More text
-        scoreText = TextEntity.Create((int)(ScreenWidth / 9 * 3.3), (int)(ScreenWidth / 9 * 12.75), 255, 255, 255, 50, Paint.Align.RIGHT);
+        scoreText = TextEntity.Create((int)(ScreenWidth / 9 * 3.3), (int)(ScreenWidth / 9 * 12.75), 255, 255, 255, 50, Paint.Align.RIGHT, LayerConstants.UI_LAYER, true);
         scoreText.text = "SCORE " + String.format("%09d", GameSystem.Instance.GetIntFromSave("Score"));
-        hiScoreText = TextEntity.Create((int)(ScreenWidth / 9 * 3.3), (int)(ScreenWidth / 9 * 13.25), 255, 255, 255, 50, Paint.Align.RIGHT);
+        hiScoreText = TextEntity.Create((int)(ScreenWidth / 9 * 3.3), (int)(ScreenWidth / 9 * 13.25), 255, 255, 255, 50, Paint.Align.RIGHT, LayerConstants.UI_LAYER, true);
         hiScoreText.text = "HI-SCORE " + String.format("%09d", GameSystem.Instance.GetIntFromSave("Hi-Score"));
-        levelText = TextEntity.Create((int)(ScreenWidth / 9 * 7.5), (int)(ScreenWidth / 9 * 12.75), 255, 255, 255, 50, Paint.Align.LEFT);
+        levelText = TextEntity.Create((int)(ScreenWidth / 9 * 7.5), (int)(ScreenWidth / 9 * 12.75), 255, 255, 255, 50, Paint.Align.LEFT, LayerConstants.UI_LAYER, true);
         levelText.text = "LEVEL " + level;
+
+        //Overlay
+        levelClearOverlay = LevelClearOverlay.Create(ScreenWidth, ScreenHeight);
 
         board.fillBoard(tileWidth);
         board.setPlayerCol(player.column);
+        board.setEnemyHealth(enemy.health);
 
         GameSystem.Instance.SetIsPaused(false);
     }
@@ -138,15 +145,63 @@ public class MainGameSceneState implements StateBase {
     {
         EntityManager.Instance.Update(_dt);
 
-        if (!GameSystem.Instance.GetIsPaused())
+        if (GameSystem.Instance.GetIsPaused())
         {
-            if (board.lose) //If lose
+            if (board.lose)
             {
-
+                if (TouchManager.Instance.HasTouch())
+                {
+                    if (TouchManager.Instance.IsDown())
+                    {
+                        // Switch to game over screen (lose)
+                    }
+                }
             }
-            else if (board.win) //If win
+            else if (board.win)
             {
-
+                if (TouchManager.Instance.HasTouch())
+                {
+                    if (TouchManager.Instance.IsDown())
+                    {
+                        if (level < 4) // if not on last level
+                        {
+                            // Increase level by 1
+                            ++level;
+                            // Change enemy
+                            enemy.ChangeLevel(level);
+                            // Reset board and player
+                            player.ResetPlayer();
+                            board.ResetBoard();
+                            board.fillBoard(tileWidth);
+                            board.setPlayerCol(player.column);
+                            board.setEnemyHealth(enemy.health);
+                            // Unpause game
+                            GameSystem.Instance.SetIsPaused(false);
+                            // Remove overlay
+                            levelClearOverlay.SetRender(false);
+                        }
+                        else
+                        {
+                            // Switch to game over screen (win)
+                        }
+                    }
+                }
+            }
+        }
+        else
+        {
+            if (board.lose || board.win) //If lose or win
+            {
+                GameSystem.Instance.SetIsPaused(true);
+                levelClearOverlay.SetRender(true);
+                if (board.lose)
+                {
+                    levelClearOverlay.SetLevel(-level);
+                }
+                else if (board.win)
+                {
+                    levelClearOverlay.SetLevel(level);
+                }
             }
             else //Only play if not won or lost
             {
