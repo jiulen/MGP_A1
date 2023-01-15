@@ -20,7 +20,7 @@ public class Splashpage extends Activity
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.splashpage);
-
+        //AudioManager.Instance.PlayAudio(R.raw.logo, 100, false);
         //thread for displaying the Splash Screen
         Thread splashTread = new Thread() {
             @Override

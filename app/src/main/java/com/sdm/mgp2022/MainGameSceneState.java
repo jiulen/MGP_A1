@@ -121,6 +121,7 @@ public class MainGameSceneState implements StateBase {
         levelClearOverlay = LevelClearOverlay.Create(ScreenWidth, ScreenHeight);
 
         board.fillBoard(tileWidth);
+        AudioManager.Instance.PlayAudio(R.raw.startgame, 100, false);
         board.setPlayerCol(player.column);
         board.setEnemyHealth(enemy.health);
 
