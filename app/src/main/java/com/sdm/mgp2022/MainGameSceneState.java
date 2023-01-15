@@ -56,8 +56,10 @@ public class MainGameSceneState implements StateBase {
     {
         board = new BoardManager();
 
-        //Set scores in save
+        //Set stuff in save
         GameSystem.Instance.SaveEditBegin();
+        //Set win state in save (not winning yet)
+        GameSystem.Instance.SetBoolInSave("Win", false);
         //Init score saved
         GameSystem.Instance.SetIntInSave("Score", 0);
         //Init hi-score saved (if no hi-score)
@@ -155,6 +157,10 @@ public class MainGameSceneState implements StateBase {
                     if (TouchManager.Instance.IsDown())
                     {
                         // Switch to game over screen (lose)
+                        GameSystem.Instance.SaveEditBegin();
+                        GameSystem.Instance.SetBoolInSave("Win", false);
+                        GameSystem.Instance.SaveEditEnd();
+                        GamePage.Instance.StartGameover();
                     }
                 }
             }
@@ -184,6 +190,10 @@ public class MainGameSceneState implements StateBase {
                         else
                         {
                             // Switch to game over screen (win)
+                            GameSystem.Instance.SaveEditBegin();
+                            GameSystem.Instance.SetBoolInSave("Win", true);
+                            GameSystem.Instance.SaveEditEnd();
+                            GamePage.Instance.StartGameover();
                         }
                     }
                 }

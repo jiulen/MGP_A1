@@ -41,10 +41,17 @@ public class GamePage extends FragmentActivity {
         return true;
     }
 
-    //Pause screen (change class)
+    //Enter pause screen
     public void StartPause()
     {
         Intent intent = new Intent(this, PauseScreen.class);
+        startActivity(intent);
+    }
+
+    //Enter win lose screen
+    public void StartGameover()
+    {
+        Intent intent = new Intent(this, WinLoseScreen.class);
         startActivity(intent);
     }
 }

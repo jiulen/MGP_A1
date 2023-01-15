@@ -72,10 +72,20 @@ public class GameSystem {
         editor.putInt(_key, _value);
     }
 
+    public void SetBoolInSave(String _key, boolean _value)
+    {
+        if (editor == null)
+            return;
+
+        editor.putBoolean(_key, _value);
+    }
+
     public int GetIntFromSave(String _key)
     {
         return sharedPref.getInt(_key, 10);
     }
+
+    public boolean GetBoolFromSave(String _key) { return sharedPref.getBoolean(_key, false); }
 
     public boolean CheckKeyInSave(String _key) {
         return sharedPref.contains(_key);
