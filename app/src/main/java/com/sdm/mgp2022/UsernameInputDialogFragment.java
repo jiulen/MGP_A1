@@ -22,11 +22,11 @@ public class UsernameInputDialogFragment  extends DialogFragment {
         usernameInput.setInputType(InputType.TYPE_CLASS_TEXT);
         usernameInput.setHint("Username");
         builder.setView(usernameInput);
-        builder.setMessage("Enter your username to save your score (Username cannot be empty)")
+        builder.setMessage("Enter your username to save your score (Username must have 1 - 10 characters)")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int id) {
-                        if (usernameInput.getText().toString().equals(""))
+                        if (usernameInput.getText().toString().length() <= 0 || usernameInput.getText().toString().length() > 10)
                         {
                             // Dont accept empty username - open another dialog
                             UsernameInputDialogFragment newUsernameInput = new UsernameInputDialogFragment();
