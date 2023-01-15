@@ -102,10 +102,10 @@ public class EnemyEntity implements EntityBase {
         _canvas.drawRect(xPos - width * 0.5f, yPos - width * 0.5f,
                         xPos + width * 0.5f, yPos + width * 0.5f, bgPaint);
         //Draw bitmap (if available)
-        if (scaledBmps[enemyLevel] != null)
+        if (scaledBmps[enemyLevel - 1] != null)
         {
-            _canvas.drawBitmap(scaledBmps[enemyLevel], xPos - scaledBmps[enemyLevel].getWidth() * 0.5f,
-                    yPos - scaledBmps[enemyLevel].getHeight() * 0.5f, null);
+            _canvas.drawBitmap(scaledBmps[enemyLevel - 1], xPos - scaledBmps[enemyLevel - 1].getWidth() * 0.5f,
+                    yPos - scaledBmps[enemyLevel - 1].getHeight() * 0.5f, null);
         }
         //Draw health bar
         _canvas.drawRect(xPos - width * 0.5f, hpPosY - 15,
