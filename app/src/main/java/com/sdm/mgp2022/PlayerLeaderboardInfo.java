@@ -4,14 +4,12 @@ public class PlayerLeaderboardInfo {
     private String playerName;
     private int playerScore;
 
-    public void SetPlayerName(String name)
+    public PlayerLeaderboardInfo(String name, int score)
     {
         playerName = name;
-    }
-    public void SetPlayerScore(int score)
-    {
         playerScore = score;
     }
+
     public String GetPlayerName()
     {
         return playerName;

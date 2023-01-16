@@ -17,6 +17,7 @@ import android.widget.ImageButton;
 // Created by TanSiewLan2021
 
 public class Mainmenu extends Activity implements OnClickListener, StateBase{
+    public static Mainmenu Instance = null;
 
     //Define buttons
     private ImageButton btn_play;
@@ -42,6 +43,15 @@ public class Mainmenu extends Activity implements OnClickListener, StateBase{
         btn_leaderboard.setOnClickListener(this); //Set Listener to this button --> Leaderboard Button
         btn_settings = findViewById(R.id.btn_settings);
         btn_settings.setOnClickListener(this); //Set Listener to this button --> Settings Button
+
+        Instance = this;
+    }
+
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+        //GameSystem.Instance.Init(new SurfaceView(this));
     }
 
     @Override

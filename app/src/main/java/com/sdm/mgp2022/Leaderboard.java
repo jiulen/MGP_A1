@@ -50,19 +50,31 @@ public class Leaderboard extends Activity implements View.OnClickListener {
 
         //Parse data
         Set<String> leaderboardInfoSet = GameSystem.Instance.GetStringSetFromSave("Leaderboard");
-        String[] leaderbaordInfoArray = leaderboardInfoSet.toArray(new String[leaderboardInfoSet.size()]);
 
-        PlayerLeaderboardInfo playerLeaderboardInfo[] = new PlayerLeaderboardInfo[leaderboardInfoSet.size()];
-        for (int i = 0; i < leaderboardInfoSet.size(); ++i)
+        if (leaderboardInfoSet.size() > 0)
         {
-            String[] data = leaderbaordInfoArray[i].split(",");
-            playerLeaderboardInfo[i].SetPlayerName(data[0]);
-            playerLeaderboardInfo[i].SetPlayerScore(parseInt(data[1]));
+            String[] leaderbaordInfoArray = leaderboardInfoSet.toArray(new String[leaderboardInfoSet.size()]);
+            PlayerLeaderboardInfo playerLeaderboardInfo[] = new PlayerLeaderboardInfo[leaderbaordInfoArray.length];
+
+            for (int i = 0; i < leaderbaordInfoArray.length; ++i)
+            {
+                String[] data = leaderbaordInfoArray[i].split(",");
+                playerLeaderboardInfo[i] = new PlayerLeaderboardInfo(data[0], parseInt(data[1]));
+            }
+            //Sort scores
+
+            //Reset leaderboard text
+            text_col_rank.setText("RANK");
+            text_col_name.setText("NAME");
+            text_col_score.setText("SCORE");
+            //Fill in leaderboard text
+            for (int i = 0; i < playerLeaderboardInfo.length && i < 10; ++i) // Only show top 10 entries
+            {
+                text_col_rank.setText(text_col_rank.getText() + "\n\n" + (i + 1));
+                text_col_name.setText(text_col_name.getText() + "\n\n" + playerLeaderboardInfo[i].GetPlayerName());
+                text_col_score.setText(text_col_score.getText() + "\n\n" + String.format("%09d",playerLeaderboardInfo[i].GetPlayerScore()));
+            }
         }
-        //Sort scores
-
-        //Fill in leaderboard text
-
     }
 
     @Override
