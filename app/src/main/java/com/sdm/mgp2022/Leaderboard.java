@@ -62,13 +62,13 @@ public class Leaderboard extends Activity implements View.OnClickListener {
                 playerLeaderboardInfo[i] = new PlayerLeaderboardInfo(data[0], parseInt(data[1]));
             }
             //Sort scores
-
+            LeaderboardSorter.Instance.mergeSort(playerLeaderboardInfo, 0, playerLeaderboardInfo.length - 1);
             //Reset leaderboard text
             text_col_rank.setText("RANK");
             text_col_name.setText("NAME");
             text_col_score.setText("SCORE");
             //Fill in leaderboard text
-            for (int i = 0; i < playerLeaderboardInfo.length && i < 10; ++i) // Only show top 10 entries
+            for (int i = 0; i < playerLeaderboardInfo.length && i < 20; ++i) // Only show top 10 entries
             {
                 text_col_rank.setText(text_col_rank.getText() + "\n\n" + (i + 1));
                 text_col_name.setText(text_col_name.getText() + "\n\n" + playerLeaderboardInfo[i].GetPlayerName());
