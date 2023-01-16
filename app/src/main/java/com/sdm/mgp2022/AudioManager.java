@@ -3,6 +3,7 @@ package com.sdm.mgp2022;
 import android.media.MediaPlayer;
 import android.view.SurfaceView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,6 +16,8 @@ public class AudioManager {
     private SurfaceView view = null;
 
     private HashMap<Integer, MediaPlayer> AudioManager = new HashMap<Integer, MediaPlayer>();
+    private ArrayList<MediaPlayer> pauseArray = new ArrayList<MediaPlayer>();
+
     AudioManager() {};
 
     public void Init(SurfaceView surfaceView) {
@@ -53,7 +56,6 @@ public class AudioManager {
     public void StopAudio(int _id) {
         if (AudioManager.containsKey(_id)) {
             MediaPlayer curr = AudioManager.get(_id);
-            curr.setVolume(0, 0);
             curr.stop();
             curr.reset();
             curr.release();
@@ -67,5 +69,48 @@ public class AudioManager {
         for(Map.Entry<Integer, MediaPlayer> entry: AudioManager.entrySet()) {
             entry.getValue().setVolume(_volume, _volume);
         }
+    }
+
+    public void StopAllNoLoopAudio() //Doesnt stop looping audio (if need stop loop audio use StopAudio)
+    {
+        for(Map.Entry<Integer, MediaPlayer> entry: AudioManager.entrySet()) {
+            MediaPlayer curr = entry.getValue();
+            if (!curr.isLooping())
+            {
+                curr.stop();
+                curr.reset();
+                curr.release();
+            }
+
+            AudioManager.remove(entry.getKey());
+        }
+    }
+
+    public void PauseAllNoLoopAudio() //Doesnt stop looping audio (if need stop loop audio use StopAudio)
+    {
+        for(Map.Entry<Integer, MediaPlayer> entry: AudioManager.entrySet()) {
+            MediaPlayer curr = entry.getValue();
+            if (!curr.isLooping() && curr.isPlaying())
+            {
+                curr.pause();
+                pauseArray.add(curr);
+            }
+        }
+    }
+
+    public void ResumeAllAudio() //Resume all audio
+    {
+        for (MediaPlayer mediaPlayer : pauseArray)
+        {
+            mediaPlayer.start();
+        }
+
+        pauseArray.clear();
+        System.out.println("RESUME");
+    }
+
+    public void ClearPauseArray() //Used with StopAllNoLoopAudio() when switch scenes
+    {
+        pauseArray.clear();
     }
 }

@@ -55,6 +55,9 @@ public class PauseScreen extends FragmentActivity implements View.OnClickListene
         {
             GameSystem.Instance.SetIsPaused(false);
             intent = null;
+
+            AudioManager.Instance.ResumeAllAudio();
+
             finish();
         }
         else if (v == btn_mainmenu)

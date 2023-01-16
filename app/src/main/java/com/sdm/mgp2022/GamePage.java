@@ -46,6 +46,8 @@ public class GamePage extends FragmentActivity {
     {
         Intent intent = new Intent(this, PauseScreen.class);
         startActivity(intent);
+
+        AudioManager.Instance.PauseAllNoLoopAudio();
     }
 
     //Enter win lose screen

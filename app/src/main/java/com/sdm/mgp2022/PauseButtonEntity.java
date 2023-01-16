@@ -72,6 +72,7 @@ public class PauseButtonEntity implements EntityBase {
                         return;
 
                     PauseConfirmDialogFragment newPauseConfirm = new PauseConfirmDialogFragment();
+                    newPauseConfirm.setCancelable(false);
                     newPauseConfirm.show(GamePage.Instance.getSupportFragmentManager(), "Pause Confirm");
                 }
                 // if not just want a pause without the popup dialog
