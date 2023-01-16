@@ -48,12 +48,6 @@ public class UsernameInputDialogFragment  extends DialogFragment {
                         }
                         IsShown = false;
                     }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int id) {
-                        IsShown = false;
-                    }
                 });
         //Create the AlertDialog object and return it
         return builder.create();
