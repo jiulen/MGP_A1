@@ -48,6 +48,7 @@ public class BoardManager {
     private final float clearAnimStart = 0.2f;
     private float clearTime = 0;
     private boolean clearAnimStarted = false;
+    private boolean clearStarted = false;
 
     public int clearedTilesNum = 0;
     public boolean attackSent = true;
@@ -212,19 +213,24 @@ public class BoardManager {
                 }
                 // by jiulen
                 case CLEARING: {
-                    int rand = RANDOM.nextInt(3);
-                    switch (rand)
+                    if (!clearStarted)
                     {
-                        case 1:
-                            AudioManager.Instance.PlayAudio(R.raw.combo1, 100, false);
-                            break;
-                        case 2:
-                            AudioManager.Instance.PlayAudio(R.raw.combo2, 100, false);
-                            break;
-                        case 3:
-                            AudioManager.Instance.PlayAudio(R.raw.combo3, 100, false);
-                            break;
+                        int rand = RANDOM.nextInt(3);
+                        switch (rand)
+                        {
+                            case 0:
+                                AudioManager.Instance.PlayAudio(R.raw.combo1, 100, false);
+                                break;
+                            case 1:
+                                AudioManager.Instance.PlayAudio(R.raw.combo2, 100, false);
+                                break;
+                            case 2:
+                                AudioManager.Instance.PlayAudio(R.raw.combo3, 100, false);
+                                break;
+                        }
+                        clearStarted = true;
                     }
+
                     if (clearTime < clearDelayTotal)
                     {
                         if (clearTime > clearAnimStart && !clearAnimStarted) //Start clear animation for all clearing tiles
@@ -242,6 +248,7 @@ public class BoardManager {
                                     }
                                 }
                             }
+                            clearAnimStarted = true;
                         }
 
                         clearTime += dt;
@@ -251,6 +258,7 @@ public class BoardManager {
                         clearedTilesNum += clearedTiles();
                         clearTime = 0;
                         clearAnimStarted = false;
+                        clearStarted = false;
                         boardState = boardStates.GRAVITATE;
                     }
                     break;
@@ -695,6 +703,7 @@ public class BoardManager {
 
         clearTime = 0;
         clearAnimStarted = false;
+        clearStarted = false;
 
         clearedTilesNum = 0;
         attackSent = true;
