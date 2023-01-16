@@ -184,7 +184,7 @@ public class BoardManager {
 
                     else
                     {
-                        AudioManager.Instance.PlayAudio(R.raw.switchh, 100, false);
+                        AudioManager.Instance.PlayAudio(R.raw.switchh, false);
                         clearedTilesNum = 0; //only need reset clearedTiles when tile added/moved
                     }
 
@@ -219,13 +219,13 @@ public class BoardManager {
                         switch (rand)
                         {
                             case 0:
-                                AudioManager.Instance.PlayAudio(R.raw.combo1, 100, false);
+                                AudioManager.Instance.PlayAudio(R.raw.combo1, false);
                                 break;
                             case 1:
-                                AudioManager.Instance.PlayAudio(R.raw.combo2, 100, false);
+                                AudioManager.Instance.PlayAudio(R.raw.combo2, false);
                                 break;
                             case 2:
-                                AudioManager.Instance.PlayAudio(R.raw.combo3, 100, false);
+                                AudioManager.Instance.PlayAudio(R.raw.combo3, false);
                                 break;
                         }
                         clearStarted = true;
@@ -270,13 +270,13 @@ public class BoardManager {
                     break;
                 }
                 case LOSE: {
-                    AudioManager.Instance.PlayAudio(R.raw.gameover, 100, false);
+                    AudioManager.Instance.PlayAudio(R.raw.gameover, false);
                     System.out.println("LOSE");
                     lose = true;
                     break;
                 }
                 case WIN:{
-                    AudioManager.Instance.PlayAudio(R.raw.winsting, 100, false);
+                    AudioManager.Instance.PlayAudio(R.raw.winsting, false);
                     System.out.println("WIN");
                     win = true;
                     break;
@@ -588,8 +588,8 @@ public class BoardManager {
     public void ConvertGarbage1()
     {
         int i = 0;
-        AudioManager.Instance.PlayAudio(R.raw.trash, 100, false);
-        AudioManager.Instance.PlayAudio(R.raw.block, 100, false);
+        AudioManager.Instance.PlayAudio(R.raw.trash, false);
+        AudioManager.Instance.PlayAudio(R.raw.block, false);
         while (i < 3)
         {
             int x = RANDOM.nextInt(numRows - 1);
@@ -607,8 +607,8 @@ public class BoardManager {
     // 2nd boss attack patten
     public void ConvertGarbage2()
     {
-        AudioManager.Instance.PlayAudio(R.raw.trash, 100, false);
-        AudioManager.Instance.PlayAudio(R.raw.block, 100, false);
+        AudioManager.Instance.PlayAudio(R.raw.trash, false);
+        AudioManager.Instance.PlayAudio(R.raw.block, false);
         while(true)
         {
             int y = RANDOM.nextInt(numCols);
@@ -628,8 +628,8 @@ public class BoardManager {
     // 3rd boss attack pattern
     public void ConvertGarbage3(int i)
     {
-        AudioManager.Instance.PlayAudio(R.raw.trash, 100, false);
-        AudioManager.Instance.PlayAudio(R.raw.block, 100, false);
+        AudioManager.Instance.PlayAudio(R.raw.trash, false);
+        AudioManager.Instance.PlayAudio(R.raw.block, false);
         for (int j = 0; j < 6; j++) {
             if (grid[i][j] != null) {
                 grid[i][j].isGarbage = true;
@@ -641,8 +641,8 @@ public class BoardManager {
     // 4th boss attack pattern
     public void ConvertGarbage4()
     {
-        AudioManager.Instance.PlayAudio(R.raw.trash, 100, false);
-        AudioManager.Instance.PlayAudio(R.raw.block, 100, false);
+        AudioManager.Instance.PlayAudio(R.raw.trash, false);
+        AudioManager.Instance.PlayAudio(R.raw.block, false);
         for (int i = 0; i < numRows - 1; i++) {
             for (int j = 0; j < numCols; j++) {
                 if (grid[i][j] != null) {

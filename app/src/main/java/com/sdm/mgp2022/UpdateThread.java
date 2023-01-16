@@ -25,7 +25,6 @@ public class UpdateThread extends Thread {
 		// Manage your managers if there is any
         EntityManager.Instance.Init(_view);
         ResourceManager.Instance.Init(_view);
-        AudioManager.Instance.Init(_view);
     }
 
     public boolean IsRunning()

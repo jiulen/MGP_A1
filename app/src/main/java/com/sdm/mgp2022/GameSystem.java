@@ -30,7 +30,7 @@ public class GameSystem {
     public void Init(SurfaceView _view)
     {
         // Get our shared preferences (Save file)
-        sharedPref = Mainmenu.Instance.getSharedPreferences(SHARED_PREF_ID,0);
+        sharedPref = Splashpage.Instance.getSharedPreferences(SHARED_PREF_ID,0);
 
         // We will add all of our states into the state manager here!
         StateManager.Instance.AddState(new Mainmenu());

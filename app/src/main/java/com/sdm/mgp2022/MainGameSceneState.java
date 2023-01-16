@@ -123,7 +123,7 @@ public class MainGameSceneState implements StateBase {
         levelClearOverlay = LevelClearOverlay.Create(ScreenWidth, ScreenHeight);
 
         board.fillBoard(tileWidth);
-        AudioManager.Instance.PlayAudio(R.raw.gameplay, 100, true);
+        AudioManager.Instance.PlayAudio(R.raw.gameplay, true);
         board.setPlayerCol(player.column);
         board.setEnemyHealth(enemy.health);
 
@@ -285,7 +285,7 @@ public class MainGameSceneState implements StateBase {
 
                 if (leftButton.isDown)
                 {
-                    AudioManager.Instance.PlayAudio(R.raw.move, 100, false);
+                    AudioManager.Instance.PlayAudio(R.raw.move, false);
                     player.MoveLeft();
                     board.setPlayerCol(player.column);
                     if (board.selectedTile != null)
@@ -296,7 +296,7 @@ public class MainGameSceneState implements StateBase {
                 }
                 else if (rightButton.isDown)
                 {
-                    AudioManager.Instance.PlayAudio(R.raw.move, 100, false);
+                    AudioManager.Instance.PlayAudio(R.raw.move, false);
                     player.MoveRight();
                     board.setPlayerCol(player.column);
                     if (board.selectedTile != null)
@@ -323,7 +323,7 @@ public class MainGameSceneState implements StateBase {
                 switch (board.playerAnim)
                 {
                     case DROP:
-                        AudioManager.Instance.PlayAudio(R.raw.release, 100, false);
+                        AudioManager.Instance.PlayAudio(R.raw.release, false);
                         player.isDrop = true;
                         player.isSelect = false;
                         player.spritesheetRev.currentFrame = player.spritesheetRev.startFrame;
@@ -331,7 +331,7 @@ public class MainGameSceneState implements StateBase {
                         board.playerAnim = BoardManager.playerAnimation.NONE;
                         break;
                     case SELECT:
-                        AudioManager.Instance.PlayAudio(R.raw.pickup, 100, false);
+                        AudioManager.Instance.PlayAudio(R.raw.pickup, false);
                         player.isSelect = true;
                         player.isDrop = false;
                         player.spritesheet.currentFrame = player.spritesheet.startFrame;

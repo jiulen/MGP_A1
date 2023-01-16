@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
+import android.view.SurfaceView;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -11,6 +12,8 @@ import android.view.WindowManager;
 
 public class Splashpage extends Activity
 {
+    public static Splashpage Instance = null;
+
     protected boolean _active = true;
     protected int _splashTime = 2000;
 
@@ -37,8 +40,6 @@ public class Splashpage extends Activity
                     //do nothing
                 } finally {
                     finish();
-					//Create new activity based on and intent with CurrentActivity
-                    //Intent intent = new Intent(Splashpage.this, Mainmenu.class);
                     Intent intent = new Intent(Splashpage.this, Mainmenu.class);
                     startActivity(intent);
                     StateManager.Instance.ChangeState("MainMenu");
@@ -46,12 +47,35 @@ public class Splashpage extends Activity
             }
         };
         splashTread.start();
+
+        Instance = this;
+
+        StateManager.Instance.Init(new SurfaceView(this));
+        GameSystem.Instance.Init(new SurfaceView(this));
+        AudioManager.Instance.Init(new SurfaceView(this));
+        StateManager.Instance.Start("MainMenu");
+
+        if (!GameSystem.Instance.CheckKeyInSave("Volume")) // Init volume as 100 if not set yet
+        {
+            GameSystem.Instance.SetIntInSave("Volume", 100);
+            AudioManager.Instance.ChangeVolume(100);
+        }
     }
+
+
     public boolean onTouchEvent(MotionEvent event){
         if(event.getAction() == MotionEvent.ACTION_DOWN){
             _active = false;
         }
         return true;
+    }
+
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+
+        AudioManager.Instance.PlayAudio(R.raw.logo, false);
     }
 
    @Override
