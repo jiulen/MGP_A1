@@ -45,13 +45,10 @@ public class Mainmenu extends Activity implements OnClickListener, StateBase{
         btn_settings.setOnClickListener(this); //Set Listener to this button --> Settings Button
 
         Instance = this;
-    }
 
-    @Override
-    protected void onStart()
-    {
-        super.onStart();
-        //GameSystem.Instance.Init(new SurfaceView(this));
+        StateManager.Instance.Init(new SurfaceView(this));
+        GameSystem.Instance.Init(new SurfaceView(this));
+        StateManager.Instance.Start("MainMenu");
     }
 
     @Override
