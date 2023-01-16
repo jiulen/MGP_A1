@@ -350,6 +350,30 @@ public class BoardManager {
                 return true;
             }
         }
+
+        //Whole column empty - this part by jiulen
+        //Find a tile to reference
+        for (int y = 0; y <= 1; ++y) //no need check whole grid, if have tile on higher y than 1 then will have tile on y=1 also
+        {
+            for (int x = 0; x < numCols; ++x)
+            {
+                if (x == col)
+                    continue;
+
+                if (grid[y][x] != null)
+                {
+                    grid[1][col] = selectedTile;
+                    // set pos fixed by jiulen
+                    grid[1][col].SetPosY(grid[y][x].GetPosY() - (y - 1) * selectedTile.GetWidth());
+                    selectedTile = null;
+                    for (int j = 0; j < numCols; j++)
+                        grid[12][j] = null;
+
+                    return true;
+                }
+            }
+        }
+
         return false;
     }
 
@@ -417,7 +441,7 @@ public class BoardManager {
                 if (rowDropped == 1)
                 {
                     dropYPos = width * (0.5f) - width; //if no reference tile
-                    for (int y = 0; y < numRows; ++y)
+                    for (int y = 0; y < numRows - 1; ++y)
                     {
                         for (int x = 0; x < numCols; ++x)
                         {
