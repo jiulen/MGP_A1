@@ -1,4 +1,6 @@
-package com.sdm.mgp2022;
+package com.sdm.mgp2022; // By Jiu Len
+
+import static java.lang.Integer.parseInt;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -50,6 +52,13 @@ public class Leaderboard extends Activity implements View.OnClickListener {
         Set<String> leaderboardInfoSet = GameSystem.Instance.GetStringSetFromSave("Leaderboard");
         String[] leaderbaordInfoArray = leaderboardInfoSet.toArray(new String[leaderboardInfoSet.size()]);
 
+        PlayerLeaderboardInfo playerLeaderboardInfo[] = new PlayerLeaderboardInfo[leaderboardInfoSet.size()];
+        for (int i = 0; i < leaderboardInfoSet.size(); ++i)
+        {
+            String[] data = leaderbaordInfoArray[i].split(",");
+            playerLeaderboardInfo[i].SetPlayerName(data[0]);
+            playerLeaderboardInfo[i].SetPlayerScore(parseInt(data[1]));
+        }
         //Sort scores
 
         //Fill in leaderboard text

@@ -1,4 +1,4 @@
-package com.sdm.mgp2022;
+package com.sdm.mgp2022; // By Jiu Len
 
 import android.app.Activity;
 import android.content.Intent;

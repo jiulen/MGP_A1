@@ -38,10 +38,9 @@ public class UsernameInputDialogFragment  extends DialogFragment {
                         else
                         {
                             Set<String> leaderboardInfo = GameSystem.Instance.GetStringSetFromSave("Leaderboard");
-                            //Comma delimited (Name,Score,Rank) - No rank here
+                            //Comma delimited (Name,Score)
                             String playerInfo = usernameInput.getText().toString()
-                                    + "," + GameSystem.Instance.GetIntFromSave("Score")
-                                    + ",";
+                                    + "," + GameSystem.Instance.GetIntFromSave("Score");
                             leaderboardInfo.add(playerInfo);
                             GameSystem.Instance.SaveEditBegin();
                             GameSystem.Instance.SetStringSetInSave("Leaderboard", leaderboardInfo);
