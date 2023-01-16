@@ -52,6 +52,8 @@ public class EnemyEntity implements EntityBase {
 
     public void Init(SurfaceView _view)
     {
+        enemyLevel = 1;
+
         //For name
         enemyNameText = TextEntity.Create(xPos, yPos - width * 0.6f, 255, 255, 255, 50, Paint.Align.CENTER, LayerConstants.UI_LAYER, true);
         enemyNameText.text = "Home";

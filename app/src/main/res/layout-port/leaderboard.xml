@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/btn_back"
-        android:layout_margin="5dp">
+        android:layout_margin="25dp">
 
         <TextView
             android:id="@+id/text_col_rank"

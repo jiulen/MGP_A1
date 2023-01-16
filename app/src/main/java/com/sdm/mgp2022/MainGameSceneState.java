@@ -68,6 +68,8 @@ public class MainGameSceneState implements StateBase {
         }
         GameSystem.Instance.SaveEditEnd();
 
+        level = 1;
+
         DisplayMetrics displayMetrics = Resources.getSystem().getDisplayMetrics();
         ScreenWidth = displayMetrics.widthPixels;
         ScreenHeight = displayMetrics.heightPixels;

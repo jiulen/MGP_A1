@@ -68,7 +68,7 @@ public class Leaderboard extends Activity implements View.OnClickListener {
             text_col_name.setText("NAME");
             text_col_score.setText("SCORE");
             //Fill in leaderboard text
-            for (int i = 0; i < playerLeaderboardInfo.length && i < 20; ++i) // Only show top 10 entries
+            for (int i = 0; i < playerLeaderboardInfo.length && i < 15; ++i) // Only show top 15 entries
             {
                 text_col_rank.setText(text_col_rank.getText() + "\n\n" + (i + 1));
                 text_col_name.setText(text_col_name.getText() + "\n\n" + playerLeaderboardInfo[i].GetPlayerName());
