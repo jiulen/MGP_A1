@@ -64,14 +64,14 @@ public class EnemyEntity implements EntityBase {
         BitmapFactory.Options bfo = new BitmapFactory.Options();
         bfo.inScaled = true;
         //Load all bmps
-//        bmps[0] = BitmapFactory.decodeResource(_view.getResources(), R.drawable.enemy1, bfo);
-//        bmps[1] = BitmapFactory.decodeResource(_view.getResources(), R.drawable.enemy2, bfo);
-//        bmps[2] = BitmapFactory.decodeResource(_view.getResources(), R.drawable.enemy3, bfo);
-//        bmps[3] = BitmapFactory.decodeResource(_view.getResources(), R.drawable.enemy4, bfo);
-//        scaledBmps[0] = Bitmap.createScaledBitmap(bmps[0], width, width, true);
-//        scaledBmps[1] = Bitmap.createScaledBitmap(bmps[1], width, width, true);
-//        scaledBmps[2] = Bitmap.createScaledBitmap(bmps[2], width, width, true);
-//        scaledBmps[3] = Bitmap.createScaledBitmap(bmps[3], width, width, true);
+        bmps[0] = BitmapFactory.decodeResource(_view.getResources(), R.drawable.green_bin, bfo);
+        bmps[1] = BitmapFactory.decodeResource(_view.getResources(), R.drawable.factory, bfo);
+        bmps[2] = BitmapFactory.decodeResource(_view.getResources(), R.drawable.landfill, bfo);
+        bmps[3] = BitmapFactory.decodeResource(_view.getResources(), R.drawable.rivertrash, bfo);
+        scaledBmps[0] = Bitmap.createScaledBitmap(bmps[0], width, width, true);
+        scaledBmps[1] = Bitmap.createScaledBitmap(bmps[1], width, width, true);
+        scaledBmps[2] = Bitmap.createScaledBitmap(bmps[2], width, width, true);
+        scaledBmps[3] = Bitmap.createScaledBitmap(bmps[3], width, width, true);
         //For health bar
         hpName = TextEntity.Create(xPos, yPos + width * 0.7f, 255, 255, 255, 50, Paint.Align.CENTER, LayerConstants.UI_LAYER, true);
         hpName.text = "Health";

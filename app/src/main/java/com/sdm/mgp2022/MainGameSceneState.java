@@ -111,6 +111,7 @@ public class MainGameSceneState implements StateBase {
         FPSTextEntity.Create((int)(ScreenWidth / 9 * 7.5));
         //Enemy
         enemy = EnemyEntity.Create((int)(ScreenWidth / 9 * 7.5), (int)(ScreenWidth / 9 * 3), (int)(ScreenWidth / 9 * 2));
+        System.out.println(ScreenWidth / 9 * 2);
         //More text
         scoreText = TextEntity.Create((int)(ScreenWidth / 9 * 4.7), (int)(ScreenWidth / 9 * 12.75), 255, 255, 255, 50, Paint.Align.RIGHT, LayerConstants.UI_LAYER, true);
         scoreText.text = "SCORE " + String.format("%09d", GameSystem.Instance.GetIntFromSave("Score"));
