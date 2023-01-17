@@ -114,9 +114,9 @@ public class Settings extends Activity implements View.OnClickListener, View.OnT
             finish();
         else if (v == btn_tutorial)
         {
-            //Intent intent = new Intent();
-            //intent.setClass(this, Tutorial.class);
-            //startActivity(intent);
+            Intent intent = new Intent();
+            intent.setClass(this, Tutorial.class);
+            startActivity(intent);
         }
     }
 
