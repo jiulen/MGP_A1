@@ -125,9 +125,11 @@ public class MainGameSceneState implements StateBase {
         levelClearOverlay = LevelClearOverlay.Create(ScreenWidth, ScreenHeight);
 
         board.fillBoard(tileWidth);
-        AudioManager.Instance.PlayAudio(R.raw.gameplay, true);
         board.setPlayerCol(player.column);
         board.setEnemyHealth(enemy.health);
+
+        if (!AudioManager.Instance.getIsPlaying(R.raw.gameplay)) //only start play bgm if not playing yet
+            AudioManager.Instance.PlayAudio(R.raw.gameplay, true);
 
         GameSystem.Instance.SetIsPaused(false);
     }
@@ -188,6 +190,8 @@ public class MainGameSceneState implements StateBase {
                             GameSystem.Instance.SetIsPaused(false);
                             // Remove overlay
                             levelClearOverlay.SetRender(false);
+                            //Restart looping bgm
+                            AudioManager.Instance.RestartAudio(R.raw.gameplay);
                         }
                         else
                         {
@@ -196,6 +200,8 @@ public class MainGameSceneState implements StateBase {
                             GameSystem.Instance.SetBoolInSave("Win", true);
                             GameSystem.Instance.SaveEditEnd();
                             GamePage.Instance.StartGameover();
+                            //Resume looping bgm
+                            AudioManager.Instance.ResumeAudio(R.raw.gameplay);
                         }
                     }
                 }
@@ -215,6 +221,8 @@ public class MainGameSceneState implements StateBase {
                 {
                     levelClearOverlay.SetLevel(level);
                 }
+                //Pause looping bgm
+                AudioManager.Instance.PauseAudio(R.raw.gameplay);
             }
             else //Only play if not won or lost
             {

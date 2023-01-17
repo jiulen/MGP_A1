@@ -53,6 +53,35 @@ public class AudioManager {
         }
     }
 
+    public void PauseAudio(int _id)
+    {
+        if (AudioManager.containsKey(_id)) {
+            MediaPlayer curr = AudioManager.get(_id);
+            if (curr.isPlaying())
+                curr.pause();
+        }
+    }
+
+    public void RestartAudio(int _id)
+    {
+        if (AudioManager.containsKey(_id))
+        {
+            MediaPlayer curr = AudioManager.get(_id);
+            curr.start();
+            curr.seekTo(0);
+        }
+    }
+
+    public void ResumeAudio(int _id)
+    {
+        if (AudioManager.containsKey(_id))
+        {
+            MediaPlayer curr = AudioManager.get(_id);
+            curr.start();
+        }
+    }
+
+
     public void StopAudio(int _id) {
         if (AudioManager.containsKey(_id)) {
             MediaPlayer curr = AudioManager.get(_id);
@@ -106,11 +135,19 @@ public class AudioManager {
         }
 
         pauseArray.clear();
-        System.out.println("RESUME");
     }
 
     public void ClearPauseArray() //Used with StopAllNoLoopAudio() when switch scenes
     {
         pauseArray.clear();
+    }
+
+    public boolean getIsPlaying(int _id)
+    {
+        if (AudioManager.containsKey(_id)) {
+            MediaPlayer curr = AudioManager.get(_id);
+            return curr.isPlaying();
+        }
+        return false;
     }
 }
