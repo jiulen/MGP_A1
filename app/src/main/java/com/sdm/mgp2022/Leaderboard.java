@@ -38,6 +38,7 @@ public class Leaderboard extends Activity implements View.OnClickListener, View.
 
         btn_back = findViewById(R.id.btn_back);
         btn_back.setOnClickListener(this); //Set Listener to this button --> Resume Button
+        btn_back.setOnTouchListener(this);
 
         text_col_rank = findViewById(R.id.text_col_rank);
         text_col_name = findViewById(R.id.text_col_name);
