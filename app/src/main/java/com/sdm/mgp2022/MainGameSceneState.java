@@ -201,7 +201,7 @@ public class MainGameSceneState implements StateBase {
                             GameSystem.Instance.SaveEditEnd();
                             GamePage.Instance.StartGameover();
                             //Resume looping bgm
-                            AudioManager.Instance.ResumeAudio(R.raw.gameplay);
+                            AudioManager.Instance.StopAudio(R.raw.gameplay);
                         }
                     }
                 }

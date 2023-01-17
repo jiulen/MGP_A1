@@ -61,6 +61,8 @@ public class WinLoseScreen extends FragmentActivity implements View.OnClickListe
         UsernameInputDialogFragment newUsernameInput = new UsernameInputDialogFragment();
         newUsernameInput.setCancelable(false);
         newUsernameInput.show(WinLoseScreen.Instance.getSupportFragmentManager(), "WinLose Username Input");
+
+        AudioManager.Instance.PlayAudio(R.raw.endscreen, true);
     }
 
     @Override
@@ -73,6 +75,7 @@ public class WinLoseScreen extends FragmentActivity implements View.OnClickListe
         {
             intent.setClass(this, Mainmenu.class);
             StateManager.Instance.ChangeState("MainMenu");
+            AudioManager.Instance.StopAudio(R.raw.endscreen);
         }
 
         if (intent != null)

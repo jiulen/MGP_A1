@@ -44,6 +44,14 @@ public class Mainmenu extends Activity implements OnClickListener, StateBase{
     }
 
     @Override
+    protected void onStart()
+    {
+        super.onStart();
+
+        AudioManager.Instance.PlayAudio(R.raw.titlescreen, true);
+    }
+
+    @Override
     //Invoke a callback event in the view
     public void onClick(View v)
     {
@@ -53,6 +61,7 @@ public class Mainmenu extends Activity implements OnClickListener, StateBase{
         {
             intent.setClass(this, GamePage.class);
             StateManager.Instance.ChangeState("MainGame");
+            AudioManager.Instance.StopAudio(R.raw.titlescreen);
         }
         else if (v == btn_leaderboard)
         {

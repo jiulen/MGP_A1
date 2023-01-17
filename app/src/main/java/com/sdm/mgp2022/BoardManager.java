@@ -271,6 +271,7 @@ public class BoardManager {
                 }
                 case LOSE: {
                     AudioManager.Instance.PlayAudio(R.raw.gameover, false);
+                    AudioManager.Instance.PlayAudio(R.raw.gameoversting, false);
                     System.out.println("LOSE");
                     lose = true;
                     break;
