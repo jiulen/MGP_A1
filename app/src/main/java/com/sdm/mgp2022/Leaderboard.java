@@ -106,7 +106,6 @@ public class Leaderboard extends Activity implements View.OnClickListener, View.
 
         if (v == btn_back)
         {
-            GameSystem.Instance.SetIsPaused(false);
             intent = null;
             finish();
         }

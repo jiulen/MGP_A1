@@ -1,4 +1,4 @@
-package com.sdm.mgp2022; // By Jiu Len
+package com.sdm.mgp2022; // By Jonathan
 
 import static java.lang.Integer.parseInt;
 
@@ -40,14 +40,6 @@ public class Tutorial extends Activity implements View.OnClickListener, View.OnT
     }
 
     @Override
-    protected void onStart()
-    {
-        super.onStart();
-
-
-    }
-
-    @Override
     public boolean onTouch(View v, MotionEvent event)
     {
         switch(event.getAction()) {
@@ -70,17 +62,8 @@ public class Tutorial extends Activity implements View.OnClickListener, View.OnT
     //Invoke a callback event in the view
     public void onClick(View v)
     {
-        Intent intent = new Intent();
-
         if (v == btn_back)
-        {
-            GameSystem.Instance.SetIsPaused(false);
-            intent = null;
             finish();
-        }
-
-        if (intent != null)
-            startActivity(intent);
     }
 
     @Override
