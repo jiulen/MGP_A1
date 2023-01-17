@@ -5,6 +5,7 @@ import static java.lang.Integer.parseInt;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -14,7 +15,7 @@ import android.widget.TextView;
 
 import java.util.Set;
 
-public class Leaderboard extends Activity implements View.OnClickListener {
+public class Leaderboard extends Activity implements View.OnClickListener, View.OnTouchListener {
     //Define buttons
     private ImageButton btn_back;
 
@@ -75,6 +76,25 @@ public class Leaderboard extends Activity implements View.OnClickListener {
                 text_col_score.setText(text_col_score.getText() + "\n\n" + String.format("%09d",playerLeaderboardInfo[i].GetPlayerScore()));
             }
         }
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event)
+    {
+        switch(event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                if (v == btn_back)
+                {
+                    btn_back.setImageResource(R.drawable.back_icon_clicked);
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+                if (v == btn_back)
+                {
+                    btn_back.setImageResource(R.drawable.back_icon);
+                }
+        }
+        return false;
     }
 
     @Override
