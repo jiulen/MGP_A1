@@ -45,7 +45,7 @@ public class LevelClearOverlay implements EntityBase {
         levelClearText.text = "LEVEL CLEAR TEXT";
         //For continue text
         continueText = TextEntity.Create(xPos, yPos + height * 0.25f, 255, 255, 255, 100, Paint.Align.CENTER, LayerConstants.OVERLAY_TEXT_LAYER, false);
-        continueText.text = "Click to continue";
+        continueText.text = "Touch to continue";
 
         rendered = false;
 
