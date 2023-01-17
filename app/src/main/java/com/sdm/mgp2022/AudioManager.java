@@ -10,8 +10,8 @@ import java.util.Map;
 
 public class AudioManager {
     public final static AudioManager Instance = new AudioManager();
-    public float maxVolume = 100;
-    public float volume = 100;
+    public float maxVolume = 1.f;
+    public float volume;
 
     private SurfaceView view = null;
 
@@ -24,7 +24,17 @@ public class AudioManager {
         view = surfaceView;
         Release();
         //init volume from sharedPref
-        volume = GameSystem.Instance.GetIntFromSave("Volume");
+        if (!GameSystem.Instance.CheckKeyInSave("Volume"))
+        {
+            GameSystem.Instance.SaveEditBegin();
+            GameSystem.Instance.SetFloatInSave("Volume", 1.0f);
+            GameSystem.Instance.SaveEditEnd();
+            volume = 1.0f;
+        }
+        else
+        {
+            volume = GameSystem.Instance.GetFloatFromSave("Volume");
+        }
     }
 
     private void Release() {
@@ -92,12 +102,16 @@ public class AudioManager {
         }
     }
 
-    public void ChangeVolume(int _volume)
+    public void ChangeVolume(float _volume)
     {
         volume = _volume;
         for(Map.Entry<Integer, MediaPlayer> entry: AudioManager.entrySet()) {
             entry.getValue().setVolume(_volume, _volume);
         }
+
+        GameSystem.Instance.SaveEditBegin();
+        GameSystem.Instance.SetFloatInSave("Volume", volume);
+        GameSystem.Instance.SaveEditEnd();
     }
 
     public void StopAllAudio()
@@ -107,9 +121,9 @@ public class AudioManager {
             curr.stop();
             curr.reset();
             curr.release();
-
-            AudioManager.remove(entry.getKey());
         }
+
+        AudioManager.clear();
     }
 
     public void PauseAllNoLoopAudio() //Doesnt stop looping audio (if need stop loop audio use StopAudio)
@@ -146,5 +160,15 @@ public class AudioManager {
             return curr.isPlaying();
         }
         return false;
+    }
+
+    public float getMaxVolume()
+    {
+        return maxVolume;
+    }
+
+    public float getCurrentVolume()
+    {
+        return volume;
     }
 }

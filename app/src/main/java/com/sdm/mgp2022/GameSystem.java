@@ -100,6 +100,14 @@ public class GameSystem {
         editor.putStringSet(_key, _value);
     }
 
+    public void SetFloatInSave(String _key, float _value)
+    {
+        if (editor == null)
+            return;
+
+        editor.putFloat(_key, _value);
+    }
+
     public int GetIntFromSave(String _key)
     {
         return sharedPref.getInt(_key, 10);
@@ -110,6 +118,11 @@ public class GameSystem {
     public Set<String> GetStringSetFromSave(String _key) {
         Set<String> returnSet = new HashSet<String>(sharedPref.getStringSet(_key, new HashSet<String>()));
         return returnSet; //returns a copy of string set
+    }
+
+    public float GetFloatFromSave(String _key)
+    {
+        return sharedPref.getFloat(_key, 1.f);
     }
 
     public boolean CheckKeyInSave(String _key) {
