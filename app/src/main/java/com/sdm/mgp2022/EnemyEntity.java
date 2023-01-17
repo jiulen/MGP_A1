@@ -159,16 +159,16 @@ public class EnemyEntity implements EntityBase {
                 chargeTime = 0.3f;
                 break;
             case 2:
-                enemyNameText.text = "Home";
-                chargeTime = 0.4f;
+                enemyNameText.text = "Factory";
+                chargeTime = 0.35f;
                 break;
             case 3:
-                enemyNameText.text = "Home";
-                chargeTime = 0.5f;
+                enemyNameText.text = "Landfill";
+                chargeTime = 0.4f;
                 break;
             case 4:
-                enemyNameText.text = "Home";
-                chargeTime = 0.6f;
+                enemyNameText.text = "Ocean";
+                chargeTime = 0.45f;
                 break;
         }
 
