@@ -114,18 +114,6 @@ public class AudioManager {
         GameSystem.Instance.SaveEditEnd();
     }
 
-    public void StopAllAudio()
-    {
-        for(Map.Entry<Integer, MediaPlayer> entry: AudioManager.entrySet()) {
-            MediaPlayer curr = entry.getValue();
-            curr.stop();
-            curr.reset();
-            curr.release();
-        }
-
-        AudioManager.clear();
-    }
-
     public void PauseAllNoLoopAudio() //Doesnt stop looping audio (if need stop loop audio use StopAudio)
     {
         for(Map.Entry<Integer, MediaPlayer> entry: AudioManager.entrySet()) {

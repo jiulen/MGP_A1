@@ -165,7 +165,7 @@ public class MainGameSceneState implements StateBase {
                         GameSystem.Instance.SaveEditEnd();
                         GamePage.Instance.StartGameover();
                         //Stop looping bgm
-                        AudioManager.Instance.StopAllAudio();
+                        AudioManager.Instance.StopAudio(R.raw.gameplay);
                         AudioManager.Instance.ClearPauseArray();
                     }
                 }
@@ -203,7 +203,7 @@ public class MainGameSceneState implements StateBase {
                             GameSystem.Instance.SaveEditEnd();
                             GamePage.Instance.StartGameover();
                             //Stop looping bgm
-                            AudioManager.Instance.StopAllAudio();
+                            AudioManager.Instance.StopAudio(R.raw.gameplay);
                             AudioManager.Instance.ClearPauseArray();
                         }
                     }

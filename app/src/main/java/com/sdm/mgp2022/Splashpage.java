@@ -43,8 +43,7 @@ public class Splashpage extends Activity
                     Intent intent = new Intent(Splashpage.this, Mainmenu.class);
                     startActivity(intent);
                     StateManager.Instance.ChangeState("MainMenu");
-                    AudioManager.Instance.StopAllAudio();
-                    AudioManager.Instance.ClearPauseArray();
+                    AudioManager.Instance.StopAudio(R.raw.logo);
                 }
             }
         };
