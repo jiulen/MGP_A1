@@ -32,7 +32,7 @@ public class EnemyEntity implements EntityBase {
     Paint atkPaint = new Paint();
     public int charge = 0; //enemy attack when charge = 100
     public int maxCharge = 100;
-    private float chargeTime = 0.3f; //time required to get +1 charge
+    private float chargeTime = 0.2f; //time required to get +1 charge
     private float lastCharge = 0;
     private float atkPosY;
     //Both bars
@@ -156,19 +156,19 @@ public class EnemyEntity implements EntityBase {
         {
             case 1:
                 enemyNameText.text = "Home";
-                chargeTime = 0.3f;
+                chargeTime = 0.2f;
                 break;
             case 2:
                 enemyNameText.text = "Factory";
-                chargeTime = 0.35f;
+                chargeTime = 0.25f;
                 break;
             case 3:
                 enemyNameText.text = "Landfill";
-                chargeTime = 0.4f;
+                chargeTime = 0.3f;
                 break;
             case 4:
                 enemyNameText.text = "Ocean";
-                chargeTime = 0.45f;
+                chargeTime = 0.35f;
                 break;
         }
 
