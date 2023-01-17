@@ -200,8 +200,9 @@ public class MainGameSceneState implements StateBase {
                             GameSystem.Instance.SetBoolInSave("Win", true);
                             GameSystem.Instance.SaveEditEnd();
                             GamePage.Instance.StartGameover();
-                            //Resume looping bgm
-                            AudioManager.Instance.StopAudio(R.raw.gameplay);
+                            //Stop looping bgm
+                            AudioManager.Instance.StopAllAudio();
+                            AudioManager.Instance.ClearPauseArray();
                         }
                     }
                 }

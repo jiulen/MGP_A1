@@ -75,7 +75,8 @@ public class WinLoseScreen extends FragmentActivity implements View.OnClickListe
         {
             intent.setClass(this, Mainmenu.class);
             StateManager.Instance.ChangeState("MainMenu");
-            AudioManager.Instance.StopAudio(R.raw.endscreen);
+            AudioManager.Instance.StopAllAudio();
+            AudioManager.Instance.ClearPauseArray();
         }
 
         if (intent != null)

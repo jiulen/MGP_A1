@@ -100,16 +100,13 @@ public class AudioManager {
         }
     }
 
-    public void StopAllNoLoopAudio() //Doesnt stop looping audio (if need stop loop audio use StopAudio)
+    public void StopAllAudio()
     {
         for(Map.Entry<Integer, MediaPlayer> entry: AudioManager.entrySet()) {
             MediaPlayer curr = entry.getValue();
-            if (!curr.isLooping())
-            {
-                curr.stop();
-                curr.reset();
-                curr.release();
-            }
+            curr.stop();
+            curr.reset();
+            curr.release();
 
             AudioManager.remove(entry.getKey());
         }

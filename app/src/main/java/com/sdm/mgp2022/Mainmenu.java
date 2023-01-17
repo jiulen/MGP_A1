@@ -61,7 +61,8 @@ public class Mainmenu extends Activity implements OnClickListener, StateBase{
         {
             intent.setClass(this, GamePage.class);
             StateManager.Instance.ChangeState("MainGame");
-            AudioManager.Instance.StopAudio(R.raw.titlescreen);
+            AudioManager.Instance.StopAllAudio();
+            AudioManager.Instance.ClearPauseArray();
         }
         else if (v == btn_leaderboard)
         {
