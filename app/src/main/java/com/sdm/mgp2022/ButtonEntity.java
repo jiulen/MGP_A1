@@ -148,7 +148,7 @@ public class ButtonEntity implements EntityBase {
 
     public void startVibrate()
     {
-        if (canVibrate)
+        if (canVibrate && GameSystem.Instance.GetBoolFromSave("Vibrate"))
             vibrator.vibrate(VibrationEffect.createOneShot(vibrateTimeMS, amplitude));
     }
     public void stopVibrate()
