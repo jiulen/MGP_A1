@@ -164,9 +164,12 @@ public class MainGameSceneState implements StateBase {
                         GameSystem.Instance.SetBoolInSave("Win", false);
                         GameSystem.Instance.SaveEditEnd();
 
-                        UsernameInputDialogFragment newUsernameInput = new UsernameInputDialogFragment();
-                        newUsernameInput.setCancelable(false);
-                        newUsernameInput.show(GamePage.Instance.getSupportFragmentManager(), "WinLose Username Input");
+                        if (!UsernameInputDialogFragment.IsShown)
+                        {
+                            UsernameInputDialogFragment newUsernameInput = new UsernameInputDialogFragment();
+                            newUsernameInput.setCancelable(false);
+                            newUsernameInput.show(GamePage.Instance.getSupportFragmentManager(), "WinLose Username Input");
+                        }
 
                         //Stop looping bgm
                         AudioManager.Instance.StopAudio(R.raw.gameplay);
@@ -206,9 +209,12 @@ public class MainGameSceneState implements StateBase {
                             GameSystem.Instance.SetBoolInSave("Win", true);
                             GameSystem.Instance.SaveEditEnd();
 
-                            UsernameInputDialogFragment newUsernameInput = new UsernameInputDialogFragment();
-                            newUsernameInput.setCancelable(false);
-                            newUsernameInput.show(GamePage.Instance.getSupportFragmentManager(), "WinLose Username Input");
+                            if (!UsernameInputDialogFragment.IsShown)
+                            {
+                                UsernameInputDialogFragment newUsernameInput = new UsernameInputDialogFragment();
+                                newUsernameInput.setCancelable(false);
+                                newUsernameInput.show(GamePage.Instance.getSupportFragmentManager(), "WinLose Username Input");
+                            }
 
                             //Stop looping bgm
                             AudioManager.Instance.StopAudio(R.raw.gameplay);

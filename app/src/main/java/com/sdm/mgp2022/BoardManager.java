@@ -301,7 +301,7 @@ public class BoardManager {
                     if (grid[i][j] != null)
                     {
                         float prevpos = grid[i][j].GetPosY();
-                        float newpos = prevpos + ((0.5f + 0.5f * level) * tileMoveSpeed * moveSpeedMultiplier * dt);
+                        float newpos = prevpos + ((0.8f + 0.2f * level) * tileMoveSpeed * moveSpeedMultiplier * dt);
                         grid[i][j].SetPosY(newpos);
                         yoffset = width - (newpos % width);
 
