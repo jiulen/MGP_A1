@@ -58,10 +58,6 @@ public class WinLoseScreen extends FragmentActivity implements View.OnClickListe
         text_score.setText("   SCORE " + String.format("%09d", GameSystem.Instance.GetIntFromSave("Score")));
         text_highscore.setText("HI-SCORE " + String.format("%09d", GameSystem.Instance.GetIntFromSave("Hi-Score")));
 
-        UsernameInputDialogFragment newUsernameInput = new UsernameInputDialogFragment();
-        newUsernameInput.setCancelable(false);
-        newUsernameInput.show(WinLoseScreen.Instance.getSupportFragmentManager(), "WinLose Username Input");
-
         AudioManager.Instance.PlayAudio(R.raw.endscreen, true);
     }
 

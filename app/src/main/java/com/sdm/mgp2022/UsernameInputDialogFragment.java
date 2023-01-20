@@ -45,6 +45,8 @@ public class UsernameInputDialogFragment  extends DialogFragment {
                             GameSystem.Instance.SaveEditBegin();
                             GameSystem.Instance.SetStringSetInSave("Leaderboard", leaderboardInfo);
                             GameSystem.Instance.SaveEditEnd();
+
+                            GamePage.Instance.StartGameover();
                         }
                         IsShown = false;
                     }

@@ -163,7 +163,11 @@ public class MainGameSceneState implements StateBase {
                         GameSystem.Instance.SaveEditBegin();
                         GameSystem.Instance.SetBoolInSave("Win", false);
                         GameSystem.Instance.SaveEditEnd();
-                        GamePage.Instance.StartGameover();
+
+                        UsernameInputDialogFragment newUsernameInput = new UsernameInputDialogFragment();
+                        newUsernameInput.setCancelable(false);
+                        newUsernameInput.show(GamePage.Instance.getSupportFragmentManager(), "WinLose Username Input");
+
                         //Stop looping bgm
                         AudioManager.Instance.StopAudio(R.raw.gameplay);
                         AudioManager.Instance.ClearPauseArray();
@@ -201,7 +205,11 @@ public class MainGameSceneState implements StateBase {
                             GameSystem.Instance.SaveEditBegin();
                             GameSystem.Instance.SetBoolInSave("Win", true);
                             GameSystem.Instance.SaveEditEnd();
-                            GamePage.Instance.StartGameover();
+
+                            UsernameInputDialogFragment newUsernameInput = new UsernameInputDialogFragment();
+                            newUsernameInput.setCancelable(false);
+                            newUsernameInput.show(GamePage.Instance.getSupportFragmentManager(), "WinLose Username Input");
+
                             //Stop looping bgm
                             AudioManager.Instance.StopAudio(R.raw.gameplay);
                             AudioManager.Instance.ClearPauseArray();
