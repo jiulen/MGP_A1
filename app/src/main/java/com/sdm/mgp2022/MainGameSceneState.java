@@ -159,21 +159,21 @@ public class MainGameSceneState implements StateBase {
                 {
                     if (TouchManager.Instance.IsDown())
                     {
-                        // Switch to game over screen (lose)
-                        GameSystem.Instance.SaveEditBegin();
-                        GameSystem.Instance.SetBoolInSave("Win", false);
-                        GameSystem.Instance.SaveEditEnd();
-
                         if (!UsernameInputDialogFragment.IsShown)
                         {
+                            // Switch to game over screen (lose)
+                            GameSystem.Instance.SaveEditBegin();
+                            GameSystem.Instance.SetBoolInSave("Win", false);
+                            GameSystem.Instance.SaveEditEnd();
+
                             UsernameInputDialogFragment newUsernameInput = new UsernameInputDialogFragment();
                             newUsernameInput.setCancelable(false);
                             newUsernameInput.show(GamePage.Instance.getSupportFragmentManager(), "WinLose Username Input");
-                        }
 
-                        //Stop looping bgm
-                        AudioManager.Instance.StopAudio(R.raw.gameplay);
-                        AudioManager.Instance.ClearPauseArray();
+                            //Stop looping bgm
+                            AudioManager.Instance.StopAudio(R.raw.gameplay);
+                            AudioManager.Instance.ClearPauseArray();
+                        }
                     }
                 }
             }
@@ -204,21 +204,20 @@ public class MainGameSceneState implements StateBase {
                         }
                         else
                         {
-                            // Switch to game over screen (win)
-                            GameSystem.Instance.SaveEditBegin();
-                            GameSystem.Instance.SetBoolInSave("Win", true);
-                            GameSystem.Instance.SaveEditEnd();
-
                             if (!UsernameInputDialogFragment.IsShown)
                             {
+                                // Switch to game over screen (win)
+                                GameSystem.Instance.SaveEditBegin();
+                                GameSystem.Instance.SetBoolInSave("Win", true);
+                                GameSystem.Instance.SaveEditEnd();
+
                                 UsernameInputDialogFragment newUsernameInput = new UsernameInputDialogFragment();
                                 newUsernameInput.setCancelable(false);
                                 newUsernameInput.show(GamePage.Instance.getSupportFragmentManager(), "WinLose Username Input");
-                            }
 
-                            //Stop looping bgm
-                            AudioManager.Instance.StopAudio(R.raw.gameplay);
-                            AudioManager.Instance.ClearPauseArray();
+                                //Stop looping bgm
+                                AudioManager.Instance.StopAudio(R.raw.gameplay);
+                                AudioManager.Instance.ClearPauseArray();}
                         }
                     }
                 }

@@ -33,7 +33,8 @@ public class UsernameInputDialogFragment  extends DialogFragment {
                         {
                             // Dont accept empty username - open another dialog
                             UsernameInputDialogFragment newUsernameInput = new UsernameInputDialogFragment();
-                            newUsernameInput.show(WinLoseScreen.Instance.getSupportFragmentManager(), "WinLose Username Input");
+                            newUsernameInput.setCancelable(false);
+                            newUsernameInput.show(GamePage.Instance.getSupportFragmentManager(), "WinLose Username Input");
                         }
                         else
                         {
